@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.kosmosinn_mobile.R;
+import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class MainActivity extends AppCompatActivity {
 

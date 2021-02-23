@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.kosmosinn_mobile", appContext.getPackageName());
+        assertEquals("is.hi.hbv601.kosmosinn_mobile", appContext.getPackageName());
     }
 }
