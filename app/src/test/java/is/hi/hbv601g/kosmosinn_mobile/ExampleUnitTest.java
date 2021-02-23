@@ -1,4 +1,4 @@
-package is.example.hbv601g.kosmosinn_mobile;
+package is.hi.hbv601g.kosmosinn_mobile;
 
 import org.junit.Test;
 
