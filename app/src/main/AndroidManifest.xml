@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Kosmosinn_Mobile">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.is.hi.hb601g.kosmosinn_mobile.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

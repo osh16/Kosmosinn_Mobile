@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.kosmosinn_mobile"
+        applicationId "is.hi.hbv601g.kosmosinn_mobile"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
