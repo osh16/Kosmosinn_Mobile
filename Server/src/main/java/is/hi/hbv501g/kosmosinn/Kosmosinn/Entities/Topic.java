@@ -1,8 +1,8 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.lang.reflect.Array;
@@ -27,7 +27,8 @@ public class Topic{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JsonView
+    //@JsonView
+    @JsonIgnore // nota /api/topics/{id}/comments
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 

@@ -1,5 +1,6 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -26,17 +27,20 @@ public class User {
 	@Column(nullable = false, unique = true)
 	public String username;
 
+	@JsonIgnore
 	@Column(nullable = false)
 	public String password;
 
 	@Column(nullable = false)
 	public String role;
 
-	@JsonManagedReference
+	//@JsonManagedReference
+	@JsonIgnore // nota /api/users/{id}/topics
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Topic> topics = new ArrayList<>();
 
-	@JsonManagedReference
+	//@JsonManagedReference
+	@JsonIgnore // nota /api/users/{id}/comments
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
 
@@ -63,6 +67,7 @@ public class User {
 	public String getUsername() {
 		return username;
 	}
+
 	public String getPassword() { return password; }
 	public String getRole() { return role; }
 

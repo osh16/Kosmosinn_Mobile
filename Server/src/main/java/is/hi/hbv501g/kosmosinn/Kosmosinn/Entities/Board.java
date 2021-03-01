@@ -1,8 +1,8 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -26,7 +26,8 @@ public class Board {
     @Column(length=100000)
     private String description;
 
-    @JsonManagedReference
+    //@JsonManagedReference
+    @JsonIgnore // nota /api/boards/{id}/topics
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Topic> topics = new ArrayList<>();
 
