@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit that Topic</title>
+        <!-- CSS -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        
+        <!-- jQuery and JS bundle w/ Popper.js -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        
+        <!-- Our CSS -->
+        <link rel="stylesheet" href="../../styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <form class="col-6 card card-body" action="#" th:action="@{|/topic/${topic.id}/edit|}" th:object="${topic}"  method="post">
+                    <label class="form-text lead font-red" for="topicName">Topic Name</label>
+                    <input class="form-control" type="text" th:field="*{topicName}" name="topicName" id="topicName"/>
+                    <span th:if="${#fields.hasErrors('topicName')}" th:errors="*{topicName}"></span><br>
+                    <label class="form-text lead font-red" for="topicContent">Topic Content</label><br>
+                    <textarea class="form-control" type="textfield" th:value="*{topicContent}" name="topicContent" id="topicContent"></textarea>
+                    <span th:if="${#fields.hasErrors('topicContent')}" th:errors="*{topicContent}"></span><br/>
+                    <input class="btn btn-primary" type="submit" value="Edit Topic"/>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

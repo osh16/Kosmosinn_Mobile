@@ -1,0 +1,28 @@
+@import "./css/login.css";
+@import "./css/boardlist.css";
+@import "./css/hero.css";
+@import "./css/colors.css";
+
+:root { 
+    --sidemargin:1200px; 
+}
+
+html {
+    background-color: #4061bf;
+}
+
+body {
+    background-color: #4061bf;
+    height: max-content;
+    
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 35px;
+}
+
+.jumbotron {
+    padding: 1rem 1rem;
+    border: solid black;
+    margin: 1rem 0;
+}

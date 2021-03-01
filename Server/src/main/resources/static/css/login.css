@@ -1,0 +1,52 @@
+nav {
+    height: 32px;
+    border: solid;
+}
+
+.header {
+    display: flex;
+    align-items: flex-end;
+    background-color: maroon;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.header__newlogin {
+    display: flex;
+    flex-direction: row;
+}
+
+.header__newlogin p {
+    margin: 0;
+    font-size: 20px;
+}
+
+.header__newlogin a {
+    background-color: brown;
+    display: flex;
+    justify-content: center;
+    margin: 0 5px;
+    max-width: 160px;
+    color: black;
+    text-decoration: none;
+    border: 1px solid;
+    font-size: large;
+}
+
+.header__loggedin {
+    display: flex;
+    flex-direction: row;
+}
+
+.header__loggedin a {
+    background-color: brown;
+    display: flex;
+    justify-content: center;
+    margin: 0 5px;
+    width: 80px;
+    color: black;
+    text-decoration: none;
+    border: 1px solid;
+    font-size: large;
+}
+

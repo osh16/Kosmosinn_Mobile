@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+</head>
+    <body>
+        <div th:fragment="login-header" th:switch="${session.loggedinuser}">
+            <div th:case="null">
+                <a class="btn btn-primary" th:href="@{/login}">Login</a>
+                <a class="btn btn-danger" th:href="@{/signup}">Signup</a>
+            </div>
+            <div th:case="*" >
+                <div th:switch="${session.loggedinuser.role}">
+                    <div th:case="'ADMIN'">
+                        <p class="lead ml-1" th:text="${'Halló ADMIN ' + session.loggedinuser.username}"></p>
+                        <div class="row ml-1">
+                            <a class="mr-1 btn btn-danger" th:href="@{/signout}">Signout</a>
+                            <a class="mr-1 btn btn-warning" th:href="@{/userlist}">Userlist</a>
+                            <a class="mr-1 btn btn-warning" th:href="@{/board/addboard}">Add board</a>
+                        </div>
+                    </div>
+                    <div th:case="*">
+                        <p class="lead" th:text="${'Halló ' + session.loggedinuser.username}"></p>
+                        <div class="row ml-1">
+                            <a class="mr-1 btn btn-danger" th:href="@{/signout}">Signout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

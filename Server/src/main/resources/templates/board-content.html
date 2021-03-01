@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="${board.name}"></title>
+        <!-- CSS -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+        <!-- jQuery and JS bundle w/ Popper.js -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+        <!-- Our CSS -->
+        <link rel="stylesheet" href="../styles.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script th:src="@{/js/board-content.js}"></script>
+    </head>
+    <body>
+        <div class="container justify-content-center">
+            <header th:insert="header-poster::header-poster" />
+            <div th:insert="login-header::login-header"/>
+            <div class="jumbotron font-red">
+                <h2 class="display-4 font-weight-bold" th:text="${board.name}"></h2>
+                <p class="lead" th:text="${board.description}"></p>
+                <hr class="my-4">
+                <a class="btn btn-danger back-red" th:href="@{/}" th:text="'Back to '+ boardlist"></a>
+            </div>
+            <form class="container row form" th:action="@{|/board/${board.id}|}" th:object="${board}" th:method="get">
+                <!-- add topic -->
+                <div class="mr-2" th:switch="${session.loggedinuser}">
+                    <div th:case="null"><p th:text="${session.loggedinuser}"></p></div>
+                    <div th:case="*">
+                        <a class="btn btn-danger back-red" th:href="@{/topic/createtopic}" th:object="${board}">Add topic</a>
+                    </div>
+                </div>
+                <button class="mr-2 btn btn-warning" th:type="submit" th:name="sort" th:value="popular">Popular</button>
+                <button class="mr-2 btn btn-warning" th:type="submit" th:name="sort" th:value="new">New</button>
+            </form>
+            <div class="row row-cols-1 justify-content-center" th:object="${topics}">
+                <!-- list of topics -->
+                <div class="col" th:each="topic : ${topics}">
+                    <div class="my-2 card border border-dark">
+                        <div class="card-body">
+                            <h3 class="card-title card-heading font-weight-bold"><a class="card-heading" th:href="@{/topic/{id}(id=${topic.id})}" th:text="${topic.topicName}"></a></h3>
+                            <p th:text="${topic.topicContent}"></p>
+                            <div class="col p-0">
+                                <div class="col-4 row p-0">
+                                    <p class="col m-0 card-text">Created by <a th:href="@{/user/{id}(id=${topic.user.id})}" th:text="${topic.user.username}"></a></p>
+                                    <p class="col m-0 card-text" th:text="${topic.getTopicCreatedDate()}"></p>
+                                </div>
+                                <div class="col-4 row p-0">
+                                    <p class="col m-0 card-text" th:text="|Comments: ${topic.getCommentCount()}|"></p>
+                                    <p class="col m-0 card-text" th:text="${'Total points: ' + topic.topicPoints}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm" th:if="${session.loggedinuser}">
+                            <div class="card-text mb-3" th:if="${session.loggedinuser.role == 'ADMIN'}">
+                                <a th:class="edit-topic + ' btn btn-primary'" th:id="|edit-${topic.id}|" th:href="@{|/topic/${topic.id}/edit|}">edit</a>
+                                <a class="btn btn-danger" th:href="@{|/topic/${topic.id}/delete|}">delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
