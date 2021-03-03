@@ -28,17 +28,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="add16a4c-9523-4a2d-829d-2ad5444e4e97" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/Kosmosinn_Mobile.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/Kosmosinn_Mobile.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Nexus_6_API_30]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -65,11 +62,12 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1ostMBcYTvaTBYl7pZoDNngUkXp" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -83,13 +81,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../NerdRanch/GeoQuiz" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Dependencies" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Android App.MainActivity">
+  <component name="RunManager" selected="Android App.app">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -247,41 +245,73 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="357" y="256" key="#PSD/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614089074559" />
-    <state x="71" y="103" width="1496" height="836" key="AVDManager" timestamp="1614090385751">
+    <state x="645" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1614807365675">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="71" y="103" width="1496" height="836" key="AVDManager/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614090385751" />
+    <state x="645" y="225" key="#com.intellij.ide.util.MemberChooser/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614807365675" />
+    <state x="511" y="121" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1614810793793">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="511" y="121" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810793793" />
+    <state x="71" y="103" width="1496" height="836" key="AVDManager" timestamp="1614809488707">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="71" y="103" width="1496" height="836" key="AVDManager/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614809488707" />
+    <state x="420" y="264" key="AndroidCreateResourceFileDialog" timestamp="1614807850084">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="420" y="264" key="AndroidCreateResourceFileDialog/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614807850084" />
     <state x="620" y="264" key="FileChooserDialogImpl" timestamp="1614525812621">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="620" y="264" key="FileChooserDialogImpl/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614525812621" />
-    <state width="1637" height="275" key="GridCell.Tab.0.bottom" timestamp="1614091024232">
+    <state width="1636" height="312" key="GridCell.Tab.0.bottom" timestamp="1614810824244">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="275" key="GridCell.Tab.0.bottom/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614091024232" />
-    <state width="1637" height="275" key="GridCell.Tab.0.center" timestamp="1614091024232">
+    <state width="1636" height="312" key="GridCell.Tab.0.bottom/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810824244" />
+    <state width="1636" height="312" key="GridCell.Tab.0.center" timestamp="1614810824244">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="275" key="GridCell.Tab.0.center/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614091024232" />
-    <state width="1637" height="275" key="GridCell.Tab.0.left" timestamp="1614091024232">
+    <state width="1636" height="312" key="GridCell.Tab.0.center/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810824244" />
+    <state width="1636" height="312" key="GridCell.Tab.0.left" timestamp="1614810824244">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="275" key="GridCell.Tab.0.left/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614091024232" />
-    <state width="1637" height="275" key="GridCell.Tab.0.right" timestamp="1614091024232">
+    <state width="1636" height="312" key="GridCell.Tab.0.left/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810824244" />
+    <state width="1636" height="312" key="GridCell.Tab.0.right" timestamp="1614810824244">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1637" height="275" key="GridCell.Tab.0.right/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614091024232" />
+    <state width="1636" height="312" key="GridCell.Tab.0.right/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810824244" />
+    <state width="1636" height="480" key="GridCell.Tab.1.bottom" timestamp="1614810736700">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state width="1636" height="480" key="GridCell.Tab.1.bottom/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810736700" />
+    <state width="1636" height="480" key="GridCell.Tab.1.center" timestamp="1614810736700">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state width="1636" height="480" key="GridCell.Tab.1.center/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810736700" />
+    <state width="1636" height="480" key="GridCell.Tab.1.left" timestamp="1614810736700">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state width="1636" height="480" key="GridCell.Tab.1.left/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810736700" />
+    <state width="1636" height="480" key="GridCell.Tab.1.right" timestamp="1614810736700">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state width="1636" height="480" key="GridCell.Tab.1.right/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810736700" />
     <state x="341" y="154" key="SettingsEditor" timestamp="1614087158591">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="341" y="154" key="SettingsEditor/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614087158591" />
-    <state x="638" y="199" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1614467300747">
+    <state x="638" y="199" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1614807123612">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="638" y="199" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614467300747" />
-    <state x="546" y="109" width="587" height="801" key="find.popup" timestamp="1614189449601">
+    <state x="638" y="199" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614807123612" />
+    <state x="609" y="307" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1614807209423">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="546" y="109" width="587" height="801" key="find.popup/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614189449601" />
+    <state x="609" y="307" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614807209423" />
+    <state x="546" y="109" width="587" height="801" key="find.popup" timestamp="1614632860771">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="546" y="109" width="587" height="801" key="find.popup/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614632860771" />
   </component>
 </project>

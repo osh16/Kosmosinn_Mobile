@@ -1,38 +1,23 @@
 package is.hi.hbv601g.kosmosinn_mobile.Entities;
 
-import androidx.room.Entity;
+import java.util.List;
 
-@Entity
 public class Board {
-
-
-
-
-
-
-    @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private long id;
-
-    @Column(nullable = false)
+    private int id;
     private String name;
-
-    @Column(length=100000)
     private String description;
+    private List<Topic> topics;
+    private int topicCount;
 
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Topic> topics = new ArrayList<>();
-
-    public Board() {
-    }
-
-    public Board(String name, String description) {
+    public Board(int id, String name, String description, List<Topic> topics, int topicCount) {
+        this.id = id;
         this.name = name;
         this.description = description;
+        this.topics = topics;
+        this.topicCount = topicCount;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -49,7 +34,11 @@ public class Board {
     }
 
     public int getTopicCount() {
-        return topics.size();
+        return topicCount;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -62,5 +51,9 @@ public class Board {
 
     public void setTopics(List<Topic> topics) {
         this.topics = topics;
+    }
+
+    public void setTopicCount(int topicCount) {
+        this.topicCount = topicCount;
     }
 }
