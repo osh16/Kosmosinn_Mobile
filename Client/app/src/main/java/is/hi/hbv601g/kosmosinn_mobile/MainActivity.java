@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
             }
-        }
+        };
 
 
         BoardAdapter cringeAdapter =  new BoardAdapter(this,boards,descriptions);
