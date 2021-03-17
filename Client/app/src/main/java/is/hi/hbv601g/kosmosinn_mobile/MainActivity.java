@@ -1,5 +1,6 @@
 package is.hi.hbv601g.kosmosinn_mobile;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ComponentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,47 +32,46 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         boardView = (RecyclerView) findViewById(R.id.board_view);
+        RequestQueue queue = Volley.newRequestQueue(this);
 
-        /* Basic virkni, recycler view fyrir static strengjafylki */
-        //String boards[] = {"board 1","board2","hehe","hvad er malid"};
-        //String descriptions[] = {"board 1","board2","hehe","hvad er malid"};
-
-        //BoardAdapter boardAdapter =  new BoardAdapter(MainActivity.this,boards,descriptions);
-        //boardView.setAdapter(boardAdapter);
-        //boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-        // Instantiate the RequestQueue.
-        //RequestQueue queue = Volley.newRequestQueue(this);
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url ="http://localhost:8080/api/boards";
+        // herna tharftu ad setja lan ip toluna thina
+        // skitalausn sem vid notum i bili, thangad til annad kemur i ljos
+        // muna ad keyra serverinn
+        String url = "http://10.5.0.2:8080/api/boards";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             private String[] boards;
             private String[] descriptions;
-            private int boardCount = 0;
-            BoardAdapter boardAdapter;
+            private BoardAdapter boardAdapter;
+
             @Override
             public void onResponse(JSONArray response) {
                 Log.d("OSKAR", "erum inni onresponse");
                 try {
-                    JSONObject boardInfo = response.getJSONObject(0);
-                    boards[boardCount] = boardInfo.getString("name");
-                    descriptions[boardCount] = boardInfo.getString("description");
-                    boardCount++;
+                    boards = new String[response.length()];
+                    descriptions = new String[response.length()];
+                    JSONObject boardInfo;
+                    for (int i = 0; i < response.length(); i++) {
+                        boardInfo = response.getJSONObject(i);
+                        boards[i] = boardInfo.getString("name");
+                        descriptions[i] = boardInfo.getString("description");
+                    }
                 } catch (JSONException e) {
+                    Log.d("OSKAR", response.toString());
                     e.printStackTrace();
                 }
                 boardAdapter = new BoardAdapter(MainActivity.this, boards, descriptions);
+                boardView.setAdapter(boardAdapter);
+                boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("OSKAR", "cringe error");
+                Log.d("OSKAR", error.toString());
                 Toast.makeText(MainActivity.this, "villa ad hlada inn gognum", Toast.LENGTH_SHORT).show();
 
             }
         });
         queue.add(request);
-
     }
 }
