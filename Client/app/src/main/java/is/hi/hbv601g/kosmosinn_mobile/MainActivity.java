@@ -42,13 +42,12 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
             }
-        }), new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
             }
-        };
-
+        });
 
         BoardAdapter cringeAdapter =  new BoardAdapter(this,boards,descriptions);
         boardView.setAdapter(cringeAdapter);
