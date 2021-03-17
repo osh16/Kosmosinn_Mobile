@@ -6,6 +6,8 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="OSKAR" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="BranchesTreeState">
@@ -35,7 +37,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Nexus_6_API_30]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -241,22 +243,26 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="725" y="372" key="#Notifications" timestamp="1614865643923">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="725" y="372" key="#Notifications/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614865643923" />
     <state x="357" y="256" key="#PSD" timestamp="1614089074559">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="357" y="256" key="#PSD/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614089074559" />
-    <state x="645" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1614807365675">
+    <state x="645" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1614865272223">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="645" y="225" key="#com.intellij.ide.util.MemberChooser/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614807365675" />
+    <state x="645" y="225" key="#com.intellij.ide.util.MemberChooser/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614865272223" />
     <state x="511" y="121" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1614810793793">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="511" y="121" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810793793" />
-    <state x="71" y="103" width="1496" height="836" key="AVDManager" timestamp="1614809488707">
+    <state x="71" y="103" width="1496" height="836" maximized="true" key="AVDManager" timestamp="1614864123363">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="71" y="103" width="1496" height="836" key="AVDManager/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614809488707" />
+    <state x="71" y="103" width="1496" height="836" maximized="true" key="AVDManager/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614864123363" />
     <state x="420" y="264" key="AndroidCreateResourceFileDialog" timestamp="1614807850084">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
@@ -265,53 +271,57 @@
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="620" y="264" key="FileChooserDialogImpl/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614525812621" />
-    <state width="1636" height="312" key="GridCell.Tab.0.bottom" timestamp="1614810824244">
+    <state width="1636" height="833" key="GridCell.Tab.0.bottom" timestamp="1615992353281">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1636" height="312" key="GridCell.Tab.0.bottom/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810824244" />
-    <state width="1636" height="312" key="GridCell.Tab.0.center" timestamp="1614810824244">
+    <state width="1636" height="833" key="GridCell.Tab.0.bottom/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1615992353281" />
+    <state width="1636" height="833" key="GridCell.Tab.0.center" timestamp="1615992353281">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1636" height="312" key="GridCell.Tab.0.center/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810824244" />
-    <state width="1636" height="312" key="GridCell.Tab.0.left" timestamp="1614810824244">
+    <state width="1636" height="833" key="GridCell.Tab.0.center/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1615992353281" />
+    <state width="1636" height="833" key="GridCell.Tab.0.left" timestamp="1615992353281">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1636" height="312" key="GridCell.Tab.0.left/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810824244" />
-    <state width="1636" height="312" key="GridCell.Tab.0.right" timestamp="1614810824244">
+    <state width="1636" height="833" key="GridCell.Tab.0.left/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1615992353281" />
+    <state width="1636" height="833" key="GridCell.Tab.0.right" timestamp="1615992353281">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1636" height="312" key="GridCell.Tab.0.right/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810824244" />
-    <state width="1636" height="480" key="GridCell.Tab.1.bottom" timestamp="1614810736700">
+    <state width="1636" height="833" key="GridCell.Tab.0.right/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1615992353281" />
+    <state width="1636" height="480" key="GridCell.Tab.1.bottom" timestamp="1614975494396">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1636" height="480" key="GridCell.Tab.1.bottom/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810736700" />
-    <state width="1636" height="480" key="GridCell.Tab.1.center" timestamp="1614810736700">
+    <state width="1636" height="480" key="GridCell.Tab.1.bottom/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614975494396" />
+    <state width="1636" height="480" key="GridCell.Tab.1.center" timestamp="1614975494396">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1636" height="480" key="GridCell.Tab.1.center/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810736700" />
-    <state width="1636" height="480" key="GridCell.Tab.1.left" timestamp="1614810736700">
+    <state width="1636" height="480" key="GridCell.Tab.1.center/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614975494396" />
+    <state width="1636" height="480" key="GridCell.Tab.1.left" timestamp="1614975494396">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1636" height="480" key="GridCell.Tab.1.left/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810736700" />
-    <state width="1636" height="480" key="GridCell.Tab.1.right" timestamp="1614810736700">
+    <state width="1636" height="480" key="GridCell.Tab.1.left/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614975494396" />
+    <state width="1636" height="480" key="GridCell.Tab.1.right" timestamp="1614975494396">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state width="1636" height="480" key="GridCell.Tab.1.right/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614810736700" />
+    <state width="1636" height="480" key="GridCell.Tab.1.right/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614975494396" />
     <state x="341" y="154" key="SettingsEditor" timestamp="1614087158591">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="341" y="154" key="SettingsEditor/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614087158591" />
-    <state x="638" y="199" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1614807123612">
+    <state x="638" y="199" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1614864373528">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="638" y="199" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614807123612" />
+    <state x="638" y="199" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614864373528" />
     <state x="609" y="307" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1614807209423">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
     <state x="609" y="307" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614807209423" />
-    <state x="546" y="109" width="587" height="801" key="find.popup" timestamp="1614632860771">
+    <state x="546" y="109" width="587" height="801" key="find.popup" timestamp="1614811281209">
       <screen x="0" y="0" width="1680" height="1020" />
     </state>
-    <state x="546" y="109" width="587" height="801" key="find.popup/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614632860771" />
+    <state x="546" y="109" width="587" height="801" key="find.popup/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614811281209" />
+    <state x="496" y="235" key="run.anything.popup" timestamp="1614866387924">
+      <screen x="0" y="0" width="1680" height="1020" />
+    </state>
+    <state x="496" y="235" key="run.anything.popup/0.0.1680.1020/-1280.25.1280.994@0.0.1680.1020" timestamp="1614866387924" />
   </component>
 </project>
