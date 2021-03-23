@@ -61,19 +61,26 @@ public class TopicRestController {
     @PatchMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Topic editTopic(@Valid @PathVariable("id") long id, @RequestBody Topic editedTopic) {
         Topic topic = topicService.findById(id).get();
-        if (editedTopic.getTopicName() != null) {
-            topic.setTopicName(editedTopic.getTopicName());
+        User currentUser = (User) session.getAttribute("loggedinuser");
+        User user = userService.findById(id).get();
+        if (userService.isAdmin(currentUser) || user.getId() == currentUser.getId()) {
+            if (editedTopic.getTopicName() != null) {
+                topic.setTopicName(editedTopic.getTopicName());
+            }
+            if (editedTopic.getTopicContent() != null) {
+                topic.setTopicContent(editedTopic.getTopicContent());
+            }
+            topicService.save(topic);
         }
-        if (editedTopic.getTopicContent() != null) {
-            topic.setTopicContent(editedTopic.getTopicContent());
-        }
-        topicService.save(topic);
         return topic;
     }
 
     @DeleteMapping("{id}/delete")
     public void deleteTopic(@PathVariable("id") long id) {
-        Topic topic = topicService.findById(id).get();
-        topicService.delete(topic);
+        User currentUser = (User) session.getAttribute("loggedinuser");
+        if (userService.isAdmin(currentUser)) {
+            Topic topic = topicService.findById(id).get();
+            topicService.delete(topic);
+        }
     }
 }

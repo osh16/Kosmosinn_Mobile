@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -31,32 +32,45 @@ public class CommentRestController {
         this.commentService = commentService;
     }
 
-    @RequestMapping(value = "/api/comments", method = RequestMethod.GET)
+    @Autowired
+    HttpSession session;
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Comment> getAllComments() {
         return commentService.findAll();
     }
 
     @PostMapping(value = "{id}/addComment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Comment addComment(@PathVariable("id") long id, @RequestBody Comment comment) {
-        Topic topic = topicService.findById(id).get();
-        comment.setTopic(topic);
-        commentService.save(comment);
+        User currentUser = (User) session.getAttribute("loggedinuser");
+        if (comment.getUser().getId() == currentUser.getId()) {
+            Topic topic = topicService.findById(id).get();
+            comment.setTopic(topic);
+            commentService.save(comment);
+        }
         return comment;
     }
 
     @PatchMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Comment editComment(@Valid @PathVariable("id") long id, @RequestBody Comment editedComment) {
+        User currentUser = (User) session.getAttribute("loggedinuser");
         Comment comment = commentService.findById(id).get();
-        if (editedComment.getCommentText() != null) {
-            comment.setCommentText(editedComment.getCommentText());
-            comment.setCommentEdited();
+        if (userService.isAdmin(currentUser) || editedComment.getUser().getId() == currentUser.getId()) {
+            if (editedComment.getCommentText() != null) {
+                comment.setCommentText(editedComment.getCommentText());
+                comment.setCommentEdited();
+            }
         }
         return comment;
     }
 
     @DeleteMapping("{id}/delete")
     public void deleteComment(@PathVariable("id") long id) {
+        User currentUser = (User) session.getAttribute("loggedinuser");
         Comment comment = commentService.findById(id).get();
-        commentService.delete(comment);
+
+        if (userService.isAdmin(currentUser) || comment.getUser().getId() == currentUser.getId()) {
+            commentService.delete(comment);
+        }
     }
 }
