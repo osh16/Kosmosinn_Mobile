@@ -45,6 +45,9 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
 
+	@OneToMany
+	private List<Chat> chats = new ArrayList<Chat>();
+
 	public long userCreated;
 	public long lastOnline;
 

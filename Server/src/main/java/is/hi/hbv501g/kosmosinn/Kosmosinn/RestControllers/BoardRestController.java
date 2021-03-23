@@ -34,7 +34,7 @@ public class BoardRestController {
     @Autowired
     HttpSession session;
 
-    @RequestMapping(value = "/api/boards", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Board> getAllBoards() {
         return boardService.findAll();
     }
@@ -48,6 +48,7 @@ public class BoardRestController {
     public List<Topic> getTopicsById(@PathVariable("id") long id) {
         return topicService.findAllByBoardId(id);
     }
+
     @PostMapping(value = "{id}/addBoard", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Board addBoard(@RequestBody Board board) {
         User currentUser = (User) session.getAttribute("loggedinuser");
