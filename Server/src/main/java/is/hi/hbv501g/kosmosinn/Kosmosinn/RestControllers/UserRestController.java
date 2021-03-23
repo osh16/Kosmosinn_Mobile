@@ -67,7 +67,7 @@ public class UserRestController {
     public User editUser(@Valid @PathVariable("id") long id, @RequestBody User editedUser) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         User user = userService.findById(id).get();
-        //if (userService.isAdmin(currentUser) || user.getId() == currentUser.getId()) {
+        if (userService.isAdmin(currentUser) || user.getId() == currentUser.getId()) {
             if (editedUser.getUsername() != null) {
                 user.setUsername(editedUser.getUsername());
             }
@@ -75,7 +75,7 @@ public class UserRestController {
                 user.setPassword(editedUser.getPassword());
             }
             userService.save(user);
-        //}
+        }
         return user;
     }
 
@@ -83,8 +83,8 @@ public class UserRestController {
     public void deleteUser(@PathVariable("id") long id) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         User user = userService.findById(id).get();
-        //if (userService.isAdmin(currentUser) || user.getId() == currentUser.getId()) {
+        if (userService.isAdmin(currentUser) || user.getId() == currentUser.getId()) {
             userService.delete(user);
-        //}
+        }
     }
 }
