@@ -3,18 +3,20 @@ package is.hi.hbv501g.kosmosinn.Kosmosinn.RestControllers;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.Board;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.Comment;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.Topic;
+import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.User;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.BoardService;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.CommentService;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.TopicService;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
+@RequestMapping("/api/topics")
 @RestController
 public class TopicRestController {
     private UserService userService;
@@ -30,19 +32,48 @@ public class TopicRestController {
         this.commentService = commentService;
     }
 
-    @RequestMapping(value = "/api/topics", method = RequestMethod.GET)
+    @Autowired
+    HttpSession session;
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Topic> getAllTopics() {
         return topicService.findAll();
     }
 
-    @RequestMapping(value = "/api/topics/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public Topic getTopicById(@PathVariable("id") long id) {
         return topicService.findById(id).get();
     }
 
-    @RequestMapping(value = "/api/topics/{id}/comments", method = RequestMethod.GET)
+    @RequestMapping(value = "{id}/comments", method = RequestMethod.GET)
     public List<Comment> getCommentsById(@PathVariable("id") long id) {
         return commentService.findAllByTopicId(id);
     }
 
+    @PostMapping(value = "{id}/addTopic", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Topic addTopic(@PathVariable("id") long id, @RequestBody Topic topic) {
+        Board board = boardService.findById(id).get();
+        topic.setBoard(board);
+        topicService.save(topic);
+        return topic;
+    }
+
+    @PatchMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Topic editTopic(@Valid @PathVariable("id") long id, @RequestBody Topic editedTopic) {
+        Topic topic = topicService.findById(id).get();
+        if (editedTopic.getTopicName() != null) {
+            topic.setTopicName(editedTopic.getTopicName());
+        }
+        if (editedTopic.getTopicContent() != null) {
+            topic.setTopicContent(editedTopic.getTopicContent());
+        }
+        topicService.save(topic);
+        return topic;
+    }
+
+    @DeleteMapping("{id}/delete")
+    public void deleteTopic(@PathVariable("id") long id) {
+        Topic topic = topicService.findById(id).get();
+        topicService.delete(topic);
+    }
 }
