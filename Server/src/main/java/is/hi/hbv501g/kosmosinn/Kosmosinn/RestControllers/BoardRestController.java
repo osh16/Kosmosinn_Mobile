@@ -42,4 +42,5 @@ public class BoardRestController {
     public List<Topic> getTopicsById(@PathVariable("id") long id) {
         return topicService.findAllByBoardId(id);
     }
+
 }

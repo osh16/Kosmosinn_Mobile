@@ -2,6 +2,7 @@ package is.hi.hbv501g.kosmosinn.Kosmosinn.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -27,7 +28,7 @@ public class User {
 	@Column(nullable = false, unique = true)
 	public String username;
 
-	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(nullable = false)
 	public String password;
 
