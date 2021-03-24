@@ -22,25 +22,58 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import is.hi.hbv601g.kosmosinn_mobile.Adapters.BoardAdapter;
+import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
+import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
+import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView boardView;
+    private List<Board> mBoards;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // herna tharftu ad setja lan ip toluna thina
+        // skitalausn sem vid notum i bili, thangad til annad kemur i ljos
+        // muna ad keyra serverinn
+        //String url = "http://10.5.0.2:8080/api/boards";
+        //String url = "http://192.168.1.205:8080/api/boards";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         boardView = (RecyclerView) findViewById(R.id.board_view);
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        // herna tharftu ad setja lan ip toluna thina
-        // skitalausn sem vid notum i bili, thangad til annad kemur i ljos
-        // muna ad keyra serverinn
-        //String url = "http://10.5.0.2:8080/api/boards";
-        String url = "http://192.168.1.205:8080/api/boards";
+        NetworkController networkController = NetworkController.getInstance(this);
+        networkController.getAllBoards(new NetworkCallback<List<Board>>() {
+            @Override
+            public void onSuccess(List<Board> result) {
+                mBoards = result;
+                Log.d(TAG, "First board: " + mBoards.get(1).getDescription());
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get board: " + errorString);
+            }
+        });
+
+        networkController.getBoard(2, new NetworkCallback<Board>() {
+            @Override
+            public void onSuccess(Board result) {
+                Log.d(TAG, "Board text for id :" + String.valueOf(2) + " is " + result.getName());
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get board: " + errorString);
+            }
+        });
 
 
+    /*
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             private String[] boards;
             private String[] descriptions;
@@ -75,5 +108,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         queue.add(request);
+     */
     }
+
 }

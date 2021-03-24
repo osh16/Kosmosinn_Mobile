@@ -1,10 +1,12 @@
 package is.hi.hbv601g.kosmosinn_mobile.Controllers;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.Request.Method;
@@ -22,11 +24,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.util.List;
 
 import is.hi.hbv601g.kosmosinn_mobile.Adapters.BoardAdapter;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
 import is.hi.hbv601g.kosmosinn_mobile.MainActivity;
+import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class NetworkController {
 
@@ -34,6 +38,9 @@ public class NetworkController {
     private static NetworkController mInstance;
     private static RequestQueue mQueue;
     private Context mContext;
+
+    private RecyclerView boardView;                             // birta
+    //boardView = (RecyclerView) findViewById(R.id.board_view);   // birta
 
     public static synchronized  NetworkController getInstance(Context context) {
         if (mInstance == null) {
@@ -54,7 +61,9 @@ public class NetworkController {
         return mQueue;
     }
 
-    public void getAllBoards() {
+    public void getAllBoards(NetworkCallback<List<Board>> callback) {
+       // private BoardAdapter boardAdapter;  //birta
+
         StringRequest request = new StringRequest(
                 Method.GET, BASE_URL + "/api/boards", new Response.Listener<String>() {
             @Override
@@ -62,52 +71,42 @@ public class NetworkController {
                     Gson gson = new Gson();
                     Type listType = new TypeToken<List<Board>>(){}.getType();
                     List<Board> boards = gson.fromJson(response, listType);
+                    callback.onSuccess(boards);
+                //boardAdapter = new BoardAdapter(MainActivity.this, boards, descriptions); // birta
+                //boardView.setAdapter(boardAdapter);                                               // birta
+                //boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));   // birta
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                callback.onFailure(error.toString());
             }
         }
         );
+        mQueue.add(request);
+    }
+    public void getBoard(int id, final NetworkCallback<Board> callback) {
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("/api/boards")
+                .appendPath(String.valueOf(id))
+                .build().toString();
 
-/*
-        JsonArrayRequest request = new JsonArrayRequest(
-            Request.Method.GET, BASE_URL, null, new Response.Listener<JSONArray>() {
-            private String[] boards;
-            private String[] descriptions;
-            private BoardAdapter boardAdapter;
-
+        StringRequest request = new StringRequest(
+                Method.GET, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONArray response) {
-                Log.d("OSKAR", "erum inni onresponse");
-                try {
-                    boards = new String[response.length()];
-                    descriptions = new String[response.length()];
-                    JSONObject boardInfo;
-                    for (int i = 0; i < response.length(); i++) {
-                        boardInfo = response.getJSONObject(i);
-                        boards[i] = boardInfo.getString("name");
-                        descriptions[i] = boardInfo.getString("description");
-                    }
-                } catch (JSONException e) {
-                    Log.d("OSKAR", response.toString());
-                    e.printStackTrace();
-                }
-                boardAdapter = new BoardAdapter(MainActivity.this, boards, descriptions);
-                boardView.setAdapter(boardAdapter);
-                boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            }
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Board board = gson.fromJson(response, Board.class);
+                callback.onSuccess(board);
+           }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("OSKAR", error.toString());
-                Toast.makeText(MainActivity.this, "villa ad hlada inn gognum", Toast.LENGTH_SHORT).show();
-
+                callback.onFailure(error.toString());
             }
-        });
-        queue.add(request);
-    }
-            */
+        }
+        );
+        mQueue.add(request);
     }
 }
