@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,12 +16,17 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardHolder>
     private Context context;
     private String boards[];
     private String descriptions[];
+    private int boardIds[];
+    private Button buttons[];
 
-    public BoardAdapter(Context context, String boards[], String descriptions[]) {
+    public BoardAdapter(Context context, String boards[], String descriptions[], int boardIds[], Button buttons[]) {
         this.context = context;
         this.boards = boards;
         this.descriptions = descriptions;
+        this.boardIds = boardIds;
+        this.buttons = buttons;
     }
+
     @NonNull
     @Override
     public BoardHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
