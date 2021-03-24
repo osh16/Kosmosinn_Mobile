@@ -32,6 +32,7 @@ import is.hi.hbv601g.kosmosinn_mobile.Adapters.BoardAdapter;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Comment;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
+import is.hi.hbv601g.kosmosinn_mobile.Entities.User;
 import is.hi.hbv601g.kosmosinn_mobile.MainActivity;
 import is.hi.hbv601g.kosmosinn_mobile.R;
 
@@ -194,7 +195,7 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
-    public void getComment(int id, final NetworkCallback<Topic> callback) {
+    public void getComment(int id, final NetworkCallback<Comment> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("api")
@@ -209,6 +210,59 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Comment comment = gson.fromJson(response, Comment.class);
                 callback.onSuccess(comment);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+    public void getAllUsers(final NetworkCallback<List<User>> callback) {
+
+        StringRequest request = new StringRequest(
+                Method.GET, BASE_URL + "/api/users", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Topic>>(){}.getType();
+                List<User> users = gson.fromJson(response, listType);
+                callback.onSuccess(users);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+    public void getUser(int id, final NetworkCallback<User> callback) {
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("users")
+                .appendPath(String.valueOf(id))
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                User user = gson.fromJson(response, User.class);
+                callback.onSuccess(user);
             }
         }, new Response.ErrorListener() {
             @Override

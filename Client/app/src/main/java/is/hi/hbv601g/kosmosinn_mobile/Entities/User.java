@@ -3,77 +3,78 @@ package is.hi.hbv601g.kosmosinn_mobile.Entities;
 import java.util.List;
 
 public class User {
-    private int id;
-    private String username;
-    private String role;
-    private String userCreatedDate;
-    private String lastOnlineDate;
-    private List<Comment> comments;
-    private List<Topic> topics;
+    private int mId;
+    private String mUsername;
+    private String mRole;
+    private String mUserCreatedDate;
+    private String mLastOnlineDate;
+    private List<Comment> mComments;
+    private List<Topic> mTopics;
+
 
     public User(int id, String username, String role, String userCreatedDate, String lastOnlineDate, List<Comment> comments, List<Topic> topics) {
-        this.id = id;
-        this.username = username;
-        this.role = role;
-        this.userCreatedDate = userCreatedDate;
-        this.lastOnlineDate = lastOnlineDate;
-        this.comments = comments;
-        this.topics = topics;
+        mId = id;
+        mUsername = username;
+        mRole = role;
+        mUserCreatedDate = userCreatedDate;
+        mLastOnlineDate = lastOnlineDate;
+        mComments = comments;
+        mTopics = topics;
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public String getUsername() {
-        return username;
+        return mUsername;
     }
 
     public String getRole() {
-        return role;
+        return mRole;
     }
 
     public String getUserCreatedDate() {
-        return userCreatedDate;
+        return mUserCreatedDate;
     }
 
     public String getLastOnlineDate() {
-        return lastOnlineDate;
+        return mLastOnlineDate;
     }
 
     public List<Comment> getComments() {
-        return comments;
+        return mComments;
     }
 
     public List<Topic> getTopics() {
-        return topics;
+        return mTopics;
     }
 
     public void setId(int id) {
-        this.id = id;
+        mId = id;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        mUsername = username;
     }
 
     public void setRole(String role) {
-        this.role = role;
+        mRole = role;
     }
 
     public void setUserCreatedDate(String userCreatedDate) {
-        this.userCreatedDate = userCreatedDate;
+        mUserCreatedDate = userCreatedDate;
     }
 
     public void setLastOnlineDate(String lastOnlineDate) {
-        this.lastOnlineDate = lastOnlineDate;
+        mLastOnlineDate = lastOnlineDate;
     }
 
     public void setComments(List<Comment> comments) {
-        this.comments = comments;
+        mComments = comments;
     }
 
     public void setTopics(List<Topic> topics) {
-        this.topics = topics;
+        mTopics = topics;
     }
 }
