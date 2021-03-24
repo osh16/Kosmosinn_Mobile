@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String errorString) {
-                Log.e(TAG, "Failed to get board: " + errorString);
+                Log.e(TAG, "Failed to get single board: " + errorString);
             }
         });
 

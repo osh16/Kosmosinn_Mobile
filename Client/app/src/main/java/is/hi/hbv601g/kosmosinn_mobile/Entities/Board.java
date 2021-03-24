@@ -14,7 +14,7 @@ public class Board {
     @SerializedName("topics")
     private List<Topic> mTopics;
 
-    public Board(int id, String name, String description, int topicCount) {
+    public Board(int id, String name, String description) {
         mId = id;
         mName = name;
         mDescription = description;

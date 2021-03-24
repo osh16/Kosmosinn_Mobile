@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
@@ -39,9 +40,6 @@ public class NetworkController {
     private static RequestQueue mQueue;
     private Context mContext;
 
-    private RecyclerView boardView;                             // birta
-    //boardView = (RecyclerView) findViewById(R.id.board_view);   // birta
-
     public static synchronized  NetworkController getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new NetworkController(context);
@@ -62,7 +60,6 @@ public class NetworkController {
     }
 
     public void getAllBoards(final NetworkCallback<List<Board>> callback) {
-       // private BoardAdapter boardAdapter;  //birta
 
         StringRequest request = new StringRequest(
                 Method.GET, BASE_URL + "/api/boards", new Response.Listener<String>() {
@@ -72,9 +69,6 @@ public class NetworkController {
                     Type listType = new TypeToken<List<Board>>(){}.getType();
                     List<Board> boards = gson.fromJson(response, listType);
                     callback.onSuccess(boards);
-                //boardAdapter = new BoardAdapter(MainActivity.this, boards, descriptions); // birta
-                //boardView.setAdapter(boardAdapter);                                               // birta
-                //boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));   // birta
             }
         }, new Response.ErrorListener() {
             @Override
@@ -83,12 +77,17 @@ public class NetworkController {
             }
         }
         );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
     public void getBoard(int id, final NetworkCallback<Board> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
-                .appendPath("api/boards")
+                .appendPath("api")
+                .appendPath("boards")
                 .appendPath(String.valueOf(id))
                 .build().toString();
 
@@ -107,6 +106,10 @@ public class NetworkController {
             }
         }
         );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
 }
