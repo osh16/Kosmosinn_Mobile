@@ -6,50 +6,45 @@ import java.util.List;
 
 public class Board {
     @SerializedName("id")
-    private int id;
+    private int mId;
     @SerializedName("name")
-    private String name;
+    private String mName;
     @SerializedName("description")
-    private String description;
-    @SerializedName("topicCount")
-    private int topicCount;
+    private String mDescription;
+    @SerializedName("topics")
+    private List<Topic> mTopics;
 
     public Board(int id, String name, String description, int topicCount) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.topicCount = topicCount;
+        mId = id;
+        mName = name;
+        mDescription = description;
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        mId = id;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        mName = name;
     }
 
     public String getDescription() {
-        return description;
+        return mDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        mDescription = description;
     }
 
     public int getTopicCount() {
-        return topicCount;
-    }
-
-    public void setTopicCount(int topicCount) {
-        this.topicCount = topicCount;
+        return mTopics.size();
     }
 }

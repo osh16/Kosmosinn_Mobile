@@ -61,7 +61,7 @@ public class NetworkController {
         return mQueue;
     }
 
-    public void getAllBoards(NetworkCallback<List<Board>> callback) {
+    public void getAllBoards(final NetworkCallback<List<Board>> callback) {
        // private BoardAdapter boardAdapter;  //birta
 
         StringRequest request = new StringRequest(
@@ -88,7 +88,7 @@ public class NetworkController {
     public void getBoard(int id, final NetworkCallback<Board> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
-                .appendPath("/api/boards")
+                .appendPath("api/boards")
                 .appendPath(String.valueOf(id))
                 .build().toString();
 
