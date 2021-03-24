@@ -28,10 +28,12 @@ import is.hi.hbv601g.kosmosinn_mobile.Adapters.BoardAdapter;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
+import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView boardView;
     private List<Board> mBoards;
+    private List<Topic> mTopics;
     private static final String TAG = "MainActivity";
 
     @Override
@@ -47,11 +49,14 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
         NetworkController networkController = NetworkController.getInstance(this);
+/*
         networkController.getAllBoards(new NetworkCallback<List<Board>>() {
             @Override
             public void onSuccess(List<Board> result) {
                 mBoards = result;
-                Log.d(TAG, "First board: " + mBoards.get(1).getDescription());
+                Log.d(TAG, "First board name: " + mBoards.get(0).getName());
+                Log.d(TAG, "First board description: " + mBoards.get(0).getDescription());
+                Log.d(TAG, "First board id: " + mBoards.get(0).getId());
             }
 
             @Override
@@ -59,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Failed to get board: " + errorString);
             }
         });
-
         networkController.getBoard(2, new NetworkCallback<Board>() {
             @Override
             public void onSuccess(Board result) {
@@ -71,44 +75,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Failed to get single board: " + errorString);
             }
         });
+        */
 
-
-    /*
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            private String[] boards;
-            private String[] descriptions;
-            private BoardAdapter boardAdapter;
-
+        networkController.getAllTopics(new NetworkCallback<List<Topic>>() {
             @Override
-            public void onResponse(JSONArray response) {
-                Log.d("OSKAR", "erum inni onresponse");
-                try {
-                    boards = new String[response.length()];
-                    descriptions = new String[response.length()];
-                    JSONObject boardInfo;
-                    for (int i = 0; i < response.length(); i++) {
-                        boardInfo = response.getJSONObject(i);
-                        boards[i] = boardInfo.getString("name");
-                        descriptions[i] = boardInfo.getString("description");
-                    }
-                } catch (JSONException e) {
-                    Log.d("OSKAR", response.toString());
-                    e.printStackTrace();
-                }
-                boardAdapter = new BoardAdapter(MainActivity.this, boards, descriptions);
-                boardView.setAdapter(boardAdapter);
-                boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            public void onSuccess(List<Topic> result) {
+                mTopics = result;
+                Log.d(TAG, "First topic: " + mTopics.get(0).getTopicContent());
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("OSKAR", error.toString());
-                Toast.makeText(MainActivity.this, "villa ad hlada inn gognum", Toast.LENGTH_SHORT).show();
 
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get board: " + errorString);
             }
         });
-        queue.add(request);
-     */
-    }
 
+
+    }
 }

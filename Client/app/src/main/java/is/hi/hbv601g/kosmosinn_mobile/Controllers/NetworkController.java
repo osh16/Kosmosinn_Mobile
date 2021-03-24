@@ -195,6 +195,9 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
+
+    // TODO: getComments(topicId : long)
+
     public void getComment(int id, final NetworkCallback<Comment> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
