@@ -43,11 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // herna tharftu ad setja lan ip toluna thina
-        // skitalausn sem vid notum i bili, thangad til annad kemur i ljos
-        // muna ad keyra serverinn
-        //String url = "http://10.5.0.2:8080/api/boards";
-        //String url = "http://192.168.1.205:8080/api/boards";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         boardView = (RecyclerView) findViewById(R.id.board_view);
@@ -57,17 +52,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<Board> result) {
                 mBoards = result;
-                mBoardNames = new String[3];
-                mBoardDescriptions = new String[3];
-                for (int i = 0; i < 3; i++) {
+                mBoardNames = new String[mBoards.size()];
+                mBoardDescriptions = new String[mBoards.size()];
+                for (int i = 0; i < mBoards.size(); i++) {
                     mBoardNames[i] = mBoards.get(i).getName();
                     mBoardDescriptions[i] = mBoards.get(i).getDescription();
                 }
-                /*
-                Log.d(TAG, "First board name: " + mBoards.get(0).getName());
-                Log.d(TAG, "First board description: " + mBoards.get(0).getDescription());
-                Log.d(TAG, "First board id: " + mBoards.get(0).getId());
-                */
+                //Log.d(TAG, "First board name: " + mBoards.get(0).getName());
                 boardAdapter = new BoardAdapter(MainActivity.this, mBoardNames, mBoardDescriptions);
                 boardView.setAdapter(boardAdapter);
                 boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
