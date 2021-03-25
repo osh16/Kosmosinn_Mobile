@@ -36,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     private List<Topic> mTopics;
     private static final String TAG = "MainActivity";
 
+    private BoardAdapter boardAdapter;
+    private String[] mBoardNames;
+    private String[] mBoardDescriptions;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // herna tharftu ad setja lan ip toluna thina
@@ -46,17 +51,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         boardView = (RecyclerView) findViewById(R.id.board_view);
-        RequestQueue queue = Volley.newRequestQueue(this);
 
         NetworkController networkController = NetworkController.getInstance(this);
-/*
         networkController.getAllBoards(new NetworkCallback<List<Board>>() {
             @Override
             public void onSuccess(List<Board> result) {
                 mBoards = result;
+                mBoardNames = new String[3];
+                mBoardDescriptions = new String[3];
+                for (int i = 0; i < 3; i++) {
+                    mBoardNames[i] = mBoards.get(i).getName();
+                    mBoardDescriptions[i] = mBoards.get(i).getDescription();
+                }
+                /*
                 Log.d(TAG, "First board name: " + mBoards.get(0).getName());
                 Log.d(TAG, "First board description: " + mBoards.get(0).getDescription());
                 Log.d(TAG, "First board id: " + mBoards.get(0).getId());
+                */
+                boardAdapter = new BoardAdapter(MainActivity.this, mBoardNames, mBoardDescriptions);
+                boardView.setAdapter(boardAdapter);
+                boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
 
             @Override
@@ -75,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Failed to get single board: " + errorString);
             }
         });
-        */
 
+/*
         networkController.getAllTopics(new NetworkCallback<List<Topic>>() {
             @Override
             public void onSuccess(List<Topic> result) {
@@ -90,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        */
 
     }
 }
