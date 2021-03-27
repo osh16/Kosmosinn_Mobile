@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
-@RequestMapping("/api/topics/{topicId}/")
+@RequestMapping("/api/topics/{topicId}")
 @RestController
 public class CommentRestController {
     private UserService userService;
@@ -35,14 +35,14 @@ public class CommentRestController {
     @Autowired
     HttpSession session;
 
-    /*
+    /* Þetta ætti að virka núna
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Comment> getAllComments() {
         return commentService.findAll();
     }
      */
 
-    @PostMapping(value = "addComment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/addComment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Comment addComment(@PathVariable("topicId") long topicId, @PathVariable("id") long id, @RequestBody Comment comment) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         if (comment.getUser().getId() == currentUser.getId()) {
@@ -53,7 +53,7 @@ public class CommentRestController {
         return comment;
     }
 
-    @PatchMapping(value = "editComment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/editComment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Comment editComment(@Valid @PathVariable("topicId") long topicId, @Valid @PathVariable("id") long id, @RequestBody Comment editedComment) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         Topic topic = topicService.findById(topicId).get();
@@ -67,7 +67,7 @@ public class CommentRestController {
         return comment;
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping("/delete")
     public void deleteComment(@Valid @PathVariable("topicId") long topicId, @PathVariable("id") long id) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         Topic topic = topicService.findById(topicId).get();
