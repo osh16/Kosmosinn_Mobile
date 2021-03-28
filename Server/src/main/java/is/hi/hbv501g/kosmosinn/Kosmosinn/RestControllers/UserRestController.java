@@ -34,27 +34,27 @@ public class UserRestController {
     @Autowired
     HttpSession session;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<User> getAllUsers() {
         return userService.findAll();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public User getUserById(@PathVariable("id") long id) {
         return userService.findById(id).get();
     }
 
-    @RequestMapping(value = "{id}/topics", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/topics", method = RequestMethod.GET)
     public List<Topic> getTopicsByUser(@PathVariable("id") long id) {
         return topicService.findAllByUserId(id);
     }
 
-    @RequestMapping(value = "{id}/comments", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
     public List<Comment> getCommentsByUser(@PathVariable("id") long id) {
         return commentService.findAllByUserId(id);
     }
 
-    @PostMapping(value = "addUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/addUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public User createUser(@RequestBody User user) {
         user.setUserCreated();
         user.setLastOnline();
@@ -63,7 +63,7 @@ public class UserRestController {
         return user;
     }
 
-    @PatchMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public User editUser(@Valid @PathVariable("id") long id, @RequestBody User editedUser) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         User user = userService.findById(id).get();
@@ -79,7 +79,7 @@ public class UserRestController {
         return user;
     }
 
-    @DeleteMapping("{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public void deleteUser(@PathVariable("id") long id) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         User user = userService.findById(id).get();
