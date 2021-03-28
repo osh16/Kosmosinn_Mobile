@@ -38,7 +38,8 @@ import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class NetworkController {
 
-    private static final String BASE_URL = "http://10.0.2.2:8080";
+    //private static final String BASE_URL = "http://10.0.2.2:8080";
+    private static final String BASE_URL = "http://192.168.1.10:8080";
     private static NetworkController mInstance;
     private static RequestQueue mQueue;
     private Context mContext;
@@ -65,7 +66,7 @@ public class NetworkController {
     public void getAllBoards(final NetworkCallback<List<Board>> callback) {
 
         StringRequest request = new StringRequest(
-                Method.GET, BASE_URL + "/api/boards", new Response.Listener<String>() {
+                Method.GET, BASE_URL + "/api/boards/", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                     Gson gson = new Gson();
@@ -118,7 +119,7 @@ public class NetworkController {
     public void getAllTopics(final NetworkCallback<List<Topic>> callback) {
 
         StringRequest request = new StringRequest(
-                Method.GET, BASE_URL + "/api/topics", new Response.Listener<String>() {
+                Method.GET, BASE_URL + "/api/topics/", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
@@ -174,7 +175,7 @@ public class NetworkController {
     public void getAllComments(final NetworkCallback<List<Comment>> callback) {
 
         StringRequest request = new StringRequest(
-                Method.GET, BASE_URL + "/api/comments", new Response.Listener<String>() {
+                Method.GET, BASE_URL + "/api/comments/", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
@@ -230,7 +231,7 @@ public class NetworkController {
     public void getAllUsers(final NetworkCallback<List<User>> callback) {
 
         StringRequest request = new StringRequest(
-                Method.GET, BASE_URL + "/api/users", new Response.Listener<String>() {
+                Method.GET, BASE_URL + "/api/users/", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
