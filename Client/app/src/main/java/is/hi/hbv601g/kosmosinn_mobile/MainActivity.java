@@ -38,11 +38,8 @@ public class MainActivity extends AppCompatActivity {
         // herna tharftu ad setja lan ip toluna thina
         // skitalausn sem vid notum i bili, thangad til annad kemur i ljos
         // muna ad keyra serverinn
-<<<<<<< HEAD
+
         String url = "http://192.168.0.103:8080/api/boards";
-=======
-        String url = "http://192.168.1.10:8080/api/boards";
->>>>>>> f718366d1a8e6b879c94528dcd506448936e8135
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             private String[] boards;
