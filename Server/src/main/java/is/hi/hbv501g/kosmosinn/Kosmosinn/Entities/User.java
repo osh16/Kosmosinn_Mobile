@@ -2,6 +2,7 @@ package is.hi.hbv501g.kosmosinn.Kosmosinn.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -27,7 +28,7 @@ public class User {
 	@Column(nullable = false, unique = true)
 	public String username;
 
-	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(nullable = false)
 	public String password;
 
@@ -43,6 +44,9 @@ public class User {
 	@JsonIgnore // nota /api/users/{id}/comments
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
+
+	@OneToMany
+	private List<Chat> chats = new ArrayList<Chat>();
 
 	public long userCreated;
 	public long lastOnline;
