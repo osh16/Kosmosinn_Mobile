@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String errorString) {
-                Log.e(TAG, "Failed to get board: " + errorString);
+                Log.e(TAG, "Failed to get all boards: " + errorString);
             }
         });
         networkController.getBoard(2, new NetworkCallback<Board>() {
@@ -80,13 +80,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Failed to get single board: " + errorString);
             }
         });
-
-/*
+        /*
         networkController.getAllTopics(new NetworkCallback<List<Topic>>() {
             @Override
             public void onSuccess(List<Topic> result) {
                 mTopics = result;
-                Log.d(TAG, "First topic: " + mTopics.get(0).getTopicContent());
+                Log.d(TAG, "First topic name: " + mTopics.get(0).getTopicName());
             }
 
             @Override
@@ -95,7 +94,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        */
+ */
+/*
+        networkController.getTopic(2, new NetworkCallback<Topic>() {
+            @Override
+            public void onSuccess(Topic result) {
+                Log.d(TAG, "Board text for id :" + String.valueOf(0) + " is " + result.getTopicName());
+            }
 
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get single board: " + errorString);
+            }
+        });
+ */
     }
 }

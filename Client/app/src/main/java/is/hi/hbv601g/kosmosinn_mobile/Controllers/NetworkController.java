@@ -81,7 +81,7 @@ public class NetworkController {
         }
         );
         request.setRetryPolicy(new DefaultRetryPolicy(
-                100000,
+                1000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
@@ -115,6 +115,7 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
+    /*
     public void getAllTopics(final NetworkCallback<List<Topic>> callback) {
 
         StringRequest request = new StringRequest(
@@ -280,4 +281,5 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
+     */
 }
