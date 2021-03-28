@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Kosmosinn_Mobile</string>
+    <string name="header_title">KOSMÓSINN</string>
+    <string name="header_caption">Spjallborð alþýðunnar</string>
 </resources>
