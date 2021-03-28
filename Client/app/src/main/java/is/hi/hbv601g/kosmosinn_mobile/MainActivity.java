@@ -22,58 +22,81 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import is.hi.hbv601g.kosmosinn_mobile.Adapters.BoardAdapter;
+import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
+import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
+import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
+import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private RecyclerView boardView;
+    private List<Board> mBoards;
+    private List<Topic> mTopics;
+    private static final String TAG = "MainActivity";
+
+    private BoardAdapter boardAdapter;
+    private String[] mBoardNames;
+    private String[] mBoardDescriptions;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         boardView = (RecyclerView) findViewById(R.id.board_view);
-        RequestQueue queue = Volley.newRequestQueue(this);
 
-        // herna tharftu ad setja lan ip toluna thina
-        // skitalausn sem vid notum i bili, thangad til annad kemur i ljos
-        // muna ad keyra serverinn
-
-        String url = "http://192.168.0.103:8080/api/boards";
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            private String[] boards;
-            private String[] descriptions;
-            private BoardAdapter boardAdapter;
-
+        NetworkController networkController = NetworkController.getInstance(this);
+        networkController.getAllBoards(new NetworkCallback<List<Board>>() {
             @Override
-            public void onResponse(JSONArray response) {
-                Log.d("OSKAR", "erum inni onresponse");
-                try {
-                    boards = new String[response.length()];
-                    descriptions = new String[response.length()];
-                    JSONObject boardInfo;
-                    for (int i = 0; i < response.length(); i++) {
-                        boardInfo = response.getJSONObject(i);
-                        boards[i] = boardInfo.getString("name");
-                        descriptions[i] = boardInfo.getString("description");
-                    }
-                } catch (JSONException e) {
-                    Log.d("OSKAR", response.toString());
-                    e.printStackTrace();
+            public void onSuccess(List<Board> result) {
+                mBoards = result;
+                mBoardNames = new String[mBoards.size()];
+                mBoardDescriptions = new String[mBoards.size()];
+                for (int i = 0; i < mBoards.size(); i++) {
+                    mBoardNames[i] = mBoards.get(i).getName();
+                    mBoardDescriptions[i] = mBoards.get(i).getDescription();
                 }
-                boardAdapter = new BoardAdapter(MainActivity.this, boards, descriptions);
+                boardAdapter = new BoardAdapter(MainActivity.this, mBoardNames, mBoardDescriptions);
                 boardView.setAdapter(boardAdapter);
                 boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("OSKAR", error.toString());
-                Toast.makeText(MainActivity.this, "villa ad hlada inn gognum", Toast.LENGTH_SHORT).show();
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get board: " + errorString);
             }
         });
-        queue.add(request);
+        networkController.getBoard(2, new NetworkCallback<Board>() {
+            @Override
+            public void onSuccess(Board result) {
+                Log.d(TAG, "Board text for id :" + String.valueOf(2) + " is " + result.getName());
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get single board: " + errorString);
+            }
+        });
+
+/*
+        networkController.getAllTopics(new NetworkCallback<List<Topic>>() {
+            @Override
+            public void onSuccess(List<Topic> result) {
+                mTopics = result;
+                Log.d(TAG, "First topic: " + mTopics.get(0).getTopicContent());
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get board: " + errorString);
+            }
+        });
+
+        */
+
     }
 
 }
