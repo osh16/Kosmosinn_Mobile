@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView boardView;
     private List<Board> mBoards;
     private List<Topic> mTopics;
-    private static final String TAG = "MainActivity";
 
     private BoardAdapter boardAdapter;
     private String[] mBoardNames;
