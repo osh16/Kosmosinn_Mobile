@@ -65,7 +65,7 @@ public class NetworkController {
     public void getAllBoards(final NetworkCallback<List<Board>> callback) {
 
         StringRequest request = new StringRequest(
-                Method.GET, BASE_URL + "/api/boards", new Response.Listener<String>() {
+                Method.GET, BASE_URL + "/api/boards/", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                     Gson gson = new Gson();
@@ -81,7 +81,7 @@ public class NetworkController {
         }
         );
         request.setRetryPolicy(new DefaultRetryPolicy(
-                1000,
+                100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
@@ -115,11 +115,10 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
-    /*
     public void getAllTopics(final NetworkCallback<List<Topic>> callback) {
 
         StringRequest request = new StringRequest(
-                Method.GET, BASE_URL + "/api/topics", new Response.Listener<String>() {
+                Method.GET, BASE_URL + "/api/topics/", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
@@ -179,7 +178,7 @@ public class NetworkController {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
-                Type listType = new TypeToken<List<Topic>>(){}.getType();
+                Type listType = new TypeToken<List<Comment>>(){}.getType();
                 List<Comment> comments = gson.fromJson(response, listType);
                 callback.onSuccess(comments);
             }
@@ -235,7 +234,7 @@ public class NetworkController {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
-                Type listType = new TypeToken<List<Topic>>(){}.getType();
+                Type listType = new TypeToken<List<User>>(){}.getType();
                 List<User> users = gson.fromJson(response, listType);
                 callback.onSuccess(users);
             }
@@ -281,5 +280,4 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
-     */
 }

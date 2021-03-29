@@ -1,15 +1,25 @@
 package is.hi.hbv601g.kosmosinn_mobile.Entities;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Topic {
+    @SerializedName("id")
     private int mId;
+    @SerializedName("topicName")
     private String mTopicName;
+    @SerializedName("topicContent")
     private String mTopicContent;
+    @SerializedName("topicPoints")
     private int mTopicPoints;
+    @SerializedName("commentCount")
     private int mCommentCount;
+    @SerializedName("topicCreatedDate")
     private String mTopicCreatedDate;
+    @SerializedName("topicEditedDate")
     private String mTopicEditedDate;
+    @SerializedName("comments")
     private List<Comment> mComments;
 
     public Topic(int id, String topicName, String topicContent, int topicPoints, int commentCount, String topicCreatedDate, String topicEditedDate) {

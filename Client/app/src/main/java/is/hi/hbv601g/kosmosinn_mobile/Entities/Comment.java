@@ -1,10 +1,17 @@
 package is.hi.hbv601g.kosmosinn_mobile.Entities;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Comment {
+    @SerializedName("id")
     private int mId;
+    @SerializedName("user")
     private User mUser;
+    @SerializedName("commentText")
     private String mCommentText;
+    @SerializedName("commentCreatedDate")
     private String mCommentCreatedDate;
+    @SerializedName("commentEditedDate")
     private String mCommentEditedDate;
 
     public Comment(int id, User user, String commentText, String commentCreatedDate, String commentEditedDate) {
