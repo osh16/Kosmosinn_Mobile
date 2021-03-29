@@ -8,9 +8,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="380dp"
-        android:layout_height="44dp"
+        android:layout_width="388dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header">
 
@@ -33,8 +35,8 @@
 
     <LinearLayout
         android:id="@+id/header"
-        android:layout_width="296dp"
-        android:layout_height="102dp"
+        android:layout_width="386dp"
+        android:layout_height="95dp"
         android:background="#FFFFFF"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +45,7 @@
         tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="397dp"
             android:layout_height="match_parent">
 
             <ImageView
@@ -85,8 +87,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/board_view"
-        android:layout_width="378dp"
-        android:layout_height="575dp"
+        android:layout_width="390dp"
+        android:layout_height="486dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
