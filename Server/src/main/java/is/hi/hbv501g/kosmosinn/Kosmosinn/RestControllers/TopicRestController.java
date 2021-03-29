@@ -35,22 +35,22 @@ public class TopicRestController {
     @Autowired
     HttpSession session;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<Topic> getAllTopics() {
         return topicService.findAll();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Topic getTopicById(@PathVariable("id") long id) {
         return topicService.findById(id).get();
     }
 
-    @RequestMapping(value = "{id}/comments", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
     public List<Comment> getCommentsById(@PathVariable("id") long id) {
         return commentService.findAllByTopicId(id);
     }
 
-    @PostMapping(value = "{id}/addTopic", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{id}/addTopic", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Topic addTopic(@PathVariable("id") long id, @RequestBody Topic topic) {
         Board board = boardService.findById(id).get();
         topic.setBoard(board);
@@ -58,7 +58,7 @@ public class TopicRestController {
         return topic;
     }
 
-    @PatchMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Topic editTopic(@Valid @PathVariable("id") long id, @RequestBody Topic editedTopic) {
         Topic topic = topicService.findById(id).get();
         User currentUser = (User) session.getAttribute("loggedinuser");
@@ -75,7 +75,7 @@ public class TopicRestController {
         return topic;
     }
 
-    @DeleteMapping("{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public void deleteTopic(@PathVariable("id") long id) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         if (userService.isAdmin(currentUser)) {

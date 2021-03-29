@@ -3,78 +3,78 @@ package is.hi.hbv601g.kosmosinn_mobile.Entities;
 import java.util.List;
 
 public class Topic {
-    private int id;
-    private String topicName;
-    private String topicContent;
-    private int topicPoints;
-    private int commentCount;
-    private String topicCreatedDate;
-    private String topicEditedDate;
-    private List<Comment> comments;
+    private int mId;
+    private String mTopicName;
+    private String mTopicContent;
+    private int mTopicPoints;
+    private int mCommentCount;
+    private String mTopicCreatedDate;
+    private String mTopicEditedDate;
+    private List<Comment> mComments;
 
     public Topic(int id, String topicName, String topicContent, int topicPoints, int commentCount, String topicCreatedDate, String topicEditedDate) {
-        this.id = id;
-        this.topicName = topicName;
-        this.topicContent = topicContent;
-        this.topicPoints = topicPoints;
-        this.commentCount = commentCount;
-        this.topicCreatedDate = topicCreatedDate;
-        this.topicEditedDate = topicEditedDate;
+        mId = id;
+        mTopicName = topicName;
+        mTopicContent = topicContent;
+        mTopicPoints = topicPoints;
+        mCommentCount = commentCount;
+        mTopicCreatedDate = topicCreatedDate;
+        mTopicEditedDate = topicEditedDate;
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public String getTopicName() {
-        return topicName;
+        return mTopicName;
     }
 
     public String getTopicContent() {
-        return topicContent;
+        return mTopicContent;
     }
 
     public int getTopicPoints() {
-        return topicPoints;
+        return mTopicPoints;
     }
 
     public int getCommentCount() {
-        return commentCount;
+        return mCommentCount;
     }
 
     public String getTopicCreatedDate() {
-        return topicCreatedDate;
+        return mTopicCreatedDate;
     }
 
     public String getTopicEditedDate() {
-        return topicEditedDate;
+        return mTopicEditedDate;
     }
 
     public void setId(int id) {
-        this.id = id;
+        mId = id;
     }
 
     public void setTopicName(String topicName) {
-        this.topicName = topicName;
+        mTopicName = topicName;
     }
 
     public void setTopicContent(String topicContent) {
-        this.topicContent = topicContent;
+        mTopicContent = topicContent;
     }
 
     public void setTopicPoints(int topicPoints) {
-        this.topicPoints = topicPoints;
+        mTopicPoints = topicPoints;
     }
 
     public void setCommentCount(int commentCount) {
-        this.commentCount = commentCount;
+        mCommentCount = commentCount;
     }
 
     public void setTopicCreatedDate(String topicCreatedDate) {
-        this.topicCreatedDate = topicCreatedDate;
+        mTopicCreatedDate = topicCreatedDate;
     }
 
     public void setTopicEditedDate(String topicEditedDate) {
-        this.topicEditedDate = topicEditedDate;
+        mTopicEditedDate = topicEditedDate;
     }
 }

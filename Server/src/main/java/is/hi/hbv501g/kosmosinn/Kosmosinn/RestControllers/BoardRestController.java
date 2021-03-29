@@ -39,17 +39,17 @@ public class BoardRestController {
         return boardService.findAll();
     }
 
-    @RequestMapping(value = "/api/boards/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Board getBoardById(@PathVariable("id") long id) {
         return boardService.findById(id).get();
     }
 
-    @RequestMapping(value = "/api/boards/{id}/topics", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/topics", method = RequestMethod.GET)
     public List<Topic> getTopicsById(@PathVariable("id") long id) {
         return topicService.findAllByBoardId(id);
     }
 
-    @PostMapping(value = "{id}/addBoard", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{id}/addBoard", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Board addBoard(@RequestBody Board board) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         if (userService.isAdmin(currentUser)) {
@@ -58,7 +58,7 @@ public class BoardRestController {
         return board;
     }
 
-    @PatchMapping(value = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Board editBoard(@Valid @PathVariable("id") long id, @RequestBody Board editedBoard) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         Board board = boardService.findById(id).get();
@@ -74,7 +74,7 @@ public class BoardRestController {
         return board;
     }
 
-    @DeleteMapping("{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public void deleteBoard(@PathVariable("id") long id) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         if (userService.isAdmin(currentUser)) {

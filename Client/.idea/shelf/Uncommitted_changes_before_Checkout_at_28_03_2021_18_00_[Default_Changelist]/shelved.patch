@@ -1,0 +1,57 @@
+Index: app/src/main/java/is/hi/hbv601g/kosmosinn_mobile/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package is.hi.hbv601g.kosmosinn_mobile;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.constraintlayout.widget.ConstraintLayout;\r\nimport androidx.core.app.ComponentActivity;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.android.volley.Request;\r\nimport com.android.volley.RequestQueue;\r\nimport com.android.volley.Response;\r\nimport com.android.volley.VolleyError;\r\nimport com.android.volley.toolbox.JsonArrayRequest;\r\nimport com.android.volley.toolbox.StringRequest;\r\nimport com.android.volley.toolbox.Volley;\r\n\r\nimport org.json.JSONArray;\r\nimport org.json.JSONException;\r\nimport org.json.JSONObject;\r\n\r\nimport is.hi.hbv601g.kosmosinn_mobile.Adapters.BoardAdapter;\r\n\r\nimport static is.hi.hbv601g.kosmosinn_mobile.R.id.constraintLayout2;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n    private static final String TAG = \"MainActivity\";\r\n    private static final String BOARD_ID = \"id_of_board\";\r\n    private RecyclerView boardView;\r\n    private RecyclerView boardV;\r\n    private Button mTest;\r\n    private Button mRestTest;\r\n    private TextView mList;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n        boardView = (RecyclerView) findViewById(R.id.board_view);\r\n        RequestQueue queue = Volley.newRequestQueue(this);\r\n        mTest = (Button) findViewById(R.id.testButton);\r\n        mList = (TextView) findViewById(R.id.board_title);\r\n        mRestTest = (Button) findViewById(R.id.board_button);\r\n\r\n        // herna tharftu ad setja lan ip toluna thina\r\n        // skitalausn sem vid notum i bili, thangad til annad kemur i ljos\r\n        // muna ad keyra serverinn\r\n        String url = \"http://192.168.0.103:8080/api/boards\";\r\n\r\n        mTest.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                Log.d(TAG, \"onClick\");\r\n                Intent intent = new Intent(MainActivity.this, TestActivity.class);\r\n                intent.putExtra(BOARD_ID, 1);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n\r\n        Log.d(TAG, \"hinn button >>> \" + mTest);\r\n        Log.d(TAG, \"hinn button ID >> \" + R.id.testButton);\r\n\r\n        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {\r\n            private String[] boards;\r\n            private String[] descriptions;\r\n            private int[] boardIds;\r\n            private Button[] buttons;\r\n            private BoardAdapter boardAdapter;\r\n\r\n            @Override\r\n            public void onResponse(JSONArray response) {\r\n                Log.d(TAG, \"erum inni onresponse\");\r\n                try {\r\n                    boards = new String[response.length()];\r\n                    descriptions = new String[response.length()];\r\n                    boardIds = new int[response.length()];\r\n                    buttons = new Button[response.length()];\r\n                    JSONObject boardInfo;\r\n                    for (int i = 0; i < response.length(); i++) {\r\n                        boardInfo = response.getJSONObject(i);\r\n                        boards[i] = boardInfo.getString(\"name\");\r\n                        descriptions[i] = boardInfo.getString(\"description\");\r\n                        Log.d(TAG,boardInfo.getString(\"id\"));\r\n                        boardIds[i] = Integer.parseInt(boardInfo.getString(\"id\"));\r\n                        Button button = (Button) findViewById(R.id.board_button);\r\n                        Log.d(TAG, \"ID FYRIR BUTTON> \" + R.id.board_button);\r\n                        buttons[i] = button;\r\n                        Log.d(TAG, \"button >>>\" + buttons[i]);\r\n                        /*buttons[i].setOnClickListener(new View.OnClickListener() {\r\n                            @Override\r\n                            public void onClick(View view) {\r\n                                Log.d(TAG, \"ID AF ÞESSU BOARDI ER >>> \" + boardIds[1]);\r\n                            }\r\n                        });*/\r\n                        //boardIds[i] = boardInfo.getString(\"id\");\r\n                    }\r\n                } catch (JSONException e) {\r\n                    Log.d(\"OSKAR\", response.toString());\r\n                    e.printStackTrace();\r\n                }\r\n                boardAdapter = new BoardAdapter(MainActivity.this, boards, descriptions, boardIds, buttons);\r\n                boardView.setAdapter(boardAdapter);\r\n                boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));\r\n\r\n                for (int i = 0; i < 4; i++) {\r\n                    Log.d(TAG, \">>>\" + buttons[i]);\r\n                    Log.d(TAG, \"<<<\" + boards[i]);\r\n                }\r\n\r\n                /*boardView.setOnClickListener(new View.OnClickListener() {\r\n\r\n                    @Override\r\n                    public void onClick(View view) {\r\n                        Toast.makeText(MainActivity.this, \"KLIKK KLIKK\", Toast.LENGTH_SHORT).show();\r\n                        Log.d(TAG, \"er eh ves\");\r\n                    }\r\n                });*/\r\n            }\r\n        }, new Response.ErrorListener() {\r\n            @Override\r\n            public void onErrorResponse(VolleyError error) {\r\n                Log.d(\"OSKAR\", error.toString());\r\n                Toast.makeText(MainActivity.this, \"villa ad hlada inn gognum\", Toast.LENGTH_SHORT).show();\r\n            }\r\n        });\r\n        queue.add(request);\r\n\r\n        Button inbutton = (Button) findViewById(R.id.board_button);\r\n        Log.d(TAG, \"buttonn inní oncreate >>> \" + inbutton);\r\n\r\n        /*boardView.setOnClickListener(new View.OnClickListener() {\r\n\r\n            @Override\r\n            public void onClick(View view) {\r\n                Toast.makeText(MainActivity.this, \"KLIKK KLIKK\", Toast.LENGTH_SHORT).show();\r\n            }\r\n        });*/\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/is/hi/hbv601g/kosmosinn_mobile/MainActivity.java	(revision c708684865d8ad65fd2e0fd2c0d0958bb1a05d4f)
++++ app/src/main/java/is/hi/hbv601g/kosmosinn_mobile/MainActivity.java	(date 1616954393502)
+@@ -1,12 +1,5 @@
+ package is.hi.hbv601g.kosmosinn_mobile;
+ 
+-import androidx.annotation.NonNull;
+-import androidx.appcompat.app.AppCompatActivity;
+-import androidx.constraintlayout.widget.ConstraintLayout;
+-import androidx.core.app.ComponentActivity;
+-import androidx.recyclerview.widget.LinearLayoutManager;
+-import androidx.recyclerview.widget.RecyclerView;
+-
+ import android.content.Intent;
+ import android.os.Bundle;
+ import android.util.Log;
+@@ -15,12 +8,15 @@
+ import android.widget.TextView;
+ import android.widget.Toast;
+ 
++import androidx.appcompat.app.AppCompatActivity;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
++
+ import com.android.volley.Request;
+ import com.android.volley.RequestQueue;
+ import com.android.volley.Response;
+ import com.android.volley.VolleyError;
+ import com.android.volley.toolbox.JsonArrayRequest;
+-import com.android.volley.toolbox.StringRequest;
+ import com.android.volley.toolbox.Volley;
+ 
+ import org.json.JSONArray;
+@@ -29,8 +25,6 @@
+ 
+ import is.hi.hbv601g.kosmosinn_mobile.Adapters.BoardAdapter;
+ 
+-import static is.hi.hbv601g.kosmosinn_mobile.R.id.constraintLayout2;
+-
+ public class MainActivity extends AppCompatActivity {
+     private static final String TAG = "MainActivity";
+     private static final String BOARD_ID = "id_of_board";
+@@ -53,7 +47,7 @@
+         // herna tharftu ad setja lan ip toluna thina
+         // skitalausn sem vid notum i bili, thangad til annad kemur i ljos
+         // muna ad keyra serverinn
+-        String url = "http://192.168.0.103:8080/api/boards";
++        String url = "http://192.168.1.234:8080/api/boards";
+ 
+         mTest.setOnClickListener(new View.OnClickListener() {
+             @Override

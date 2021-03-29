@@ -1,49 +1,50 @@
 package is.hi.hbv601g.kosmosinn_mobile.Entities;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Board {
-    private int id;
-    private String name;
-    private String description;
-    private int topicCount;
+    @SerializedName("id")
+    private int mId;
+    @SerializedName("name")
+    private String mName;
+    @SerializedName("description")
+    private String mDescription;
+    @SerializedName("topics")
+    private List<Topic> mTopics;
 
-    public Board(int id, String name, String description, int topicCount) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.topicCount = topicCount;
+    public Board(int id, String name, String description) {
+        mId = id;
+        mName = name;
+        mDescription = description;
     }
 
     public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getTopicCount() {
-        return topicCount;
+        return mId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        mId = id;
+    }
+
+    public String getName() {
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        mName = name;
+    }
+
+    public String getDescription() {
+        return mDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        mDescription = description;
     }
 
-    public void setTopicCount(int topicCount) {
-        this.topicCount = topicCount;
+    public int getTopicCount() {
+        return mTopics.size();
     }
 }
