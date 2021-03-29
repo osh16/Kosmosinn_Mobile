@@ -65,9 +65,9 @@ public class UserRestController {
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public User editUser(@Valid @PathVariable("id") long id, @RequestBody User editedUser) {
-        User currentUser = (User) session.getAttribute("loggedinuser");
+        //User currentUser = (User) session.getAttribute("loggedinuser");
         User user = userService.findById(id).get();
-        if (userService.isAdmin(currentUser) || user.getId() == currentUser.getId()) {
+        //if (userService.isAdmin(currentUser) || user.getId() == currentUser.getId()) {
             if (editedUser.getUsername() != null) {
                 user.setUsername(editedUser.getUsername());
             }
@@ -75,7 +75,7 @@ public class UserRestController {
                 user.setPassword(editedUser.getPassword());
             }
             userService.save(user);
-        }
+        //}
         return user;
     }
 

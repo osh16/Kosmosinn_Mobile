@@ -3,4 +3,6 @@
     <string name="Login">Login</string>
     <string name="Signup">Signup</string>
     <string name="back">Til baka</string>
+    <string name="header_title">KOSMÓSINN</string>
+    <string name="header_caption">Spjallborð alþýðunnar</string>
 </resources>
