@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
+
 
 @RestController
 public class TopicRestController {
@@ -29,6 +31,8 @@ public class TopicRestController {
         this.boardService = boardService;
         this.commentService = commentService;
     }
+    @Autowired
+    HttpSession session;
 
     @RequestMapping(value = "/api/topics", method = RequestMethod.GET)
     public List<Topic> getAllTopics() {
