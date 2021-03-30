@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,23 +36,22 @@ import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private RecyclerView boardView;
+    private RecyclerView mBoardView;
     private List<Board> mBoards;
-    private List<Topic> mTopics;
+    private BoardAdapter mBoardAdapter;
 
-    private BoardAdapter boardAdapter;
     private String[] mBoardNames;
     private String[] mBoardDescriptions;
+    private int[] mBoardIds;
 
     private Button mLoginButton;
     private Button mSignupButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        boardView = (RecyclerView) findViewById(R.id.board_view);
+        mBoardView = (RecyclerView) findViewById(R.id.boards_view);
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
         mSignupButton = (Button) findViewById(R.id.signup_activity_button);
 
@@ -80,13 +80,16 @@ public class MainActivity extends AppCompatActivity {
                 mBoards = result;
                 mBoardNames = new String[mBoards.size()];
                 mBoardDescriptions = new String[mBoards.size()];
+                mBoardIds = new int[mBoards.size()];
                 for (int i = 0; i < mBoards.size(); i++) {
                     mBoardNames[i] = mBoards.get(i).getName();
                     mBoardDescriptions[i] = mBoards.get(i).getDescription();
+                    mBoardIds[i] = mBoards.get(i).getId();
+                    Log.d(TAG, "Board id = " + mBoardIds[i]);
                 }
-                boardAdapter = new BoardAdapter(MainActivity.this, mBoardNames, mBoardDescriptions);
-                boardView.setAdapter(boardAdapter);
-                boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                mBoardAdapter = new BoardAdapter(MainActivity.this, mBoardNames, mBoardDescriptions, mBoardIds);
+                mBoardView.setAdapter(mBoardAdapter);
+                mBoardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
 
             @Override
@@ -94,34 +97,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Failed to get board: " + errorString);
             }
         });
-        networkController.getBoard(2, new NetworkCallback<Board>() {
-            @Override
-            public void onSuccess(Board result) {
-                Log.d(TAG, "Board text for id :" + String.valueOf(2) + " is " + result.getName());
-            }
-
-            @Override
-            public void onFailure(String errorString) {
-                Log.e(TAG, "Failed to get single board: " + errorString);
-            }
-        });
-
-/*
-        networkController.getAllTopics(new NetworkCallback<List<Topic>>() {
-            @Override
-            public void onSuccess(List<Topic> result) {
-                mTopics = result;
-                Log.d(TAG, "First topic: " + mTopics.get(0).getTopicContent());
-            }
-
-            @Override
-            public void onFailure(String errorString) {
-                Log.e(TAG, "Failed to get board: " + errorString);
-            }
-        });
-
-        */
-
     }
 
+    public void selectBoard(int id) {
+        Log.d(TAG, "Select Board");
+        Intent intent = new Intent(MainActivity.this, BoardActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
 }

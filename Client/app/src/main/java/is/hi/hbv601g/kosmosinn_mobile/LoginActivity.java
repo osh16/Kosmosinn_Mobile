@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
-
     private static final String TAG = "LoginActivity";
     private Button mLoginButton;
     private Button mBackButton;

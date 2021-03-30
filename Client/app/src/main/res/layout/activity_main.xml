@@ -14,7 +14,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/board_view"
+        android:id="@+id/boards_view"
         android:layout_width="193dp"
         android:layout_height="287dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Login"
-        app:layout_constraintBottom_toTopOf="@+id/board_view"
+        app:layout_constraintBottom_toTopOf="@+id/boards_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.337"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Signup"
-        app:layout_constraintBottom_toTopOf="@+id/board_view"
+        app:layout_constraintBottom_toTopOf="@+id/boards_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.661"
         app:layout_constraintStart_toStartOf="parent"
