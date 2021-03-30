@@ -65,7 +65,7 @@ public class NetworkController {
     public void getAllBoards(final NetworkCallback<List<Board>> callback) {
 
         StringRequest request = new StringRequest(
-                Method.GET, BASE_URL + "/api/boards/", new Response.Listener<String>() {
+                Method.GET, BASE_URL + "/api/boards", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                     Gson gson = new Gson();
@@ -141,6 +141,8 @@ public class NetworkController {
     }
 
     // TODO: getTopics(boardId : long)
+    public void getBoardTopics(int boardId, final NetworkCallback<Topic> callback) {
+    }
 
     public void getTopic(int id, final NetworkCallback<Topic> callback) {
         String url = Uri.parse(BASE_URL)

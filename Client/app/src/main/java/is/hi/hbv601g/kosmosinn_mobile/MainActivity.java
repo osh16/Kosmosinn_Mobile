@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView boardView;
     private List<Board> mBoards;
     private List<Topic> mTopics;
+    private List<Topic> mBoardTopics;
     private List<Comment> mComments;
     private List<User> mUsers;
     private static final String TAG = "MainActivity";
@@ -45,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
     private String[] mBoardDescriptions;
 
     private String[] mTopicNames;
+    private String[] mBoardTopicNames;
     private String[] mTopicContent;
+    private String[] mBoardTopicContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +58,92 @@ public class MainActivity extends AppCompatActivity {
 
         NetworkController networkController = NetworkController.getInstance(this);
 
-        networkController.getAllUsers(new NetworkCallback<List<User>>() {
+        networkController.getAllBoards(new NetworkCallback<List<Board>>() {
             @Override
-            public void onSuccess(List<User> result) {
-                mUsers = result;
-                int size = mUsers.size();
-                for (int i = 0; i < size; i++) {
-                    Log.d(TAG, "user " + i + " " + mUsers.get(i).getUsername());
+            public void onSuccess(List<Board> result) {
+                mBoards = result;
+                mBoardNames = new String[mBoards.size()];
+                mBoardDescriptions = new String[mBoards.size()];
+                for (int i = 0; i < mBoards.size(); i++) {
+                    mBoardNames[i] = mBoards.get(i).getName();
+                    mBoardDescriptions[i] = mBoards.get(i).getDescription();
                 }
+                //Log.d(TAG, "First board name: " + mBoards.get(0).getName());
+                boardAdapter = new BoardAdapter(MainActivity.this, mBoardNames, mBoardDescriptions);
+                boardView.setAdapter(boardAdapter);
+                boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
 
             @Override
             public void onFailure(String errorString) {
-                Log.e(TAG, "Failed to get all users: " + errorString);
+                Log.e(TAG, "Failed to get all boards: " + errorString);
             }
         });
+        networkController.getAllTopics(new NetworkCallback<List<Topic>>() {
+            @Override
+            public void onSuccess(List<Topic> result) {
+                mTopics = result;
+                int size = mTopics.size();
+                mTopicNames = new String[size];
+                mTopicContent = new String[size];
+                for (int i = 0; i < size; i++) {
+                    mTopicNames[i] = mTopics.get(i).getTopicName();
+                    mTopicContent[i] = mTopics.get(i).getTopicContent();
+                }
+                Log.d(TAG, "First topic name: " + mTopics.get(0).getTopicName());
+                boardAdapter = new BoardAdapter(MainActivity.this, mTopicNames, mTopicContent);
+                boardView.setAdapter(boardAdapter);
+                boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            }
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get all topics: " + errorString);
+            }
+        });
+/*
+        networkController.getBoardTopics(1, new NetworkCallback<List<Topic>>() {
+            @Override
+            public void onSuccess(List<Topic> result) {
+                mBoardTopics = result;
+                int size = mBoardTopics.size();
+                mBoardTopicNames = new String[size];
+                mBoardTopicContent = new String[size];
+                for (int i = 0; i < size; i++) {
+                    mBoardTopicNames[i] = mBoardTopics.get(i).getTopicName();
+                    mBoardTopicContent[i] = mBoardTopics.get(i).getTopicContent();
+                }
+                Log.d(TAG, "First board topic name: " + mBoardTopics.get(0).getTopicName());
+            }
 
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get all board topics: " + errorString);
+            }
+        });
+ */
+        networkController.getBoard(1, new NetworkCallback<Board>() {
+            @Override
+            public void onSuccess(Board result) {
+                Log.d(TAG, "Board text for id " + String.valueOf(1) + ": " + result.getName());
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get single board: " + errorString);
+            }
+        });
         /*
+        networkController.getTopic(0, new NetworkCallback<Topic>() {
+            @Override
+            public void onSuccess(Topic result) {
+                Log.d(TAG, "Board text for id :" + String.valueOf(0) + " is " + result.getTopicName());
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get single topic: " + errorString);
+            }
+        });
         networkController.getAllBoards(new NetworkCallback<List<Board>>() {
             @Override
             public void onSuccess(List<Board> result) {
@@ -109,6 +181,11 @@ public class MainActivity extends AppCompatActivity {
                 boardView.setAdapter(boardAdapter);
                 boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             }
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get all topics: " + errorString);
+            }
+        });
 
         networkController.getAllTopics(new NetworkCallback<List<Topic>>() {
             @Override
@@ -173,6 +250,21 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(String errorString) {
                 Log.e(TAG, "Failed to get all comments: " + errorString);
             }
+        networkController.getAllUsers(new NetworkCallback<List<User>>() {
+            @Override
+            public void onSuccess(List<User> result) {
+                mUsers = result;
+                int size = mUsers.size();
+                for (int i = 0; i < size; i++) {
+                    Log.d(TAG, "user " + i + " " + mUsers.get(i).getUsername());
+                }
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get all users: " + errorString);
+            }
+        });
         });
  */
     }
