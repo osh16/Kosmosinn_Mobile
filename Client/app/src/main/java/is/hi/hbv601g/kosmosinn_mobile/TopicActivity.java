@@ -34,7 +34,7 @@ public class TopicActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_board);
+        setContentView(R.layout.activity_topic);
         mCommentView = (RecyclerView) findViewById(R.id.comment_view);
         mBackButton = (Button) findViewById(R.id.topic_back_button);
         mTopicId = getIntent().getIntExtra("id",1);
@@ -42,14 +42,14 @@ public class TopicActivity extends AppCompatActivity {
         Log.d(TAG, "Topic id = " + mTopicId);
         Log.d(TAG, "Button: " + mBackButton);
 
-        /*mBackButton.setOnClickListener(new View.OnClickListener() {
+        mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Til baka");
                 Intent intent = new Intent(TopicActivity.this, BoardActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
 
         NetworkController networkController = NetworkController.getInstance(this);
         networkController.getCommentsByTopicId(mTopicId, new NetworkCallback<List<Comment>>() {
@@ -64,7 +64,7 @@ public class TopicActivity extends AppCompatActivity {
                 for (int i = 0; i < size; i++) {
                     mCommentText[i] = mComments.get(i).getCommentText();
                     mCommentIds[i] = mComments.get(i).getId();
-                    Log.d(TAG, "Topic Name: " + mCommentText[i] + ", id = " + mCommentIds[i]);
+                    Log.d(TAG, "Comment: " + mCommentText[i] + ", id = " + mCommentIds[i]);
                 }
                 mCommentAdapter = new CommentAdapter(TopicActivity.this, mCommentText, mCommentIds);
                 mCommentView.setAdapter(mCommentAdapter);

@@ -225,7 +225,7 @@ public class NetworkController {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();
-                Type listType = new TypeToken<List<Topic>>(){}.getType();
+                Type listType = new TypeToken<List<Comment>>(){}.getType();
                 List<Comment> comments = gson.fromJson(response, listType);
                 callback.onSuccess(comments);
             }
