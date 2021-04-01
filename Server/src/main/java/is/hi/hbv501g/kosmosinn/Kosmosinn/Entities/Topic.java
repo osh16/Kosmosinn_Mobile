@@ -36,7 +36,6 @@ public class Topic{
     @ManyToOne
     private Board board;
 
-    @JsonBackReference
     @ManyToOne
     private User user;
 
