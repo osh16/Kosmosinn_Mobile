@@ -197,6 +197,30 @@ public class NetworkController {
     }
 
     // TODO: getComments(topicId : long)
+    public void getCommentsByTopicId(int id, final NetworkCallback<List<Comment>> callback) {
+
+        StringRequest request = new StringRequest(
+                Method.GET, BASE_URL + "/api/topics/" + id + "/comments", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Comment>>(){}.getType();
+                List<Comment> comments = gson.fromJson(response, listType);
+                callback.onSuccess(comments);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
 
     public void getComment(int id, final NetworkCallback<Comment> callback) {
         String url = Uri.parse(BASE_URL)
