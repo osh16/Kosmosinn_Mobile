@@ -37,7 +37,6 @@ public class TopicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_topic);
         mCommentView = (RecyclerView) findViewById(R.id.comment_view);
         mBackButton = (Button) findViewById(R.id.topic_back_button);
-        mTopicId = getIntent().getIntExtra("id",1);
 
         Log.d(TAG, "Topic id = " + mTopicId);
         Log.d(TAG, "Button: " + mBackButton);
@@ -46,7 +45,7 @@ public class TopicActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Til baka");
-                Intent intent = new Intent(TopicActivity.this, BoardActivity.class);
+                Intent intent = new Intent(TopicActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
