@@ -48,9 +48,15 @@ public class Comment{
         this.commentText = commentText;
     }
 
+    public Comment(User user, String commentText) {
+        this.user = user;
+        this.commentText = commentText;
+    }
+
     public Comment(User user) {
         this.user = user;
     }
+
     public Comment(String commentText) {
         this.commentText = commentText;
     }
