@@ -39,6 +39,9 @@ public class Comment{
     //@Column(nullable = true, length = 64)
     //private String photo;
 
+    public Comment() {
+    }
+
     public Comment(User user, String commentText) {
         this.user = user;
         this.commentText = commentText;
@@ -47,6 +50,7 @@ public class Comment{
     public Comment(User user) {
         this.user = user;
     }
+
     public Comment(String commentText) {
         this.commentText = commentText;
     }
