@@ -227,6 +227,7 @@ public class NetworkController {
         mQueue.add(request);
     }
 
+    // TODO: getComments(topicId : long)
     public void getCommentsByTopicId(int id, final NetworkCallback<List<Comment>> callback) {
 
         StringRequest request = new StringRequest(
