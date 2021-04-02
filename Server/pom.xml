@@ -19,34 +19,21 @@
         <org.springframework.version>3.0.5.RELEASE</org.springframework.version>
 	</properties>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${org.springframework.version}</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${org.springframework.version}</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${org.springframework.version}</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-taglibs</artifactId>
-            <version>${org.springframework.version}</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
+        <dependency>  
+        <groupId>org.springframework.security</groupId>  
+        <artifactId>spring-security-web</artifactId>  
+        <version>5.0.0.RELEASE</version>  
+</dependency>  
+<dependency>  
+        <groupId>org.springframework.security</groupId>  
+        <artifactId>spring-security-core</artifactId>  
+        <version>5.0.0.RELEASE</version>  
+</dependency>  
+<dependency>  
+        <groupId>org.springframework.security</groupId>  
+        <artifactId>spring-security-config</artifactId>  
+        <version>5.0.0.RELEASE</version>  
+</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -70,9 +57,24 @@
         </dependency>
 
         <dependency>
+          <groupId>io.jsonwebtoken</groupId>
+          <artifactId>jjwt</artifactId>
+          <version>0.6.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-test</artifactId>
+          <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

@@ -48,7 +48,7 @@ public class HomeController {
 	public String Home(Model model) {
 	    // fyrsta keyrsla
 	    if (userService.findByUserame("oskar") == null) {
-	    	User oskar = new User("oskar","oskar","ADMIN");
+	    	User oskar = new User("oskar","oskar","ADMIN", "token");
 			userService.save(oskar);
 
 			boardService.save(new Board("frettir um astrad stefansson", "hvad er hann eiginlega ad bralla"));
