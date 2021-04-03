@@ -25,7 +25,6 @@ public class Comment{
     @ManyToOne
     private User user;
 
-    @JsonBackReference
     @ManyToOne
     private Topic topic;
 

@@ -26,15 +26,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
     @Override
     public CommentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.boardrow, parent, false);
+        View view = inflater.inflate(R.layout.commentrow, parent, false);
         return new CommentHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommentHolder holder, int position) {
-        String text = mComments[position];
-
-        holder.text.setText(mComments[position]);
+        holder.commentText.setText(mComments[position]);
     }
 
     @Override
@@ -43,11 +41,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
     }
 
     public class CommentHolder extends RecyclerView.ViewHolder {
-        TextView text;
+        TextView commentText;
 
         public CommentHolder (@NonNull View itemView) {
             super(itemView);
-            text = itemView.findViewById(R.id.comment_text);
+            commentText = itemView.findViewById(R.id.comment_text);
         }
     }
 }
