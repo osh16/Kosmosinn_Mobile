@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
@@ -45,12 +49,13 @@ public class LoginRestController {
     HttpSession session;
 
     @PostMapping("/login")
-	public String login(@RequestParam("username") String username, @RequestParam("password") String pwd) {
+	public String login(@RequestParam("username") String username, @RequestParam("password") String pwd, HttpServletRequest request, HttpServletResponse response) {
 		User user = userService.findByUserame(username);
         
         if (pwd.equals(user.getPassword())) {
             String token = getJWTToken(pwd);
             user.setToken(token);
+            response.setHeader("Bearer", token.split(" ")[1]);
             return "{ \"Bearer\":" + " \"" + token.split(" ")[1] + "\" }";
         } else if (user == null) {
             return "User not found";
