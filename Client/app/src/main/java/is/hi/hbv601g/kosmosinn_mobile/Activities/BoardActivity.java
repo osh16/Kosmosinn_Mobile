@@ -1,4 +1,4 @@
-package is.hi.hbv601g.kosmosinn_mobile;
+package is.hi.hbv601g.kosmosinn_mobile.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,26 +16,28 @@ import is.hi.hbv601g.kosmosinn_mobile.Adapters.TopicAdapter;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
+import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = "BoardActivity";
     private RecyclerView mTopicView;
-    private List<Topic> mTopics;
+    private List<Topic> mTopicList;
     private TopicAdapter mTopicAdapter;
 
-    private String[] mTopicNames;
-    private int[] mTopicIds;
-
+    private Topic[] mTopics;
     private int mBoardId;
+    private int mUserId;
     private Button mBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+
         mTopicView = (RecyclerView) findViewById(R.id.topic_view);
         mBackButton = (Button) findViewById(R.id.board_back_button);
-        mBoardId = getIntent().getIntExtra("id",1);
+        mBoardId = getIntent().getIntExtra("boardid",0);
+        mUserId = getIntent().getIntExtra("userid", 0);
 
         Log.d(TAG, "Board id = " + mBoardId);
 
@@ -49,21 +51,53 @@ public class BoardActivity extends AppCompatActivity {
         });
 
         NetworkController networkController = NetworkController.getInstance(this);
+        if (mBoardId != 0) {
+            getTopicsByBoard(networkController);
+        }
+        else {
+            getTopicsByUser(networkController);
+        }
+    }
+
+    public void getTopicsByBoard(NetworkController networkController) {
         networkController.getTopicsByBoardId(mBoardId, new NetworkCallback<List<Topic>>() {
             @Override
             public void onSuccess(List<Topic> result) {
                 Log.d(TAG, "Board text for id :" + String.valueOf(mBoardId));
-                mTopics = result;
-                Log.d(TAG, "" + result);
-                int size = mTopics.size();
-                mTopicNames = new String[size];
-                mTopicIds = new int[size];
+                mTopicList = result;
+                int size = mTopicList.size();
+                mTopics = new Topic[size];
+
                 for (int i = 0; i < size; i++) {
-                    mTopicNames[i] = mTopics.get(i).getTopicName();
-                    mTopicIds[i] = mTopics.get(i).getId();
-                    Log.d(TAG, "Topic Name: " + mTopicNames[i] + ", id = " + mTopicIds[i]);
+                    mTopics[i] = mTopicList.get(i);
+                    Log.d(TAG, "Topic Name: " + mTopics[i].getTopicName());
                 }
-                mTopicAdapter = new TopicAdapter(BoardActivity.this, mTopicNames, mTopicIds);
+                mTopicAdapter = new TopicAdapter(BoardActivity.this, mTopics);
+                mTopicView.setAdapter(mTopicAdapter);
+                mTopicView.setLayoutManager(new LinearLayoutManager(BoardActivity.this));
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.e(TAG, "Failed to get single board: " + errorString);
+            }
+        });
+    }
+
+    public void getTopicsByUser(NetworkController networkController) {
+        networkController.getTopicsByUserId(mUserId, new NetworkCallback<List<Topic>>() {
+            @Override
+            public void onSuccess(List<Topic> result) {
+                Log.d(TAG, "Board text for userid :" + String.valueOf(mUserId));
+                mTopicList = result;
+                int size = mTopicList.size();
+                mTopics = new Topic[size];
+
+                for (int i = 0; i < size; i++) {
+                    mTopics[i] = mTopicList.get(i);
+                    Log.d(TAG, "Topic Name: " + mTopics[i].getTopicName());
+                }
+                mTopicAdapter = new TopicAdapter(BoardActivity.this, mTopics);
                 mTopicView.setAdapter(mTopicAdapter);
                 mTopicView.setLayoutManager(new LinearLayoutManager(BoardActivity.this));
             }
@@ -78,7 +112,15 @@ public class BoardActivity extends AppCompatActivity {
     public void selectTopic(int id) {
         Log.d(TAG, "Select Topic");
         Intent intent = new Intent(BoardActivity.this, TopicActivity.class);
+        intent.putExtra("topicid", id);
+        startActivity(intent);
+    }
+
+    public void selectUserFromBoard(int id, String name) {
+        Log.d(TAG, "Select User");
+        Intent intent = new Intent(BoardActivity.this, UserActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("username", name);
         startActivity(intent);
     }
 }

@@ -2,39 +2,24 @@ package is.hi.hbv601g.kosmosinn_mobile.Controllers;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
-import java.net.URI;
 import java.util.List;
 
-import is.hi.hbv601g.kosmosinn_mobile.Adapters.BoardAdapter;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Comment;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.User;
-import is.hi.hbv601g.kosmosinn_mobile.MainActivity;
-import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class NetworkController {
 
@@ -164,6 +149,30 @@ public class NetworkController {
         mQueue.add(request);
     }
 
+    public void getTopicsByUserId(int id, final NetworkCallback<List<Topic>> callback) {
+        StringRequest request = new StringRequest(
+                Method.GET, BASE_URL + "/api/users/" + id + "/topics", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Topic>>(){}.getType();
+                List<Topic> topics = gson.fromJson(response, listType);
+                callback.onSuccess(topics);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
     public void getTopic(int id, final NetworkCallback<Topic> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
@@ -222,6 +231,31 @@ public class NetworkController {
 
         StringRequest request = new StringRequest(
                 Method.GET, BASE_URL + "/api/topics/" + id + "/comments", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Comment>>(){}.getType();
+                List<Comment> comments = gson.fromJson(response, listType);
+                callback.onSuccess(comments);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
+    public void getCommentsByUserId(int id, final NetworkCallback<List<Comment>> callback) {
+
+        StringRequest request = new StringRequest(
+                Method.GET, BASE_URL + "/api/users/" + id + "/comments", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson gson = new Gson();

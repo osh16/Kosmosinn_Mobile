@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="is.hi.hbv601g.kosmosinn_mobile.BoardActivity">
+    tools:context="is.hi.hbv601g.kosmosinn_mobile.Activities.BoardActivity">
 
     <Button
         android:id="@+id/board_back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/back"
+        android:text="@string/home"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.051"
@@ -20,8 +20,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/topic_view"
-        android:layout_width="193dp"
-        android:layout_height="287dp"
+        android:layout_width="253dp"
+        android:layout_height="398dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

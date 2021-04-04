@@ -6,4 +6,6 @@
     <string name="header_title">KOSMÓSINN</string>
     <string name="header_caption">Spjallborð alþýðunnar</string>
     <string name="home">Heim</string>
+    <string name="userComments">Comments by User</string>
+    <string name="userTopics">Topics by User</string>
 </resources>
