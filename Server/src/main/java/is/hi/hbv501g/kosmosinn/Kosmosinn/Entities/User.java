@@ -48,8 +48,10 @@ public class User {
 	@OneToMany
 	private List<Chat> chats = new ArrayList<Chat>();
 
-	public long userCreated;
-	public long lastOnline;
+	@JsonIgnore
+	private long userCreated;
+	@JsonIgnore
+	private long lastOnline;
 
 	public User(String username, String password)  {
 		this.username = username;
