@@ -1,4 +1,4 @@
-package is.hi.hbv601g.kosmosinn_mobile;
+package is.hi.hbv601g.kosmosinn_mobile.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";

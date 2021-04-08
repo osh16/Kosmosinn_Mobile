@@ -10,20 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import is.hi.hbv601g.kosmosinn_mobile.BoardActivity;
-import is.hi.hbv601g.kosmosinn_mobile.MainActivity;
+import is.hi.hbv601g.kosmosinn_mobile.Activities.BoardActivity;
+import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
 import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder> {
     private static final String TAG = "BoardAdapter";
     private Context mContext;
-    private String mTopics[];
-    private int mIds[];
+    private Topic mTopics[];
 
-    public TopicAdapter(Context context, String topics[], int ids[]) {
+    public TopicAdapter(Context context, Topic topics[]) {
         this.mContext = context;
         this.mTopics = topics;
-        this.mIds = ids;
     }
     @NonNull
     @Override
@@ -35,15 +33,21 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
 
     @Override
     public void onBindViewHolder(@NonNull TopicHolder holder, int position) {
-        String name = mTopics[position];
-        Log.d(TAG,name);
-
-        holder.topicName.setText(mTopics[position]);
+        holder.user.setText(mTopics[position].getUser().getUsername());
+        holder.user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int id = mTopics[position].getUser().getId();
+                String name = mTopics[position].getUser().getUsername();
+                ((BoardActivity)mContext).selectUserFromBoard(id, name);
+            }
+        });
+        holder.topicName.setText(mTopics[position].getTopicName());
         holder.topicName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick -> Topic with id: " + mIds[position]);
-                ((BoardActivity)mContext).selectTopic(mIds[position]);
+                Log.d(TAG, "onClick -> Topic with id: " + mTopics[position].getId());
+                ((BoardActivity)mContext).selectTopic(mTopics[position].getId());
             }
         });
     }
@@ -54,10 +58,11 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
     }
 
     public class TopicHolder extends RecyclerView.ViewHolder {
-        TextView topicName;
+        TextView user, topicName;
 
         public TopicHolder (@NonNull View itemView) {
             super(itemView);
+            user = itemView.findViewById(R.id.topic_user);
             topicName = itemView.findViewById(R.id.topic_name);
         }
     }

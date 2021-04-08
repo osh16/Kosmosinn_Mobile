@@ -6,28 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.BreakIterator;
-
-import is.hi.hbv601g.kosmosinn_mobile.MainActivity;
+import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
+import is.hi.hbv601g.kosmosinn_mobile.Activities.MainActivity;
 import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardHolder> {
     private static final String TAG = "BoardAdapter";
     private Context mContext;
-    private String mBoards[];
-    private String mDescriptions[];
-    private int mIds[];
+    private Board mBoards[];
 
-    public BoardAdapter(Context context, String boards[], String descriptions[], int ids[]) {
+    public BoardAdapter(Context context, Board boards[]) {
         this.mContext = context;
         this.mBoards = boards;
-        this.mDescriptions = descriptions;
-        this.mIds = ids;
     }
     @NonNull
     @Override
@@ -39,16 +33,13 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.BoardHolder>
 
     @Override
     public void onBindViewHolder(@NonNull BoardHolder holder, int position) {
-        String name = mBoards[position];
-        Log.d(TAG,name);
-
-        holder.title.setText(mBoards[position]);
-        holder.description.setText(mDescriptions[position]);
+        holder.title.setText(mBoards[position].getName());
+        holder.description.setText(mBoards[position].getDescription());
         holder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick -> Board with id: " + mIds[position]);
-                ((MainActivity)mContext).selectBoard(mIds[position]);
+                Log.d(TAG, "onClick -> Board with id: " + mBoards[position].getId());
+                ((MainActivity)mContext).selectBoard(mBoards[position].getId());
             }
         });
     }

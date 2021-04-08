@@ -9,18 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import is.hi.hbv601g.kosmosinn_mobile.Entities.Comment;
 import is.hi.hbv601g.kosmosinn_mobile.R;
+import is.hi.hbv601g.kosmosinn_mobile.Activities.TopicActivity;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentHolder> {
     private static final String TAG = "CommentAdapter";
     private Context mContext;
-    private String mComments[];
-    private int mIds[];
+    private Comment mComments[];
 
-    public CommentAdapter(Context context, String comments[], int ids[]) {
+    public CommentAdapter(Context context, Comment comments[]) {
         this.mContext = context;
         this.mComments = comments;
-        this.mIds = ids;
     }
     @NonNull
     @Override
@@ -32,7 +32,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
 
     @Override
     public void onBindViewHolder(@NonNull CommentHolder holder, int position) {
-        holder.commentText.setText(mComments[position]);
+        holder.user.setText(mComments[position].getUser().getUsername());
+        holder.user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int id = mComments[position].getUser().getId();
+                String name = mComments[position].getUser().getUsername();
+                ((TopicActivity)mContext).selectUserpageFromTopic(id, name);
+            }
+        });
+        holder.commentText.setText(mComments[position].getCommentText());
     }
 
     @Override
@@ -41,10 +50,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
     }
 
     public class CommentHolder extends RecyclerView.ViewHolder {
-        TextView commentText;
+        TextView user, commentText;
 
         public CommentHolder (@NonNull View itemView) {
             super(itemView);
+            user = itemView.findViewById(R.id.comment_user);
             commentText = itemView.findViewById(R.id.comment_text);
         }
     }

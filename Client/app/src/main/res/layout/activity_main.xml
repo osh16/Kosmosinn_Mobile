@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="is.hi.hbv601g.kosmosinn_mobile.MainActivity">
+    tools:context="is.hi.hbv601g.kosmosinn_mobile.Activities.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -87,8 +87,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/boards_view"
-        android:layout_width="193dp"
-        android:layout_height="287dp"
+        android:layout_width="276dp"
+        android:layout_height="354dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

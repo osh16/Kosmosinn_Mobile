@@ -12,11 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kosmosinn_Mobile"
         android:usesCleartextTraffic="true">
-        <activity android:name=".TopicActivity"></activity>
-        <activity android:name=".BoardActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.UserActivity"></activity>
+        <activity android:name=".Activities.TopicActivity" />
+        <activity android:name=".Activities.BoardActivity" />
+        <activity android:name=".Activities.SignupActivity" />
+        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

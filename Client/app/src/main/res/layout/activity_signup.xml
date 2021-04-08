@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignupActivity">
+    tools:context=".Activities.SignupActivity">
 
     <Button
         android:id="@+id/signup_back_button"
@@ -21,6 +21,7 @@
 
     <EditText
         android:id="@+id/username_field_signup"
+        android:hint="Username"
         android:layout_width="153dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,6 +33,7 @@
 
     <EditText
         android:id="@+id/password_field_signup"
+        android:hint="Password"
         android:layout_width="153dp"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
