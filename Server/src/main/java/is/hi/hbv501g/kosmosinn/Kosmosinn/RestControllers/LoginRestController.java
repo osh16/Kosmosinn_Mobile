@@ -48,6 +48,9 @@ public class LoginRestController {
     @Autowired
     HttpSession session;
 
+    /**
+     * Þetta er eiginlega klárað, gæti þurft að breyta einhverju returni fer eftir hvað við viljum senda úr þessu.
+     */
     @PostMapping("/login")
 	public String login(@RequestParam("username") String username, @RequestParam("password") String pwd, HttpServletRequest request, HttpServletResponse response) {
 		User user = userService.findByUserame(username);
