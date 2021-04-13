@@ -42,6 +42,7 @@ public class NetworkController {
     private static NetworkController mInstance;
     private static RequestQueue mQueue;
     private Context mContext;
+    private static final String TAG = "NetworkController";
 
     public static synchronized  NetworkController getInstance(Context context) {
         if (mInstance == null) {
@@ -101,7 +102,7 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Board board = gson.fromJson(response, Board.class);
                 callback.onSuccess(board);
-           }
+            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -113,6 +114,30 @@ public class NetworkController {
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+    public void addBoard(Board newBoard, final NetworkCallback<Board> callback) {
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("boards")
+                .appendPath("addBoard")
+                .build().toString();
+        StringRequest request = new StringRequest(
+                Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, "drasl");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+               Log.d(TAG, "error drasl");
+            }
+        }
+        );
         mQueue.add(request);
     }
     public void getAllTopics(final NetworkCallback<List<Topic>> callback) {
