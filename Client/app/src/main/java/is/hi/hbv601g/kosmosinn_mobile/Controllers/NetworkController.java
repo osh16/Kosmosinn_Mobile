@@ -227,6 +227,7 @@ public class NetworkController {
         mQueue.add(request);
     }
 
+    // TODO: getComments(topicId : long)
     public void getCommentsByTopicId(int id, final NetworkCallback<List<Comment>> callback) {
 
         StringRequest request = new StringRequest(
@@ -251,7 +252,6 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
-
     public void getCommentsByUserId(int id, final NetworkCallback<List<Comment>> callback) {
 
         StringRequest request = new StringRequest(
