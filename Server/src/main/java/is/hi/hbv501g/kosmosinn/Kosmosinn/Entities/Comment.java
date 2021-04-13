@@ -21,11 +21,9 @@ public class Comment{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @JsonBackReference
     @ManyToOne
     private User user;
 
-    @JsonBackReference
     @ManyToOne
     private Topic topic;
 

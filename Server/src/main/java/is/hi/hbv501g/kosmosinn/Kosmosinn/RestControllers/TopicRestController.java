@@ -35,7 +35,7 @@ public class TopicRestController {
     @Autowired
     HttpSession session;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<Topic> getAllTopics() {
         return topicService.findAll();
     }

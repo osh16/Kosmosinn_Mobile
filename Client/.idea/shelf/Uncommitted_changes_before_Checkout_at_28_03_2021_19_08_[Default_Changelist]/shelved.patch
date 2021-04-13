@@ -1,0 +1,35 @@
+Index: app/src/main/java/is/hi/hbv601g/kosmosinn_mobile/Controllers/NetworkController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package is.hi.hbv601g.kosmosinn_mobile.Controllers;\r\n\r\nimport java.util.List;\r\n\r\nimport is.hi.hbv601g.kosmosinn_mobile.Entities.Board;\r\n\r\npublic class NetworkController {\r\n    public void getAllBoards() {\r\n        String url = \"http://192.168.1.234/api/boards\";\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/is/hi/hbv601g/kosmosinn_mobile/Controllers/NetworkController.java	(revision 1b93bbd6be0cf0297127c83efdb381d662c4b287)
++++ app/src/main/java/is/hi/hbv601g/kosmosinn_mobile/Controllers/NetworkController.java	(date 1616957768116)
+@@ -6,6 +6,6 @@
+ 
+ public class NetworkController {
+     public void getAllBoards() {
+-        String url = "http://192.168.1.234/api/boards";
++        String url = "http://192.168.1.234:8080/api/boards";
+     }
+ }
+Index: app/src/main/java/is/hi/hbv601g/kosmosinn_mobile/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package is.hi.hbv601g.kosmosinn_mobile;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.core.app.ComponentActivity;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.os.Bundle;\r\nimport android.util.Log;\r\nimport android.widget.Toast;\r\n\r\nimport com.android.volley.Request;\r\nimport com.android.volley.RequestQueue;\r\nimport com.android.volley.Response;\r\nimport com.android.volley.VolleyError;\r\nimport com.android.volley.toolbox.JsonArrayRequest;\r\nimport com.android.volley.toolbox.StringRequest;\r\nimport com.android.volley.toolbox.Volley;\r\n\r\nimport org.json.JSONArray;\r\nimport org.json.JSONException;\r\nimport org.json.JSONObject;\r\n\r\nimport is.hi.hbv601g.kosmosinn_mobile.Adapters.BoardAdapter;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n    private RecyclerView boardView;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n        boardView = (RecyclerView) findViewById(R.id.board_view);\r\n        RequestQueue queue = Volley.newRequestQueue(this);\r\n\r\n        // herna tharftu ad setja lan ip toluna thina\r\n        // skitalausn sem vid notum i bili, thangad til annad kemur i ljos\r\n        // muna ad keyra serverinn\r\n        String url = \"http://192.168.1.234/api/boards\";\r\n\r\n        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {\r\n            private String[] boards;\r\n            private String[] descriptions;\r\n            private BoardAdapter boardAdapter;\r\n\r\n            @Override\r\n            public void onResponse(JSONArray response) {\r\n                Log.d(\"OSKAR\", \"erum inni onresponse\");\r\n                try {\r\n                    boards = new String[response.length()];\r\n                    descriptions = new String[response.length()];\r\n                    JSONObject boardInfo;\r\n                    for (int i = 0; i < response.length(); i++) {\r\n                        boardInfo = response.getJSONObject(i);\r\n                        boards[i] = boardInfo.getString(\"name\");\r\n                        descriptions[i] = boardInfo.getString(\"description\");\r\n                    }\r\n                } catch (JSONException e) {\r\n                    Log.d(\"OSKAR\", response.toString());\r\n                    e.printStackTrace();\r\n                }\r\n                boardAdapter = new BoardAdapter(MainActivity.this, boards, descriptions);\r\n                boardView.setAdapter(boardAdapter);\r\n                boardView.setLayoutManager(new LinearLayoutManager(MainActivity.this));\r\n            }\r\n        }, new Response.ErrorListener() {\r\n            @Override\r\n            public void onErrorResponse(VolleyError error) {\r\n                Log.d(\"OSKAR\", error.toString());\r\n                Toast.makeText(MainActivity.this, \"villa ad hlada inn gognum\", Toast.LENGTH_SHORT).show();\r\n\r\n            }\r\n        });\r\n        queue.add(request);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/is/hi/hbv601g/kosmosinn_mobile/MainActivity.java	(revision 1b93bbd6be0cf0297127c83efdb381d662c4b287)
++++ app/src/main/java/is/hi/hbv601g/kosmosinn_mobile/MainActivity.java	(date 1616958502620)
+@@ -37,7 +37,7 @@
+         // herna tharftu ad setja lan ip toluna thina
+         // skitalausn sem vid notum i bili, thangad til annad kemur i ljos
+         // muna ad keyra serverinn
+-        String url = "http://192.168.1.234/api/boards";
++        String url = "http://192.168.1.234:8080/api/boards/";
+ 
+         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+             private String[] boards;

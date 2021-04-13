@@ -1,57 +1,64 @@
 package is.hi.hbv601g.kosmosinn_mobile.Entities;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Comment {
-    private int id;
-    private User user;
-    private String commentText;
-    private String commentCreatedDate;
-    private String commentEditedDate;
+    @SerializedName("id")
+    private int mId;
+    @SerializedName("user")
+    private User mUser;
+    @SerializedName("commentText")
+    private String mCommentText;
+    @SerializedName("commentCreated")
+    private String mCommentCreatedDate;
+    @SerializedName("commentEdited")
+    private String mCommentEditedDate;
 
     public Comment(int id, User user, String commentText, String commentCreatedDate, String commentEditedDate) {
-        this.id = id;
-        this.user = user;
-        this.commentText = commentText;
-        this.commentCreatedDate = commentCreatedDate;
-        this.commentEditedDate = commentEditedDate;
+        mId = id;
+        mUser = user;
+        mCommentText = commentText;
+        mCommentCreatedDate = commentCreatedDate;
+        mCommentEditedDate = commentEditedDate;
     }
 
     public int getId() {
-        return id;
+        return mId;
     }
 
     public User getUser() {
-        return user;
+        return mUser;
     }
 
     public String getCommentText() {
-        return commentText;
+        return mCommentText;
     }
 
     public String getCommentCreatedDate() {
-        return commentCreatedDate;
+        return mCommentCreatedDate;
     }
 
     public String getCommentEditedDate() {
-        return commentEditedDate;
+        return mCommentEditedDate;
     }
 
     public void setId(int id) {
-        this.id = id;
+        mId = id;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        mUser = user;
     }
 
     public void setCommentText(String commentText) {
-        this.commentText = commentText;
+        mCommentText = commentText;
     }
 
     public void setCommentCreatedDate(String commentCreatedDate) {
-        this.commentCreatedDate = commentCreatedDate;
+        mCommentCreatedDate = commentCreatedDate;
     }
 
     public void setCommentEditedDate(String commentEditedDate) {
-        this.commentEditedDate = commentEditedDate;
+        mCommentEditedDate = commentEditedDate;
     }
 }

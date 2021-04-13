@@ -121,3 +121,5 @@ lint/tmp/
 /build
 /captures
 .externalNativeBuild
+
+*.swp
