@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Request.Method;
@@ -26,7 +27,9 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import is.hi.hbv601g.kosmosinn_mobile.Adapters.BoardAdapter;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
@@ -117,27 +120,46 @@ public class NetworkController {
         mQueue.add(request);
     }
     public void addBoard(Board newBoard, final NetworkCallback<Board> callback) {
+        final JSONObject body = new JSONObject();
+        try {
+            body.put("name", newBoard.getName());
+            body.put("description", newBoard.getDescription());
+        } catch (JSONException e) {
+            Log.d("addBoard", e.getMessage());
+        }
+
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("api")
                 .appendPath("boards")
                 .appendPath("addBoard")
                 .build().toString();
+
         StringRequest request = new StringRequest(
                 Method.POST,
                 url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, "drasl");
+                        Log.d("addBoard:", response.toString());
                     }
                 }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                       Log.d("addBoard:", error.toString());
+                    }
+                }
+        )  {
             @Override
-            public void onErrorResponse(VolleyError error) {
-               Log.d(TAG, "error drasl");
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
             }
-        }
-        );
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+        };
         mQueue.add(request);
     }
     public void getAllTopics(final NetworkCallback<List<Topic>> callback) {
