@@ -240,6 +240,50 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
+    public void addTopic(int id, Topic newTopic, final NetworkCallback<Topic> callback) {
+        final JSONObject body = new JSONObject();
+        try {
+            body.put("topicName", newTopic.getTopicName());
+            body.put("topicContent", newTopic.getTopicContent());
+        } catch (JSONException e) {
+            Log.d("addTopic", e.getMessage());
+        }
+
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("topics")
+                .appendPath(String.valueOf(id))
+                .appendPath("addTopic")
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("addTopic:", response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("addTopic:", error.toString());
+            }
+        }
+        )  {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+        };
+        mQueue.add(request);
+    }
     public void getAllComments(final NetworkCallback<List<Comment>> callback) {
 
         StringRequest request = new StringRequest(

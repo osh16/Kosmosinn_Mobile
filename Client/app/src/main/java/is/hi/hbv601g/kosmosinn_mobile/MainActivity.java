@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d(TAG, "onClick -> Login");
                 //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 //startActivity(intent);
-                Board board = new Board("þþæææþþþþ", "ððððððððð");
-                networkController.addBoard(board, new NetworkCallback<Board>() {
+                Topic topic = new Topic(1, "topic", "ass", 1, 1, "mars", "april");
+                networkController.addTopic(1, topic, new NetworkCallback<Topic>() {
                     @Override
-                    public void onSuccess(Board result) {
+                    public void onSuccess(Topic result) {
                     }
 
                     @Override
