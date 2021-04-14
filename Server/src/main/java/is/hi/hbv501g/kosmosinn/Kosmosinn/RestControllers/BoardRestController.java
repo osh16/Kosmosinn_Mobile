@@ -49,12 +49,13 @@ public class BoardRestController {
         return topicService.findAllByBoardId(id);
     }
 
-    @PostMapping(value = "/{id}/addBoard", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+   @PostMapping(value = "/addBoard", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Board addBoard(@RequestBody Board board) {
-        User currentUser = (User) session.getAttribute("loggedinuser");
-        if (userService.isAdmin(currentUser)) {
-            boardService.save(board);
-        }
+        //User currentUser = (User) session.getAttribute("loggedinuser");
+        //if (userService.isAdmin(currentUser)) {
+
+        //}
+        boardService.save(board);
         return board;
     }
 

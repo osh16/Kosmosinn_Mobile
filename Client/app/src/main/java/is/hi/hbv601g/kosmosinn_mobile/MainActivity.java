@@ -55,12 +55,23 @@ public class MainActivity extends AppCompatActivity {
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
         mSignupButton = (Button) findViewById(R.id.signup_activity_button);
 
+        NetworkController networkController = NetworkController.getInstance(this);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick -> Login");
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
+                //Log.d(TAG, "onClick -> Login");
+                //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                //startActivity(intent);
+                Board board = new Board("Fokk", "Her tolum vid um fokk");
+                networkController.addBoard(board, new NetworkCallback<Board>() {
+                    @Override
+                    public void onSuccess(Board result) {
+                    }
+
+                    @Override
+                    public void onFailure(String errorString) {
+                    }
+                });
             }
         });
 
@@ -73,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        NetworkController networkController = NetworkController.getInstance(this);
         networkController.getAllBoards(new NetworkCallback<List<Board>>() {
             @Override
             public void onSuccess(List<Board> result) {
