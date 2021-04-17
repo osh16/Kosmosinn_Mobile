@@ -253,8 +253,12 @@ public class NetworkController {
     }
     public void addTopic(int id, Topic newTopic, final NetworkCallback<Topic> callback) {
         final JSONObject body = new JSONObject();
+        final JSONObject userBody = new JSONObject();
         try {
-            body.put("user", newTopic.getUser());
+            User user = newTopic.getUser();
+            userBody.put("id", user.getId());
+            userBody.put("username", user.getUsername());
+            body.put("user", userBody);
             body.put("topicName", newTopic.getTopicName());
             body.put("topicContent", newTopic.getTopicContent());
         } catch (JSONException e) {
@@ -280,6 +284,24 @@ public class NetworkController {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
+                Log.d("OSKAR", body.toString());
                 Log.d("addTopic:", error.toString());
             }
         }

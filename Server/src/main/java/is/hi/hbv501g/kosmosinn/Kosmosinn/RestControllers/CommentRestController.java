@@ -67,7 +67,7 @@ public class CommentRestController {
         return comment;
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/deleteComment")
     public void deleteComment(@Valid @PathVariable("topicId") long topicId, @PathVariable("id") long id) {
         User currentUser = (User) session.getAttribute("loggedinuser");
         Topic topic = topicService.findById(topicId).get();

@@ -70,11 +70,11 @@ public class TopicRestController {
 
     @DeleteMapping("/{id}/delete")
     public void deleteTopic(@PathVariable("id") long id) {
-        User currentUser = (User) session.getAttribute("loggedinuser");
-        if (userService.isAdmin(currentUser)) {
+        //User currentUser = (User) session.getAttribute("loggedinuser");
+        //if (userService.isAdmin(currentUser)) {
             Topic topic = topicService.findById(id).get();
             topicService.delete(topic);
-        }
+        //}
     }
 
 }

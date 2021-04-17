@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Board[] mBoards;
 
-    private User user;
+    private User mUser;
 
     private Button mLoginButton;
     private Button mSignupButton;
@@ -52,9 +52,19 @@ public class MainActivity extends AppCompatActivity {
                 networkController.getUser(1, new NetworkCallback<User>() {
                     @Override
                     public void onSuccess(User result) {
-                        user = result;
-                        Log.d("OSKAR", ""+result.getRole());
-                        Log.d("OSKAR", ""+result.getUsername());
+                        mUser = result;
+                        Topic topic = new Topic(1, mUser, "topic", "ass", 1, 1, "mars", "april");
+                        networkController.addTopic(1, topic, new NetworkCallback<Topic>() {
+                            @Override
+                            public void onSuccess(Topic result) {
+                            }
+
+                            @Override
+                            public void onFailure(String errorString) {
+                            }
+                        });
+                        Log.d("OSKAR", "USER: " + mUser.getUsername());
+                        Log.d("OSKAR", "USER: " + mUser.getRole());
                     }
 
                     @Override
@@ -63,16 +73,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                Topic topic = new Topic(1, user, "topic", "ass", 1, 1, "mars", "april");
-                networkController.addTopic(1, topic, new NetworkCallback<Topic>() {
-                    @Override
-                    public void onSuccess(Topic result) {
-                    }
-
-                    @Override
-                    public void onFailure(String errorString) {
-                    }
-                });
             }
         });
 
