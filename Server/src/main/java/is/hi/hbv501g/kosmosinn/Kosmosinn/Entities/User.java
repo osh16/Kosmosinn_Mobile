@@ -1,5 +1,6 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,7 +36,6 @@ public class User {
 	@Column(nullable = false)
 	public String role;
 
-	//@JsonManagedReference
 	@JsonIgnore // nota /api/users/{id}/topics
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Topic> topics = new ArrayList<>();
@@ -48,7 +48,9 @@ public class User {
 	@OneToMany
 	private List<Chat> chats = new ArrayList<Chat>();
 
+	@JsonIgnore
 	public long userCreated;
+	@JsonIgnore
 	public long lastOnline;
 
 	public User(String username, String password)  {

@@ -1,13 +1,23 @@
 package is.hi.hbv601g.kosmosinn_mobile.Entities;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class User {
+    @SerializedName("id")
     private int mId;
+    @SerializedName("username")
     private String mUsername;
+    @SerializedName("role")
     private String mRole;
+    @SerializedName("token")
+    private String mToken;
+    @SerializedName("userCreatedDate")
     private String mUserCreatedDate;
+    @SerializedName("lastOnlineDate")
     private String mLastOnlineDate;
+
     private List<Comment> mComments;
     private List<Topic> mTopics;
 

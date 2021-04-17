@@ -2,6 +2,7 @@ package is.hi.hbv501g.kosmosinn.Kosmosinn.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import javax.persistence.*;
@@ -32,11 +33,10 @@ public class Topic{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @JsonBackReference(value="board")
+    @JsonBackReference
     @ManyToOne
     private Board board;
 
-    @JsonBackReference(value="user")
     @ManyToOne
     private User user;
 

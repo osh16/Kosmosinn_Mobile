@@ -243,6 +243,7 @@ public class NetworkController {
     public void addTopic(int id, Topic newTopic, final NetworkCallback<Topic> callback) {
         final JSONObject body = new JSONObject();
         try {
+            body.put("user", newTopic.getUser());
             body.put("topicName", newTopic.getTopicName());
             body.put("topicContent", newTopic.getTopicContent());
         } catch (JSONException e) {

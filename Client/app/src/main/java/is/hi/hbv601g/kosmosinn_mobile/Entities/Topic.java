@@ -7,6 +7,8 @@ import java.util.List;
 public class Topic {
     @SerializedName("id")
     private int mId;
+    @SerializedName("user")
+    private User mUser;
     @SerializedName("topicName")
     private String mTopicName;
     @SerializedName("topicContent")
@@ -22,8 +24,9 @@ public class Topic {
     @SerializedName("comments")
     private List<Comment> mComments;
 
-    public Topic(int id, String topicName, String topicContent, int topicPoints, int commentCount, String topicCreatedDate, String topicEditedDate) {
+    public Topic(int id, User user, String topicName, String topicContent, int topicPoints, int commentCount, String topicCreatedDate, String topicEditedDate) {
         mId = id;
+        mUser = user;
         mTopicName = topicName;
         mTopicContent = topicContent;
         mTopicPoints = topicPoints;
@@ -34,6 +37,10 @@ public class Topic {
 
     public int getId() {
         return mId;
+    }
+
+    public User getUser() {
+        return mUser;
     }
 
     public String getTopicName() {
@@ -62,6 +69,10 @@ public class Topic {
 
     public void setId(int id) {
         mId = id;
+    }
+
+    public void setUser(User mUser) {
+        this.mUser = mUser;
     }
 
     public void setTopicName(String topicName) {

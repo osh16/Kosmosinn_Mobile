@@ -33,6 +33,7 @@ import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
+import is.hi.hbv601g.kosmosinn_mobile.Entities.User;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private String[] mBoardNames;
     private String[] mBoardDescriptions;
     private int[] mBoardIds;
+
+    private User user;
 
     private Button mLoginButton;
     private Button mSignupButton;
@@ -62,7 +65,21 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d(TAG, "onClick -> Login");
                 //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 //startActivity(intent);
-                Topic topic = new Topic(1, "topic", "ass", 1, 1, "mars", "april");
+                networkController.getUser(1, new NetworkCallback<User>() {
+                    @Override
+                    public void onSuccess(User result) {
+                        user = result;
+                        Log.d("OSKAR", ""+result.getRole());
+                        Log.d("OSKAR", ""+result.getUsername());
+                    }
+
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.d("OSKAR", errorString.toString());
+                    }
+                });
+
+                Topic topic = new Topic(1, user, "topic", "ass", 1, 1, "mars", "april");
                 networkController.addTopic(1, topic, new NetworkCallback<Topic>() {
                     @Override
                     public void onSuccess(Topic result) {
