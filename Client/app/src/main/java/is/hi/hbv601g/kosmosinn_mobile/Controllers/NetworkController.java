@@ -252,7 +252,7 @@ public class NetworkController {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("api")
-                .appendPath("topics")
+                .appendPath("boards")
                 .appendPath(String.valueOf(id))
                 .appendPath("addTopic")
                 .build().toString();

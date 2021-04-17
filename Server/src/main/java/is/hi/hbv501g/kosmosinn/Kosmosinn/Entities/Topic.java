@@ -32,11 +32,11 @@ public class Topic{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "topic", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonBackReference(value="board")
     @ManyToOne
     private Board board;
 
-    @JsonBackReference
+    @JsonBackReference(value="user")
     @ManyToOne
     private User user;
 

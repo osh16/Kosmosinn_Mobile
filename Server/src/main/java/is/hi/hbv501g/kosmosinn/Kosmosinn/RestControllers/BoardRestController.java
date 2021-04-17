@@ -51,7 +51,7 @@ public class BoardRestController {
 
    @PostMapping(value = "/addBoard", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Board addBoard(@RequestBody Board board) {
-       //User currentUser = (User) session.getAttribute("loggedinuser");
+        //User currentUser = (User) session.getAttribute("loggedinuser");
         //if (userService.isAdmin(currentUser)) {
         //}
         boardService.save(board);
@@ -82,5 +82,14 @@ public class BoardRestController {
             boardService.delete(board);
         }
     }
+
+    @PostMapping(value = "/{id}/addTopic", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Topic addTopic(@PathVariable("id") long id, @RequestBody Topic topic) {
+        Board board = boardService.findById(id).get();
+        topic.setBoard(board);
+        topicService.save(topic);
+        return topic;
+    }
+
 
 }

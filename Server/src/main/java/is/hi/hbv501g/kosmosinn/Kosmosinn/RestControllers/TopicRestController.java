@@ -50,13 +50,6 @@ public class TopicRestController {
         return commentService.findAllByTopicId(id);
     }
 
-    @PostMapping(value = "/{id}/addTopic", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Topic addTopic(@PathVariable("id") long id, @RequestBody Topic topic) {
-        Board board = boardService.findById(id).get();
-        topic.setBoard(board);
-        topicService.save(topic);
-        return topic;
-    }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Topic editTopic(@Valid @PathVariable("id") long id, @RequestBody Topic editedTopic) {
@@ -83,4 +76,5 @@ public class TopicRestController {
             topicService.delete(topic);
         }
     }
+
 }
