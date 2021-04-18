@@ -87,12 +87,25 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/boards_view"
-        android:layout_width="276dp"
-        android:layout_height="354dp"
+        android:layout_width="352dp"
+        android:layout_height="434dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.36" />
+        app:layout_constraintVertical_bias="0.131" />
+
+    <Button
+        android:id="@+id/add_board_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addboard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/boards_view"
+        app:layout_constraintVertical_bias="0.208" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

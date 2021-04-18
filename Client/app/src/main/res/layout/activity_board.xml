@@ -20,11 +20,22 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/topic_view"
-        android:layout_width="253dp"
-        android:layout_height="398dp"
+        android:layout_width="350dp"
+        android:layout_height="547dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/add_topic_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addtopic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/topic_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

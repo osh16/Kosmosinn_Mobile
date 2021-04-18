@@ -285,24 +285,6 @@ public class NetworkController {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("OSKAR", body.toString());
-                Log.d("addTopic:", error.toString());
             }
         }
         )  {
@@ -422,6 +404,56 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
+
+    public void addComment(int id, Comment newComment, final NetworkCallback<Comment> callback) {
+        final JSONObject body = new JSONObject();
+        final JSONObject userBody = new JSONObject();
+        try {
+            User user = newComment.getUser();
+            userBody.put("id", user.getId());
+            userBody.put("username", user.getUsername());
+            body.put("user", userBody);
+            body.put("commentText", newComment.getCommentText());
+        } catch (JSONException e) {
+            Log.d("addComment", e.getMessage());
+        }
+
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("topics")
+                .appendPath(String.valueOf(id))
+                .appendPath("addComment")
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("addComment:", response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, body.toString());
+            }
+        }
+        )  {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+        };
+        mQueue.add(request);
+    }
+
     public void getAllUsers(final NetworkCallback<List<User>> callback) {
 
         StringRequest request = new StringRequest(

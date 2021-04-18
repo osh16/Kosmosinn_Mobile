@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mLoginButton;
     private Button mSignupButton;
+    private Button mAddBoardButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         mBoardView = (RecyclerView) findViewById(R.id.boards_view);
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
         mSignupButton = (Button) findViewById(R.id.signup_activity_button);
+        mAddBoardButton = (Button) findViewById(R.id.add_board_button);
 
         NetworkController networkController = NetworkController.getInstance(this);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +83,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Signup");
                 Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mAddBoardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick -> Add Board");
+                Intent intent = new Intent(MainActivity.this, AddBoardActivity.class);
                 startActivity(intent);
             }
         });
