@@ -39,13 +39,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String AUTHORIZATION = "";
+        /**
+         * Possibly a better way to do this.
+         * authorization created and sought from intent extras if there are any.
+         * Bearer token string to send with rest requests.
+         * */
+        String authorization = "";
 
         if (getIntent().hasExtra("Authorization")) {
-            AUTHORIZATION = getIntent().getStringExtra("Authorization");
+            authorization = getIntent().getStringExtra("Authorization");
         }
-
-        Log.d(TAG, "Authies" + AUTHORIZATION);
 
         mBoardView = (RecyclerView) findViewById(R.id.boards_view);
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
