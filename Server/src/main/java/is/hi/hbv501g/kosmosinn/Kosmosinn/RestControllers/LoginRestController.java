@@ -52,16 +52,16 @@ public class LoginRestController {
      * Þetta er eiginlega klárað, gæti þurft að breyta einhverju returni fer eftir hvað við viljum senda úr þessu.
      */
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String login(@RequestBody() User user) {
+    public String login(@RequestBody() User user, HttpServletResponse response, HttpServletRequest request) throws java.io.IOException {
 		User exists = userService.findByUserame(user.getUsername());
 		if (exists != null) {
 
             if (exists.getPassword().equals(user.getPassword())) {
                 String token = getJWTToken(exists.getPassword());
                 user.setToken(token);
-                return token;
-                //response.setHeader("Bearer", token.split(" ")[1]);
-                //return "{ \"Bearer\":" + " \"" + token.split(" ")[1] + "\" }";
+                response.setCharacterEncoding("UTF-8");
+                response.addHeader("Authorization", token);
+                return "{ \"Bearer\": " + "\"" + token.split(" ")[1] + "\" }";
             } else {
                 return "Password does not match";
             }
@@ -77,7 +77,7 @@ public class LoginRestController {
 		String token = getJWTToken(user.getPassword());
 		User newUser = new User(user.getUsername(), user.getPassword(), "USER", token);
 		userService.save(newUser);
-        return user;
+        return newUser;
 	}
 
     private String getJWTToken(String username) {

@@ -2,7 +2,9 @@ package is.hi.hbv601g.kosmosinn_mobile.Controllers;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
@@ -12,6 +14,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -23,7 +28,7 @@ import is.hi.hbv601g.kosmosinn_mobile.Entities.User;
 
 public class NetworkController {
 
-    private static final String BASE_URL = "http://10.0.2.2:8080";
+    private static final String BASE_URL = "http://192.168.1.31:8080";
     private static NetworkController mInstance;
     private static RequestQueue mQueue;
     private Context mContext;
@@ -338,6 +343,7 @@ public class NetworkController {
                 .appendPath(String.valueOf(id))
                 .build().toString();
 
+
         StringRequest request = new StringRequest(
                 Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -351,12 +357,67 @@ public class NetworkController {
             public void onErrorResponse(VolleyError error) {
                 callback.onFailure(error.toString());
             }
-        }
-        );
+        });
+
         request.setRetryPolicy(new DefaultRetryPolicy(
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
+    public void login(String username, String password, final NetworkCallback<JSONObject> callback) {
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("login")
+                .build().toString();
+
+        final JSONObject body = new JSONObject();
+        try {
+            body.put("username", username);
+            body.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        StringRequest request = new StringRequest(
+                Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+
+                try {
+                    JSONObject token = new JSONObject(response);
+                    callback.onSuccess(token);
+
+                } catch (JSONException err) {
+                    Log.d("E", err.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        ) {
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=UTF-8; ";
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
         mQueue.add(request);
     }
 }

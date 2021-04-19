@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Select Board");
         Intent intent = new Intent(MainActivity.this, BoardActivity.class);
         intent.putExtra("boardid", id);
+        Log.d("Intent ", intent.getStringExtra("Bearer"));
         startActivity(intent);
     }
 }
