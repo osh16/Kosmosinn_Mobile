@@ -71,8 +71,9 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (JSONException err) {
                     Log.d("Error ", err.toString());
                 }
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class).putExtra("Bearer", token);
-                Log.d("Intent ", intent.getStringExtra("Bearer"));
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class)
+                        .putExtra("Authorization", "Bearer " + token);
+                Log.d("LoginActivity ", intent.getStringExtra("Authorization"));
                 startActivity(intent);
             }
 

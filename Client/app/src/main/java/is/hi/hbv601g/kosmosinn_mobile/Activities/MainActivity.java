@@ -34,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String AUTHORIZATION = "";
+
+        if (getIntent().hasExtra("Authorization")) {
+            AUTHORIZATION = getIntent().getStringExtra("Authorization");
+        }
+
+        Log.d(TAG, "Authies" + AUTHORIZATION);
+
         mBoardView = (RecyclerView) findViewById(R.id.boards_view);
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
         mSignupButton = (Button) findViewById(R.id.signup_activity_button);
@@ -52,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Signup");
                 Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+
                 startActivity(intent);
             }
         });
@@ -81,9 +90,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectBoard(int id) {
         Log.d(TAG, "Select Board");
-        Intent intent = new Intent(MainActivity.this, BoardActivity.class);
+
+        String authorization = "null";
+
+        if (getIntent().hasExtra("Authorization")) {
+            authorization = getIntent().getStringExtra("Authorization");
+        }
+
+        Intent intent = new Intent(MainActivity.this, BoardActivity.class)
+                .putExtra("Authorization", authorization);
+
+        Log.d(TAG, authorization);
+
         intent.putExtra("boardid", id);
-        Log.d("Intent ", intent.getStringExtra("Bearer"));
+
         startActivity(intent);
     }
 }
