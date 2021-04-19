@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -81,7 +82,13 @@ public class AddTopicActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(AddTopicActivity.this, BoardActivity.class);
                 intent.putExtra("boardid", mBoardId);
-                startActivity(intent);
+                new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                startActivity(intent);
+                            }
+                        },
+                        50);
             }
         });
     }

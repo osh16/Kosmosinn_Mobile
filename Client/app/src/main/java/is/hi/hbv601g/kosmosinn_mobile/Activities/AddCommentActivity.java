@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -67,7 +68,13 @@ public class AddCommentActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(AddCommentActivity.this, TopicActivity.class);
                 intent.putExtra("topicid", mTopicId);
-                startActivity(intent);
+                new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                startActivity(intent);
+                            }
+                        },
+                        50);
             }
         });
     }

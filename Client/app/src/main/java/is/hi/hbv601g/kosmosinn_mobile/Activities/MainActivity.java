@@ -48,33 +48,9 @@ public class MainActivity extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.d(TAG, "onClick -> Login");
-                //Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                //startActivity(intent);
-                networkController.getUser(1, new NetworkCallback<User>() {
-                    @Override
-                    public void onSuccess(User result) {
-                        mUser = result;
-                        Topic topic = new Topic(1, mUser, "topic", "ass", 1, 1, "mars", "april");
-                        networkController.addTopic(1, topic, new NetworkCallback<Topic>() {
-                            @Override
-                            public void onSuccess(Topic result) {
-                            }
-
-                            @Override
-                            public void onFailure(String errorString) {
-                            }
-                        });
-                        Log.d("OSKAR", "USER: " + mUser.getUsername());
-                        Log.d("OSKAR", "USER: " + mUser.getRole());
-                    }
-
-                    @Override
-                    public void onFailure(String errorString) {
-                        Log.d("OSKAR", errorString.toString());
-                    }
-                });
-
+                Log.d(TAG, "onClick -> Login");
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
 
