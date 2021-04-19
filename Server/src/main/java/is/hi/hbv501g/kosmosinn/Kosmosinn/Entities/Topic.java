@@ -1,8 +1,6 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.lang.reflect.Array;
@@ -36,6 +34,7 @@ public class Topic{
     @ManyToOne
     private Board board;
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     @ManyToOne
     private User user;
 

@@ -28,6 +28,7 @@ public class BoardActivity extends AppCompatActivity {
     private int mBoardId;
     private int mUserId;
     private Button mBackButton;
+    private Button mAddTopicButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class BoardActivity extends AppCompatActivity {
 
         mTopicView = (RecyclerView) findViewById(R.id.topic_view);
         mBackButton = (Button) findViewById(R.id.board_back_button);
+        mAddTopicButton = (Button) findViewById(R.id.add_topic_button);
         mBoardId = getIntent().getIntExtra("boardid",0);
         mUserId = getIntent().getIntExtra("userid", 0);
 
@@ -57,6 +59,16 @@ public class BoardActivity extends AppCompatActivity {
         else {
             getTopicsByUser(networkController);
         }
+
+        mAddTopicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick -> Add Topic");
+                Intent intent = new Intent(BoardActivity.this, AddTopicActivity.class);
+                intent.putExtra("boardid", mBoardId);
+                startActivity(intent);
+            }
+        });
     }
 
     public void getTopicsByBoard(NetworkController networkController) {

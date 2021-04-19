@@ -8,4 +8,9 @@
     <string name="home">Heim</string>
     <string name="userComments">Comments by User</string>
     <string name="userTopics">Topics by User</string>
+    <string name="addboard">Add Board</string>
+    <string name="addtopic">Add Topic</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="addcomment">Add Comment</string>
 </resources>

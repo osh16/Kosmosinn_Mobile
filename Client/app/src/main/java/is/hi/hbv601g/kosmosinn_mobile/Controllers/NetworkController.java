@@ -32,6 +32,7 @@ public class NetworkController {
     private static NetworkController mInstance;
     private static RequestQueue mQueue;
     private Context mContext;
+    private static final String TAG = "NetworkController";
 
     public static synchronized  NetworkController getInstance(Context context) {
         if (mInstance == null) {
@@ -91,7 +92,7 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Board board = gson.fromJson(response, Board.class);
                 callback.onSuccess(board);
-           }
+            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -103,6 +104,49 @@ public class NetworkController {
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+    public void addBoard(Board newBoard, final NetworkCallback<Board> callback) {
+        final JSONObject body = new JSONObject();
+        try {
+            body.put("name", newBoard.getName());
+            body.put("description", newBoard.getDescription());
+        } catch (JSONException e) {
+            Log.d("addBoard", e.getMessage());
+        }
+
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("boards")
+                .appendPath("addBoard")
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("addBoard:", response.toString());
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                       Log.d("addBoard:", error.toString());
+                    }
+                }
+        )  {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+        };
         mQueue.add(request);
     }
     public void getAllTopics(final NetworkCallback<List<Topic>> callback) {
@@ -205,6 +249,55 @@ public class NetworkController {
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+    public void addTopic(int id, Topic newTopic, final NetworkCallback<Topic> callback) {
+        final JSONObject body = new JSONObject();
+        final JSONObject userBody = new JSONObject();
+        try {
+            User user = newTopic.getUser();
+            userBody.put("id", user.getId());
+            userBody.put("username", user.getUsername());
+            body.put("user", userBody);
+            body.put("topicName", newTopic.getTopicName());
+            body.put("topicContent", newTopic.getTopicContent());
+        } catch (JSONException e) {
+            Log.d("addTopic", e.getMessage());
+        }
+
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("boards")
+                .appendPath(String.valueOf(id))
+                .appendPath("addTopic")
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("addTopic:", response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("OSKAR", body.toString());
+            }
+        }
+        )  {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+        };
         mQueue.add(request);
     }
     public void getAllComments(final NetworkCallback<List<Comment>> callback) {
@@ -311,6 +404,56 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
+
+    public void addComment(int id, Comment newComment, final NetworkCallback<Comment> callback) {
+        final JSONObject body = new JSONObject();
+        final JSONObject userBody = new JSONObject();
+        try {
+            User user = newComment.getUser();
+            userBody.put("id", user.getId());
+            userBody.put("username", user.getUsername());
+            body.put("user", userBody);
+            body.put("commentText", newComment.getCommentText());
+        } catch (JSONException e) {
+            Log.d("addComment", e.getMessage());
+        }
+
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("topics")
+                .appendPath(String.valueOf(id))
+                .appendPath("addComment")
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("addComment:", response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, body.toString());
+            }
+        }
+        )  {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+        };
+        mQueue.add(request);
+    }
+
     public void getAllUsers(final NetworkCallback<List<User>> callback) {
 
         StringRequest request = new StringRequest(

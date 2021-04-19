@@ -29,6 +29,7 @@ public class TopicActivity extends AppCompatActivity {
     private int mTopicId;
     private int mUserId;
     private Button mBackButton;
+    private Button mAddCommentButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class TopicActivity extends AppCompatActivity {
 
         mCommentView = (RecyclerView) findViewById(R.id.comment_view);
         mBackButton = (Button) findViewById(R.id.topic_back_button);
+        mAddCommentButton = (Button) findViewById(R.id.add_comment_button);
         mTopicId = getIntent().getIntExtra("topicid",0);
         mUserId = getIntent().getIntExtra("userid", 0);
 
@@ -59,6 +61,16 @@ public class TopicActivity extends AppCompatActivity {
         else {
             getCommentsByUser(networkController);
         }
+
+        mAddCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick -> Add Comment");
+                Intent intent = new Intent(TopicActivity.this, AddCommentActivity.class);
+                intent.putExtra("topicid", mTopicId);
+                startActivity(intent);
+            }
+        });
     }
 
     public void getCommentsByTopic(NetworkController networkController) {

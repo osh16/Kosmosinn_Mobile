@@ -11,6 +11,8 @@ public class User {
     private String mUsername;
     @SerializedName("role")
     private String mRole;
+    @SerializedName("token")
+    private String mToken;
     @SerializedName("userCreatedDate")
     private String mUserCreatedDate;
     @SerializedName("lastOnlineDate")
