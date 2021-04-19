@@ -77,7 +77,7 @@ public class TopicRestController {
         //}
     }
 
-    @PostMapping(value = "/{id}/addComment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+/*    @PostMapping(value = "/{id}/addComment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Comment addComment(@PathVariable("topicId") long topicId, @PathVariable("id") long id, @RequestBody Comment comment) {
         //User currentUser = (User) session.getAttribute("loggedinuser");
         //if (comment.getUser().getId() == currentUser.getId()) {
@@ -86,5 +86,5 @@ public class TopicRestController {
         commentService.save(comment);
         //}
         return comment;
-    }
+    }*/
 }
