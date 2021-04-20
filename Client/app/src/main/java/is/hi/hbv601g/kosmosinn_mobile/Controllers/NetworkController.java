@@ -28,7 +28,7 @@ import is.hi.hbv601g.kosmosinn_mobile.Entities.User;
 
 public class NetworkController {
 
-    private static final String BASE_URL = "http://192.168.1.31:8080";
+    private static final String BASE_URL = "http://10.0.2.2:8080";
     private static NetworkController mInstance;
     private static RequestQueue mQueue;
     private Context mContext;

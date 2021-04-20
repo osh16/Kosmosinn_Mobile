@@ -74,7 +74,7 @@ public class AddCommentActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         },
-                        50);
+                        100);
             }
         });
     }
