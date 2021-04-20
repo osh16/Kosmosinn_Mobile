@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +39,11 @@ public class LoginRestController {
     private BoardService boardService;
     private CommentService commentService;
 
+    @Value("${jwt.token.expiration}")
+    private int tokenExpirationDate;
+
+    private String tokenSecret = "yWApLPb31b/GqmVnMCQPc4I+VydfY1tUluia1kez7BVT7xkOAsTZKksnEFYxMsCmn9buHl2Cg22NB23gYYQmePYiFb2R0Pv1/5gozdCOQ3c7dH5tIPNMLpYUCcVl8zhzWD00vkwqujpOZf7sTdoN8fbt+IYl19UEyoMPhaYilEVoz3VM2A7hJnEuEkC++2av4DNdKrvlVH67dbzJioD37unIUIAN3VsJVWwvAA";
+
     @Autowired
     public LoginRestController(UserService userService, TopicService topicService, BoardService boardService, CommentService commentService) {
         this.userService = userService;
@@ -57,7 +64,8 @@ public class LoginRestController {
 		if (exists != null) {
 
             if (exists.getPassword().equals(user.getPassword())) {
-                String token = getJWTToken(exists.getPassword());
+                System.out.println(exists.getRole());
+                String token = getJWTToken(exists.getUsername(), exists.getRole());
                 user.setToken(token);
                 response.setCharacterEncoding("UTF-8");
                 response.addHeader("Authorization", token);
@@ -74,29 +82,32 @@ public class LoginRestController {
 	public User signUp(@RequestBody() User user) {
         // ekkert check hvort username se thegar til
         User exists = userService.findByUserame(user.getUsername());
-		String token = getJWTToken(user.getPassword());
+		String token = getJWTToken(user.getPassword(), "USER");
 		User newUser = new User(user.getUsername(), user.getPassword(), "USER", token);
 		userService.save(newUser);
         return newUser;
 	}
 
-    private String getJWTToken(String username) {
-		String secretKey = "mySecretKey";
-		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList("ROLE_USER");
-		
+    private String getJWTToken(String username, String role) {
+        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+            .commaSeparatedStringToAuthorityList("ROLE_USER");
+
+        if (role.equals("ADMIN")) {
+            grantedAuthorities = AuthorityUtils
+            .commaSeparatedStringToAuthorityList("ROLE_USER, ROLE_ADMIN");
+        }
+
 		String token = Jwts
 				.builder()
-				.setId("softtekJWT")
 				.setSubject(username)
 				.claim("authorities",
 						grantedAuthorities.stream()
 								.map(GrantedAuthority::getAuthority)
 								.collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 600000))
+				.setExpiration(new Date(System.currentTimeMillis() + 30000))
 				.signWith(SignatureAlgorithm.HS512,
-						secretKey.getBytes()).compact();
+						tokenSecret.getBytes()).compact();
 
 		return "Bearer " + token;
 	}
