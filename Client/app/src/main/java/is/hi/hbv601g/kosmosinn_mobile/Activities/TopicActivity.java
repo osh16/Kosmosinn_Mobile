@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.net.Network;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -32,10 +34,12 @@ public class TopicActivity extends AppCompatActivity {
     private int mTopicId;
     private int mUserId;
 
+    private Button mHomeButton;
     private Button mBackButton;
     private Button mEditTopicButton;
     private Button mDeleteTopicButton;
     private Button mAddCommentButton;
+    private TextView mTopicHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class TopicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_topic);
 
         mCommentView = (RecyclerView) findViewById(R.id.comment_view);
+        mTopicHeader = (TextView) findViewById(R.id.topic_header);
+        mHomeButton = (Button) findViewById(R.id.topic_home_button);
         mBackButton = (Button) findViewById(R.id.topic_back_button);
         mEditTopicButton = (Button) findViewById(R.id.topic_edit_button);
         mDeleteTopicButton = (Button) findViewById(R.id.topic_delete_button);
@@ -66,14 +72,44 @@ public class TopicActivity extends AppCompatActivity {
             }
         });
 
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                new Runnable() {
+                    public void run() {
+                        mTopicHeader.setText(mTopic.getTopicName());
+                    }
+                },
+                100);
+
         Log.d(TAG, "Topic id = " + mTopicId);
         Log.d(TAG, "Button: " + mBackButton);
+
+        mHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Log.d(TAG, "onClick -> Til baka");
+                Intent intent = new Intent(TopicActivity.this, MainActivity.class);
+                startActivity(intent);*/
+                networkController.deleteComment(mTopicId,33, new NetworkCallback<Comment>() {
+                    @Override
+                    public void onSuccess(Comment result) {
+                        Log.d(TAG, "Comment deleted");
+                    }
+
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.d(TAG, errorString);
+                    }
+                });
+                Intent intent = new Intent(TopicActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick -> Til baka");
-                Intent intent = new Intent(TopicActivity.this, MainActivity.class);
+                Intent intent = new Intent(TopicActivity.this, BoardActivity.class);
+                intent.putExtra("boardid", mBoardId);
                 startActivity(intent);
             }
         });
@@ -124,6 +160,8 @@ public class TopicActivity extends AppCompatActivity {
         }
         else {
             getCommentsByUser(networkController);
+            mAddCommentButton.setVisibility(View.GONE);
+            mBackButton.setVisibility(View.GONE);
         }
 
         mAddCommentButton.setOnClickListener(new View.OnClickListener() {

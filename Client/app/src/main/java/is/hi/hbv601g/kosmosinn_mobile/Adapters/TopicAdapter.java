@@ -50,6 +50,8 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
                 ((BoardActivity)mContext).selectTopic(mTopics[position].getId());
             }
         });
+        String s = String.valueOf(mTopics[position].getTopicPoints());
+        holder.topicPoints.setText(s);
     }
 
     @Override
@@ -58,12 +60,13 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.TopicHolder>
     }
 
     public class TopicHolder extends RecyclerView.ViewHolder {
-        TextView user, topicName;
+        TextView user, topicName, topicPoints;
 
         public TopicHolder (@NonNull View itemView) {
             super(itemView);
             user = itemView.findViewById(R.id.topic_user);
             topicName = itemView.findViewById(R.id.topic_name);
+            topicPoints = itemView.findViewById(R.id.topic_points);
         }
     }
 }

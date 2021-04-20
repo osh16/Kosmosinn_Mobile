@@ -567,7 +567,6 @@ public class NetworkController {
         mQueue.add(request);
     }
 
-    // Tharf ad laga
     public void deleteComment(int topicId, int id, final NetworkCallback<Comment> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
@@ -575,6 +574,7 @@ public class NetworkController {
                 .appendPath("topics")
                 .appendPath(String.valueOf(topicId))
                 .appendPath("deleteComment")
+                .appendPath(String.valueOf(id))
                 .build().toString();
 
         StringRequest request = new StringRequest(

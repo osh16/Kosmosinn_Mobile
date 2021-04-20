@@ -37,6 +37,8 @@ public class UserActivity extends AppCompatActivity {
         mCommentsButton = (Button) findViewById(R.id.user_comments_button);
 
         mUserText.setText(mUsername);
+        mTopicsButton.setText("Topics by " + mUsername);
+        mCommentsButton.setText("Comments by " + mUsername);
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override

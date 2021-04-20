@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
@@ -73,87 +74,103 @@ public class AddTopicActivity extends AppCompatActivity {
         });
 
         if (mEdit) {
-            //mTopicName.setHint(mTopic.getTopicName());
-            //mTopicContent.setHint(mTopic.getTopicContent());
-            mSubmitButton.setText("Edit Topic");
-            mSubmitButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    networkController.getUser(1, new NetworkCallback<User>() {
-                        @Override
-                        public void onSuccess(User result) {
-                            mUser = result;
-                            String name = mTopicName.getText().toString();
-                            String content = mTopicContent.getText().toString();
-                            mTopic.setTopicName(name);
-                            mTopic.setTopicContent(content);
-                            networkController.editTopic(mTopicId, mTopic, new NetworkCallback<Topic>() {
-                                @Override
-                                public void onSuccess(Topic result) {
-                                }
-
-                                @Override
-                                public void onFailure(String errorString) {
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(String errorString) {
-                            Log.d(TAG, errorString.toString());
-                        }
-                    });
-                    Intent intent = new Intent(AddTopicActivity.this, BoardActivity.class);
-                    intent.putExtra("boardid", mBoardId);
-                    //startActivity(intent);
-                    new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                            new Runnable() {
-                                public void run() {
-                                    startActivity(intent);
-                                }
-                            },
-                            100);
-                }
-            });
+            editThisTopic(networkController);
         } else {
-            mSubmitButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    networkController.getUser(1, new NetworkCallback<User>() {
-                        @Override
-                        public void onSuccess(User result) {
-                            mUser = result;
-                            String name = mTopicName.getText().toString();
-                            String content = mTopicContent.getText().toString();
-                            mTopic = new Topic(mBoardId, mUser, name, content, 0, 0, "mars", "april");
-                            networkController.addTopic(mBoardId, mTopic, new NetworkCallback<Topic>() {
-                                @Override
-                                public void onSuccess(Topic result) {
-                                }
-
-                                @Override
-                                public void onFailure(String errorString) {
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFailure(String errorString) {
-                            Log.d(TAG, errorString.toString());
-                        }
-                    });
-
-                    Intent intent = new Intent(AddTopicActivity.this, BoardActivity.class);
-                    intent.putExtra("boardid", mBoardId);
-                    new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                            new Runnable() {
-                                public void run() {
-                                    startActivity(intent);
-                                }
-                            },
-                            100);
-                }
-            });
+            addThisTopic(networkController);
         }
+    }
+
+    private void addThisTopic(NetworkController networkController) {
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                networkController.getUser(1, new NetworkCallback<User>() {
+                    @Override
+                    public void onSuccess(User result) {
+                        mUser = result;
+                        String name = mTopicName.getText().toString();
+                        String content = mTopicContent.getText().toString();
+                        mTopic = new Topic(mBoardId, mUser, name, content, 0, 0, "mars", "april");
+                        networkController.addTopic(mBoardId, mTopic, new NetworkCallback<Topic>() {
+                            @Override
+                            public void onSuccess(Topic result) {
+                            }
+
+                            @Override
+                            public void onFailure(String errorString) {
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.d(TAG, errorString.toString());
+                    }
+                });
+
+                Intent intent = new Intent(AddTopicActivity.this, BoardActivity.class);
+                intent.putExtra("boardid", mBoardId);
+                new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                startActivity(intent);
+                            }
+                        },
+                        100);
+            }
+        });
+    }
+
+    private void editThisTopic(NetworkController networkController) {
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                new Runnable() {
+                    public void run() {
+                        mTopicName.setHint(mTopic.getTopicName());
+                        mTopicContent.setHint(mTopic.getTopicContent());
+                        Log.d(TAG, "Topic>>>>>>> " + mTopic);
+                    }
+                },
+                100);
+
+        mSubmitButton.setText("Edit Topic");
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                networkController.getUser(1, new NetworkCallback<User>() {
+                    @Override
+                    public void onSuccess(User result) {
+                        mUser = result;
+                        String name = mTopicName.getText().toString();
+                        String content = mTopicContent.getText().toString();
+                        mTopic.setTopicName(name);
+                        mTopic.setTopicContent(content);
+                        networkController.editTopic(mTopicId, mTopic, new NetworkCallback<Topic>() {
+                            @Override
+                            public void onSuccess(Topic result) {
+                            }
+
+                            @Override
+                            public void onFailure(String errorString) {
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.d(TAG, errorString.toString());
+                    }
+                });
+                Intent intent = new Intent(AddTopicActivity.this, BoardActivity.class);
+                intent.putExtra("boardid", mBoardId);
+                //startActivity(intent);
+                new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                        new Runnable() {
+                            public void run() {
+                                startActivity(intent);
+                            }
+                        },
+                        100);
+            }
+        });
     }
 }
