@@ -125,6 +125,7 @@ public class BoardActivity extends AppCompatActivity {
         Log.d(TAG, "Select Topic");
         Intent intent = new Intent(BoardActivity.this, TopicActivity.class);
         intent.putExtra("topicid", id);
+        intent.putExtra("boardid", mBoardId);
         startActivity(intent);
     }
 

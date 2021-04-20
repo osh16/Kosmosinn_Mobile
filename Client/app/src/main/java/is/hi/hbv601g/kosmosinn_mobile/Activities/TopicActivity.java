@@ -17,6 +17,7 @@ import is.hi.hbv601g.kosmosinn_mobile.Adapters.CommentAdapter;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Comment;
+import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
 import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class TopicActivity extends AppCompatActivity {
@@ -26,9 +27,14 @@ public class TopicActivity extends AppCompatActivity {
     private CommentAdapter mCommentAdapter;
 
     private Comment[] mComments;
+    private Topic mTopic;
+    private int mBoardId;
     private int mTopicId;
     private int mUserId;
+
     private Button mBackButton;
+    private Button mEditTopicButton;
+    private Button mDeleteTopicButton;
     private Button mAddCommentButton;
 
     @Override
@@ -38,9 +44,27 @@ public class TopicActivity extends AppCompatActivity {
 
         mCommentView = (RecyclerView) findViewById(R.id.comment_view);
         mBackButton = (Button) findViewById(R.id.topic_back_button);
+        mEditTopicButton = (Button) findViewById(R.id.topic_edit_button);
+        mDeleteTopicButton = (Button) findViewById(R.id.topic_delete_button);
         mAddCommentButton = (Button) findViewById(R.id.add_comment_button);
+
         mTopicId = getIntent().getIntExtra("topicid",0);
+        mBoardId = getIntent().getIntExtra("boardid",0);
         mUserId = getIntent().getIntExtra("userid", 0);
+
+        NetworkController networkController = NetworkController.getInstance(this);
+
+        networkController.getTopic(mTopicId, new NetworkCallback<Topic>() {
+            @Override
+            public void onSuccess(Topic result) {
+                mTopic = result;
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.d(TAG, errorString);
+            }
+        });
 
         Log.d(TAG, "Topic id = " + mTopicId);
         Log.d(TAG, "Button: " + mBackButton);
@@ -54,7 +78,47 @@ public class TopicActivity extends AppCompatActivity {
             }
         });
 
-        NetworkController networkController = NetworkController.getInstance(this);
+        mEditTopicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                networkController.editTopic(mTopicId, mTopic, new NetworkCallback<Topic>() {
+                    @Override
+                    public void onSuccess(Topic result) {
+                        Log.d(TAG, "Topic edited");
+                    }
+
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.d(TAG, errorString);
+                    }
+                });
+                Intent intent = new Intent(TopicActivity.this, AddTopicActivity.class);
+                intent.putExtra("edittopic", true);
+                intent.putExtra("boardid", mBoardId);
+                intent.putExtra("topicid", mTopicId);
+                startActivity(intent);
+            }
+        });
+
+        mDeleteTopicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                networkController.deleteTopic(mTopicId, new NetworkCallback<Topic>() {
+                    @Override
+                    public void onSuccess(Topic result) {
+                        Log.d(TAG, "Topic deleted");
+                    }
+
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.d(TAG, errorString);
+                    }
+                });
+                Intent intent = new Intent(TopicActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         if (mTopicId != 0) {
             getCommentsByTopic(networkController);
         }

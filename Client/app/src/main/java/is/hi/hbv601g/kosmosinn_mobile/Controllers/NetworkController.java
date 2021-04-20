@@ -149,6 +149,38 @@ public class NetworkController {
         };
         mQueue.add(request);
     }
+
+    public void deleteBoard(int id, final NetworkCallback<Board> callback) {
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("boards")
+                .appendPath(String.valueOf(id))
+                .appendPath("delete")
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Board board = gson.fromJson(response, Board.class);
+                callback.onSuccess(board);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
     public void getAllTopics(final NetworkCallback<List<Topic>> callback) {
 
         StringRequest request = new StringRequest(
@@ -300,6 +332,87 @@ public class NetworkController {
         };
         mQueue.add(request);
     }
+
+    public void editTopic(int id, Topic newTopic, final NetworkCallback<Topic> callback) {
+        final JSONObject body = new JSONObject();
+        final JSONObject userBody = new JSONObject();
+        try {
+            User user = newTopic.getUser();
+            userBody.put("id", user.getId());
+            userBody.put("username", user.getUsername());
+            body.put("user", userBody);
+            body.put("topicName", newTopic.getTopicName());
+            body.put("topicContent", newTopic.getTopicContent());
+        } catch (JSONException e) {
+            Log.d("editTopic", e.getMessage());
+        }
+
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("topics")
+                .appendPath(String.valueOf(id))
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.PATCH,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("editTopic:", response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, body.toString());
+            }
+        }
+        )  {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+        };
+        mQueue.add(request);
+    }
+
+    public void deleteTopic(int id, final NetworkCallback<Topic> callback) {
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("topics")
+                .appendPath(String.valueOf(id))
+                .appendPath("delete")
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Topic topic = gson.fromJson(response, Topic.class);
+                callback.onSuccess(topic);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
     public void getAllComments(final NetworkCallback<List<Comment>> callback) {
 
         StringRequest request = new StringRequest(
@@ -451,6 +564,38 @@ public class NetworkController {
                 return body.toString().getBytes();
             }
         };
+        mQueue.add(request);
+    }
+
+    // Tharf ad laga
+    public void deleteComment(int topicId, int id, final NetworkCallback<Comment> callback) {
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("topics")
+                .appendPath(String.valueOf(topicId))
+                .appendPath("deleteComment")
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Comment comment = gson.fromJson(response, Comment.class);
+                callback.onSuccess(comment);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
 

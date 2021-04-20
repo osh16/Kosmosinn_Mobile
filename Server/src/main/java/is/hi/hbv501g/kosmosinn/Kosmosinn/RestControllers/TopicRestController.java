@@ -54,9 +54,9 @@ public class TopicRestController {
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Topic editTopic(@Valid @PathVariable("id") long id, @RequestBody Topic editedTopic) {
         Topic topic = topicService.findById(id).get();
-        User currentUser = (User) session.getAttribute("loggedinuser");
+        /*User currentUser = (User) session.getAttribute("loggedinuser");
         User user = userService.findById(id).get();
-        if (userService.isAdmin(currentUser) || user.getId() == currentUser.getId()) {
+        if (userService.isAdmin(currentUser) || user.getId() == currentUser.getId()) {*/
             if (editedTopic.getTopicName() != null) {
                 topic.setTopicName(editedTopic.getTopicName());
             }
@@ -64,7 +64,7 @@ public class TopicRestController {
                 topic.setTopicContent(editedTopic.getTopicContent());
             }
             topicService.save(topic);
-        }
+        //}
         return topic;
     }
 
@@ -76,15 +76,4 @@ public class TopicRestController {
             topicService.delete(topic);
         //}
     }
-
-/*    @PostMapping(value = "/{id}/addComment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Comment addComment(@PathVariable("topicId") long topicId, @PathVariable("id") long id, @RequestBody Comment comment) {
-        //User currentUser = (User) session.getAttribute("loggedinuser");
-        //if (comment.getUser().getId() == currentUser.getId()) {
-        Topic topic = topicService.findById(id).get();
-        comment.setTopic(topic);
-        commentService.save(comment);
-        //}
-        return comment;
-    }*/
 }
