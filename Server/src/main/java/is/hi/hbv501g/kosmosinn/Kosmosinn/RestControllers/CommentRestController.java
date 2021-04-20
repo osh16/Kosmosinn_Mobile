@@ -69,13 +69,13 @@ public class CommentRestController {
         return comment;
     }
 
-    @DeleteMapping("/deleteComment")
+    @DeleteMapping("/deleteComment/{id}")
     public void deleteComment(@Valid @PathVariable("topicId") long topicId, @PathVariable("id") long id) {
-        User currentUser = (User) session.getAttribute("loggedinuser");
+        //User currentUser = (User) session.getAttribute("loggedinuser");
         Topic topic = topicService.findById(topicId).get();
         Comment comment = commentService.findById(id).get();
-        if (userService.isAdmin(currentUser) || comment.getUser().getId() == currentUser.getId()) {
+        //if (userService.isAdmin(currentUser) || comment.getUser().getId() == currentUser.getId()) {
             commentService.delete(comment);
-        }
+        //}
     }
 }

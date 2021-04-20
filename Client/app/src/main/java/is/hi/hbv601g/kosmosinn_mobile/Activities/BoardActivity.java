@@ -6,15 +6,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 import is.hi.hbv601g.kosmosinn_mobile.Adapters.TopicAdapter;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
+import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
 import is.hi.hbv601g.kosmosinn_mobile.R;
 
@@ -27,8 +32,10 @@ public class BoardActivity extends AppCompatActivity {
     private Topic[] mTopics;
     private int mBoardId;
     private int mUserId;
+    private Board mBoard;
     private Button mBackButton;
     private Button mAddTopicButton;
+    private TextView mBoardHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +43,33 @@ public class BoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board);
 
         mTopicView = (RecyclerView) findViewById(R.id.topic_view);
+        mBoardHeader = (TextView) findViewById(R.id.board_header);
         mBackButton = (Button) findViewById(R.id.board_back_button);
         mAddTopicButton = (Button) findViewById(R.id.add_topic_button);
         mBoardId = getIntent().getIntExtra("boardid",0);
         mUserId = getIntent().getIntExtra("userid", 0);
+
+        NetworkController networkController = NetworkController.getInstance(this);
+
+        networkController.getBoard(mBoardId, new NetworkCallback<Board>() {
+            @Override
+            public void onSuccess(Board result) {
+                mBoard = result;
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.d(TAG, errorString);
+            }
+        });
+
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                new Runnable() {
+                    public void run() {
+                        mBoardHeader.setText(mBoard.getName());
+                    }
+                },
+                100);
 
         Log.d(TAG, "Board id = " + mBoardId);
 
@@ -52,12 +82,13 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
 
-        NetworkController networkController = NetworkController.getInstance(this);
         if (mBoardId != 0) {
             getTopicsByBoard(networkController);
         }
         else {
             getTopicsByUser(networkController);
+            mAddTopicButton.setVisibility(View.GONE);
+            mBackButton.setVisibility(View.GONE);
         }
 
         mAddTopicButton.setOnClickListener(new View.OnClickListener() {
