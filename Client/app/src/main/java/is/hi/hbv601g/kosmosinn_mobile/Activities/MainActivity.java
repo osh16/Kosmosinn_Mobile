@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,17 +40,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                "KosmosinnSharedPref",
+                MODE_PRIVATE);
+
         /**
          * Possibly a better way to do this.
          * authorization created and sought from intent extras if there are any.
          * Bearer token string to send with rest requests.
-         * */
+         *
         String authorization = "";
 
         if (getIntent().hasExtra("Authorization")) {
             authorization = getIntent().getStringExtra("Authorization");
         }
-
+        */
         mBoardView = (RecyclerView) findViewById(R.id.boards_view);
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
         mSignupButton = (Button) findViewById(R.id.signup_activity_button);
@@ -79,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Add Board");
+
                 Intent intent = new Intent(MainActivity.this, AddBoardActivity.class);
+
                 startActivity(intent);
             }
         });
@@ -109,16 +116,7 @@ public class MainActivity extends AppCompatActivity {
     public void selectBoard(int id) {
         Log.d(TAG, "Select Board");
 
-        String authorization = "null";
-
-        if (getIntent().hasExtra("Authorization")) {
-            authorization = getIntent().getStringExtra("Authorization");
-        }
-
-        Intent intent = new Intent(MainActivity.this, BoardActivity.class)
-                .putExtra("Authorization", authorization);
-
-        Log.d(TAG, authorization);
+        Intent intent = new Intent(MainActivity.this, BoardActivity.class);
 
         intent.putExtra("boardid", id);
 

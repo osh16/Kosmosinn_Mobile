@@ -19,7 +19,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Comment;
@@ -106,7 +108,7 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
-    public void addBoard(Board newBoard, final NetworkCallback<Board> callback) {
+    public void addBoard(Board newBoard, String token, final NetworkCallback<Board> callback) {
         final JSONObject body = new JSONObject();
         try {
             body.put("name", newBoard.getName());
@@ -145,6 +147,14 @@ public class NetworkController {
             @Override
             public byte[] getBody() throws AuthFailureError {
                 return body.toString().getBytes();
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
             }
         };
         mQueue.add(request);

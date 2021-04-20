@@ -3,6 +3,7 @@ package is.hi.hbv601g.kosmosinn_mobile.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -58,7 +59,14 @@ public class AddBoardActivity extends AppCompatActivity {
                 String description = mBoardDescription.getText().toString();
                 mBoard = new Board(name, description);
 
-                networkController.addBoard(mBoard, new NetworkCallback<Board>() {
+                SharedPreferences sharedPreferences = getSharedPreferences(
+                        "KosmosinnSharedPref",
+                        MODE_PRIVATE);
+
+
+                String token = sharedPreferences.getString("Authorization", "");
+
+                networkController.addBoard(mBoard, token, new NetworkCallback<Board>() {
                     @Override
                     public void onSuccess(Board result) {
                         Log.d(TAG, "Board " + mBoard.getName() + " added");
@@ -71,6 +79,7 @@ public class AddBoardActivity extends AppCompatActivity {
                 });
 
                 Intent intent = new Intent(AddBoardActivity.this, MainActivity.class);
+
                 new android.os.Handler(Looper.getMainLooper()).postDelayed(
                         new Runnable() {
                             public void run() {

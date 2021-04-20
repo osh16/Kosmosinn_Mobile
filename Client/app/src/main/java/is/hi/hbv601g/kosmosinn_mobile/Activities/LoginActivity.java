@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -71,9 +72,16 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (JSONException err) {
                     Log.d("Error ", err.toString());
                 }
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class)
-                        .putExtra("Authorization", "Bearer " + token);
-                Log.d("LoginActivity ", intent.getStringExtra("Authorization"));
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                SharedPreferences sharedPreferences = getSharedPreferences(
+                        "KosmosinnSharedPref",
+                        MODE_PRIVATE);
+
+                SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                myEdit.putString("Authorization", "Bearer " + token);
+                myEdit.commit();
+
                 startActivity(intent);
             }
 
