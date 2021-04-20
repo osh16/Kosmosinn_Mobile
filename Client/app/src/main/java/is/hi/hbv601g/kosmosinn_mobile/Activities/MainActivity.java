@@ -39,6 +39,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /**
+         * Possibly a better way to do this.
+         * authorization created and sought from intent extras if there are any.
+         * Bearer token string to send with rest requests.
+         * */
+        String authorization = "";
+
+        if (getIntent().hasExtra("Authorization")) {
+            authorization = getIntent().getStringExtra("Authorization");
+        }
+
         mBoardView = (RecyclerView) findViewById(R.id.boards_view);
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
         mSignupButton = (Button) findViewById(R.id.signup_activity_button);
@@ -59,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Signup");
                 Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+
                 startActivity(intent);
             }
         });
@@ -96,8 +108,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectBoard(int id) {
         Log.d(TAG, "Select Board");
-        Intent intent = new Intent(MainActivity.this, BoardActivity.class);
+
+        String authorization = "null";
+
+        if (getIntent().hasExtra("Authorization")) {
+            authorization = getIntent().getStringExtra("Authorization");
+        }
+
+        Intent intent = new Intent(MainActivity.this, BoardActivity.class)
+                .putExtra("Authorization", authorization);
+
+        Log.d(TAG, authorization);
+
         intent.putExtra("boardid", id);
+
         startActivity(intent);
     }
 }

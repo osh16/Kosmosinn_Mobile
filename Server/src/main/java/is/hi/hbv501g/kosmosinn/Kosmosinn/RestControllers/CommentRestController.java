@@ -35,7 +35,7 @@ public class CommentRestController {
     @Autowired
     HttpSession session;
 
-    /*
+    /* Þetta ætti að virka núna
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Comment> getAllComments() {
         return commentService.findAll();

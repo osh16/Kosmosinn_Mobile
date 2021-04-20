@@ -23,7 +23,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	private final String HEADER = "Authorization";
-	private final String PREFIX = "Bearer ";
+	private final String PREFIX = "\"Bearer\": ";
 	private final String SECRET = "mySecretKey";
 
 	@Override

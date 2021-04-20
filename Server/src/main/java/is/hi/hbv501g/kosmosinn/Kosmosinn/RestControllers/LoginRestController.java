@@ -51,29 +51,33 @@ public class LoginRestController {
     /**
      * Þetta er eiginlega klárað, gæti þurft að breyta einhverju returni fer eftir hvað við viljum senda úr þessu.
      */
-    @PostMapping("/login")
-	public String login(@RequestParam("username") String username, @RequestParam("password") String pwd, HttpServletRequest request, HttpServletResponse response) {
-		User user = userService.findByUserame(username);
-        
-        if (pwd.equals(user.getPassword())) {
-            String token = getJWTToken(pwd);
-            user.setToken(token);
-            response.setHeader("Bearer", token.split(" ")[1]);
-            return "{ \"Bearer\":" + " \"" + token.split(" ")[1] + "\" }";
-        } else if (user == null) {
-            return "User not found";
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String login(@RequestBody() User user, HttpServletResponse response, HttpServletRequest request) throws java.io.IOException {
+		User exists = userService.findByUserame(user.getUsername());
+		if (exists != null) {
+
+            if (exists.getPassword().equals(user.getPassword())) {
+                String token = getJWTToken(exists.getPassword());
+                user.setToken(token);
+                response.setCharacterEncoding("UTF-8");
+                response.addHeader("Authorization", token);
+                return "{ \"Bearer\": " + "\"" + token.split(" ")[1] + "\" }";
+            } else {
+                return "Password does not match";
+            }
+        } else {
+		    return "User not found";
         }
-		
-        return "Password does not match";
 	}
 
-    @PostMapping("/signup")
-	public User signUp(@RequestParam("username") String username, @RequestParam("password") String pwd) {
-		
-		String token = getJWTToken(pwd);
-		User user = new User(username, pwd, "USER", token);
-		
-        return user;
+    @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public User signUp(@RequestBody() User user) {
+        // ekkert check hvort username se thegar til
+        User exists = userService.findByUserame(user.getUsername());
+		String token = getJWTToken(user.getPassword());
+		User newUser = new User(user.getUsername(), user.getPassword(), "USER", token);
+		userService.save(newUser);
+        return newUser;
 	}
 
     private String getJWTToken(String username) {
