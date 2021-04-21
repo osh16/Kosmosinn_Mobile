@@ -7,12 +7,14 @@ import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.BoardService;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.CommentService;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.TopicService;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.crypto.SecretKey;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +24,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -41,7 +44,7 @@ public class LoginRestController {
 
 
     @Value("${jwt.token.expiration}")
-    private String tokenExpirationDate;
+    private int tokenExpirationDate;
 
     @Value("${jwt.token.secret}")
     private String tokenSecret;
@@ -57,6 +60,16 @@ public class LoginRestController {
     @Autowired
     HttpSession session;
 
+
+    @GetMapping(value = "/token")
+    public String getTokenInformation(HttpServletRequest request) throws java.io.IOException {
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        Claims claims = Jwts.parser().setSigningKey(tokenSecret.getBytes()).parseClaimsJws(token).getBody();
+        
+        return "{\n" + "\t" + "\"user\": " + "\"" + claims.get("user") + "\"," + "\n\t" + "\"id\": " + "\"" + claims.get("userId") + "\"" + "\n" + "}";
+
+    }
+
     /**
      * Þetta er eiginlega klárað, gæti þurft að breyta einhverju returni fer eftir hvað við viljum senda úr þessu.
      */
@@ -66,7 +79,7 @@ public class LoginRestController {
 		if (exists != null) {
             if (exists.getPassword().equals(user.getPassword())) {
                 System.out.println(exists.getRole());
-                String token = getJWTToken(exists.getUsername(), exists.getRole());
+                String token = getJWTToken(exists.getUsername(), exists.getRole(), exists.getId());
                 user.setToken(token);
                 user.setLastOnline();
                 response.setCharacterEncoding("UTF-8");
@@ -89,8 +102,9 @@ public class LoginRestController {
 	public User signUp(@RequestBody() User user) {
         User exists = userService.findByUserame(user.getUsername());
         if (exists == null) {
-            String token = getJWTToken(user.getUsername(), "USER");
-            User newUser = new User(user.getUsername(), user.getPassword(), "USER", token);
+            User newUser = new User(user.getUsername(), user.getPassword(), "USER", "");
+            String token = getJWTToken(newUser.getUsername(), "USER", newUser.getId());
+            newUser.setToken(token);
             newUser.setUserCreated();
             newUser.setLastOnline();
             userService.save(newUser);
@@ -99,7 +113,7 @@ public class LoginRestController {
         return null;
 	}
 
-    private String getJWTToken(String username, String role) {
+    private String getJWTToken(String username, String role, long id) {
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
             .commaSeparatedStringToAuthorityList("ROLE_USER");
 
@@ -110,16 +124,19 @@ public class LoginRestController {
 
 		String token = Jwts
 				.builder()
-				.setSubject(username)
+				.setSubject(username+id)
 				.claim("authorities",
 						grantedAuthorities.stream()
 								.map(GrantedAuthority::getAuthority)
 								.collect(Collectors.toList()))
+                .claim("user", username)
+                .claim("userId", id)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + tokenExpirationDate))
-				.signWith(SignatureAlgorithm.HS512,
+                .signWith(SignatureAlgorithm.HS512,
 						tokenSecret.getBytes()).compact();
 
 		return "Bearer " + token;
 	}
+
 }
