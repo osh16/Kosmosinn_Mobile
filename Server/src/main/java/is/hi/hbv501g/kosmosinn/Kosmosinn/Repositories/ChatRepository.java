@@ -1,6 +1,7 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Repositories;
 
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.Chat;
+import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.Message;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,5 +12,8 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     Chat save(Chat chat);
     void delete(Chat chat);
     List<Chat> findAll();
+    List<Message> findAllByUser(User user);
     Optional<Chat> findById(long id);
+    Chat findByUserIdAndUserId(long id1, long id2);
+    List<Chat> findByUser(User user);
 }

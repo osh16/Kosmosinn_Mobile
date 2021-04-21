@@ -36,6 +36,7 @@ public class User {
 	@Column(nullable = false)
 	public String role;
 
+	@JsonIgnore
 	@Column(nullable = false)
 	public String token;
 

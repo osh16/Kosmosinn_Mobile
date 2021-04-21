@@ -10,14 +10,16 @@ public class Message {
     private long id;
     private String header;
     private String message;
+    private User user;
 
     // skilabod getur tilheyrt einu spjalli
     @ManyToOne
     private Chat chat;
 
-    public Message(String header, String message, Chat chat) {
+    public Message(String header, String message, User user, Chat chat) {
         this.header = header;
         this.message = message;
+        this.user = user;
         this.chat = chat;
     }
 

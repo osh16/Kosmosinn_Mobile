@@ -34,6 +34,11 @@ public class ChatServiceImplementation implements ChatService {
 
     @Override
     public List<Chat> findByUser(User user) {
-        return null;
+        return repository.findByUser(user);
+    }
+
+    @Override
+    public Chat findByUserIdAndUserId(long id1, long id2) {
+        return repository.findByUserIdAndUserId(id1, id2);
     }
 }

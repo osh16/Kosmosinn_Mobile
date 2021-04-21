@@ -41,7 +41,7 @@ public class LoginRestController {
 
 
     @Value("${jwt.token.expiration}")
-    private String tokenExpirationDate;
+    private Integer tokenExpirationDate;
 
     @Value("${jwt.token.secret}")
     private String tokenSecret;
@@ -71,11 +71,6 @@ public class LoginRestController {
                 user.setLastOnline();
                 response.setCharacterEncoding("UTF-8");
                 response.addHeader("Authorization", token);
-                System.out.println("=============");
-                System.out.println("LoginRestController");
-                System.out.println("TOKENSECRET: " + tokenSecret);
-                System.out.println("USER GET TOKEN: " + user.getToken());
-                System.out.println("=============");
                 return "{ \"Bearer\": " + "\"" + token.split(" ")[1] + "\" }";
             } else {
                 return "Password does not match";
@@ -89,7 +84,7 @@ public class LoginRestController {
 	public User signUp(@RequestBody() User user) {
         User exists = userService.findByUserame(user.getUsername());
         if (exists == null) {
-            String token = getJWTToken(user.getPassword(), "USER");
+            String token = getJWTToken(user.getUsername(), "USER");
             User newUser = new User(user.getUsername(), user.getPassword(), "USER", token);
             newUser.setUserCreated();
             newUser.setLastOnline();
