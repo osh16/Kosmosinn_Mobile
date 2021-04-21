@@ -690,7 +690,7 @@ public class NetworkController {
                     callback.onSuccess(token);
 
                 } catch (JSONException err) {
-                    Log.d("E", err.toString());
+                    Log.d("login", err.toString());
                 }
             }
         }, new Response.ErrorListener() {
@@ -715,6 +715,53 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
+
+        mQueue.add(request);
+    }
+
+    public void getCurrentUser(String token, final NetworkCallback<JSONObject> callback) {
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("token")
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.GET,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Gson gson = new Gson();
+
+                        try {
+                            JSONObject user = new JSONObject(response);
+                            callback.onSuccess(user);
+
+                        } catch (JSONException err) {
+                            Log.d("getCurrentUser", err.toString());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("getCurrentUser:", error.toString());
+            }
+        }
+        )  {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
+            }
+        };
 
         mQueue.add(request);
     }

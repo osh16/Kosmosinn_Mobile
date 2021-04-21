@@ -43,18 +43,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(
                 "KosmosinnSharedPref",
                 MODE_PRIVATE);
-
-        /**
-         * Possibly a better way to do this.
-         * authorization created and sought from intent extras if there are any.
-         * Bearer token string to send with rest requests.
-         *
-        String authorization = "";
-
-        if (getIntent().hasExtra("Authorization")) {
-            authorization = getIntent().getStringExtra("Authorization");
-        }
-        */
+        
         mBoardView = (RecyclerView) findViewById(R.id.boards_view);
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
         mSignupButton = (Button) findViewById(R.id.signup_activity_button);
