@@ -67,7 +67,6 @@ public class LoginRestController {
         Claims claims = Jwts.parser().setSigningKey(tokenSecret.getBytes()).parseClaimsJws(token).getBody();
         
         return "{\n" + "\t" + "\"user\": " + "\"" + claims.get("user") + "\"," + "\n\t" + "\"id\": " + "\"" + claims.get("userId") + "\"" + "\n" + "}";
-
     }
 
     /**
