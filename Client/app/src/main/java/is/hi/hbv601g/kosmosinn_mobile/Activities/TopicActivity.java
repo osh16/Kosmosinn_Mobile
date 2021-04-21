@@ -33,6 +33,7 @@ public class TopicActivity extends AppCompatActivity {
     private int mBoardId;
     private int mTopicId;
     private int mUserId;
+    private String mUsername;
 
     private Button mHomeButton;
     private Button mBackButton;
@@ -57,6 +58,7 @@ public class TopicActivity extends AppCompatActivity {
         mTopicId = getIntent().getIntExtra("topicid",0);
         mBoardId = getIntent().getIntExtra("boardid",0);
         mUserId = getIntent().getIntExtra("userid", 0);
+        mUsername = getIntent().getStringExtra("username");
 
         NetworkController networkController = NetworkController.getInstance(this);
 
@@ -71,14 +73,6 @@ public class TopicActivity extends AppCompatActivity {
                 Log.d(TAG, errorString);
             }
         });
-
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    public void run() {
-                        mTopicHeader.setText(mTopic.getTopicName());
-                    }
-                },
-                100);
 
         Log.d(TAG, "Topic id = " + mTopicId);
         Log.d(TAG, "Button: " + mBackButton);
@@ -157,11 +151,19 @@ public class TopicActivity extends AppCompatActivity {
 
         if (mTopicId != 0) {
             getCommentsByTopic(networkController);
+            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            mTopicHeader.setText(mTopic.getTopicName());
+                        }
+                    },
+                    200);
         }
         else {
             getCommentsByUser(networkController);
             mAddCommentButton.setVisibility(View.GONE);
             mBackButton.setVisibility(View.GONE);
+            mTopicHeader.setText(mUsername);
         }
 
         mAddCommentButton.setOnClickListener(new View.OnClickListener() {

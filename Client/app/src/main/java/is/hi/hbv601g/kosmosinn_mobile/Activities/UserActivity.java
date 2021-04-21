@@ -54,6 +54,7 @@ public class UserActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserActivity.this, BoardActivity.class);
                 intent.putExtra("userid", mUserId);
+                intent.putExtra("username", mUsername);
                 startActivity(intent);
             }
         });
@@ -63,6 +64,7 @@ public class UserActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserActivity.this, TopicActivity.class);
                 intent.putExtra("userid", mUserId);
+                intent.putExtra("username", mUsername);
                 startActivity(intent);
             }
         });
