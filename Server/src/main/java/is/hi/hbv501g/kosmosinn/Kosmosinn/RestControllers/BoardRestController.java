@@ -52,10 +52,6 @@ public class BoardRestController {
 
    @PostMapping(value = "/addBoard", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Board addBoard(@RequestBody Board board) {
-
-        //User currentUser = (User) session.getAttribute("loggedinuser");
-        //if (userService.isAdmin(currentUser)) {
-        //}
         boardService.save(board);
         return board;
     }

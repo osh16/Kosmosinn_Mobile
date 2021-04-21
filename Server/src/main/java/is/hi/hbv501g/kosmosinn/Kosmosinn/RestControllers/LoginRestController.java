@@ -39,10 +39,12 @@ public class LoginRestController {
     private BoardService boardService;
     private CommentService commentService;
 
-    @Value("${jwt.token.expiration}")
-    private int tokenExpirationDate;
 
-    private String tokenSecret = "yWApLPb31b/GqmVnMCQPc4I+VydfY1tUluia1kez7BVT7xkOAsTZKksnEFYxMsCmn9buHl2Cg22NB23gYYQmePYiFb2R0Pv1/5gozdCOQ3c7dH5tIPNMLpYUCcVl8zhzWD00vkwqujpOZf7sTdoN8fbt+IYl19UEyoMPhaYilEVoz3VM2A7hJnEuEkC++2av4DNdKrvlVH67dbzJioD37unIUIAN3VsJVWwvAA";
+    @Value("${jwt.token.expiration}")
+    private String tokenExpirationDate;
+
+    @Value("${jwt.token.secret}")
+    private String tokenSecret;
 
     @Autowired
     public LoginRestController(UserService userService, TopicService topicService, BoardService boardService, CommentService commentService) {
@@ -62,13 +64,18 @@ public class LoginRestController {
     public String login(@RequestBody() User user, HttpServletResponse response, HttpServletRequest request) throws java.io.IOException {
 		User exists = userService.findByUserame(user.getUsername());
 		if (exists != null) {
-
             if (exists.getPassword().equals(user.getPassword())) {
                 System.out.println(exists.getRole());
                 String token = getJWTToken(exists.getUsername(), exists.getRole());
                 user.setToken(token);
+                user.setLastOnline();
                 response.setCharacterEncoding("UTF-8");
                 response.addHeader("Authorization", token);
+                System.out.println("=============");
+                System.out.println("LoginRestController");
+                System.out.println("TOKENSECRET: " + tokenSecret);
+                System.out.println("USER GET TOKEN: " + user.getToken());
+                System.out.println("=============");
                 return "{ \"Bearer\": " + "\"" + token.split(" ")[1] + "\" }";
             } else {
                 return "Password does not match";
@@ -80,12 +87,16 @@ public class LoginRestController {
 
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public User signUp(@RequestBody() User user) {
-        // ekkert check hvort username se thegar til
         User exists = userService.findByUserame(user.getUsername());
-		String token = getJWTToken(user.getPassword(), "USER");
-		User newUser = new User(user.getUsername(), user.getPassword(), "USER", token);
-		userService.save(newUser);
-        return newUser;
+        if (exists == null) {
+            String token = getJWTToken(user.getPassword(), "USER");
+            User newUser = new User(user.getUsername(), user.getPassword(), "USER", token);
+            newUser.setUserCreated();
+            newUser.setLastOnline();
+            userService.save(newUser);
+            return newUser;
+        }
+        return null;
 	}
 
     private String getJWTToken(String username, String role) {
@@ -105,7 +116,7 @@ public class LoginRestController {
 								.map(GrantedAuthority::getAuthority)
 								.collect(Collectors.toList()))
 				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + 30000))
+				.setExpiration(new Date(System.currentTimeMillis() + tokenExpirationDate))
 				.signWith(SignatureAlgorithm.HS512,
 						tokenSecret.getBytes()).compact();
 

@@ -1,6 +1,7 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,15 +19,13 @@ import org.springframework.http.HttpMethod;
 
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-/**
- * @author Siva
- *
- */
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter 
-{
-       
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${jwt.token.secret}")
+    private String tokenSecret;
+
     @Autowired
     private UserDetailsService customUserDetailsService;
     
@@ -36,21 +35,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     }
     
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) 
-        throws Exception 
-    {
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-            .userDetailsService(customUserDetailsService)
-            .passwordEncoder(passwordEncoder())
-            ;
+            .userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	http.csrf().disable()
-				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.addFilterAfter(new JWTAuthorizationFilter(tokenSecret), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
+				.antMatchers(HttpMethod.POST, "/login", "/signup", "/api/login", "/api/signup").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/boards/addBoard").hasRole("ADMIN")
 				.antMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN");
         

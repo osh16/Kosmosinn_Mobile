@@ -25,12 +25,22 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	private final String HEADER = "Authorization";
 	private final String PREFIX = "Bearer ";
+	private String tokenSecret;
 
-    private String tokenSecret = "yWApLPb31b/GqmVnMCQPc4I+VydfY1tUluia1kez7BVT7xkOAsTZKksnEFYxMsCmn9buHl2Cg22NB23gYYQmePYiFb2R0Pv1/5gozdCOQ3c7dH5tIPNMLpYUCcVl8zhzWD00vkwqujpOZf7sTdoN8fbt+IYl19UEyoMPhaYilEVoz3VM2A7hJnEuEkC++2av4DNdKrvlVH67dbzJioD37unIUIAN3VsJVWwvAA";
+	public JWTAuthorizationFilter(String tokenSecret) {
+		this.tokenSecret = tokenSecret;
+	}
+
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-		
+		System.out.println("=============");
+		System.out.println("cringe");
+		System.out.println("TOKENSECRET: " + tokenSecret);
+		System.out.println("TOKENSECRET: " + tokenSecret);
+		System.out.println("TOKENSECRET: " + tokenSecret);
+		System.out.println("TOKENSECRET: " + tokenSecret);
+		System.out.println("=============");
 		try {
 			if (checkJWTToken(request, response)) {
 				Claims claims = validateToken(request);
@@ -52,14 +62,14 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	private Claims validateToken(HttpServletRequest request) {
 		String jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
+		System.out.println("=============");
+		System.out.println("validateToken");
+		System.out.println("TOKENSECRET: " + tokenSecret);
+		System.out.println("JWT TOKEN: " + jwtToken);
+		System.out.println("=============");
 		return Jwts.parser().setSigningKey(tokenSecret.getBytes()).parseClaimsJws(jwtToken).getBody();
 	}
 
-	/**
-	 * Authentication method in Spring flow
-	 * 
-	 * @param claims
-	 */
 	private void setUpSpringAuthentication(Claims claims) {
 		@SuppressWarnings("unchecked")
 		List<String> authorities = (List) claims.get("authorities");
