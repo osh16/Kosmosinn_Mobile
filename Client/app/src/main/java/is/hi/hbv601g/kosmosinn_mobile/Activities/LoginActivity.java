@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -62,18 +64,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(NetworkController networkController) {
-        networkController.login(mUsernameField.getText().toString(), mPasswordField.getText().toString(), new NetworkCallback<JSONObject>() {
+        networkController.login(mUsernameField.getText().toString(),
+                mPasswordField.getText().toString(),
+                new NetworkCallback<JSONObject>() {
 
             @Override
-            public void onSuccess(JSONObject result) {
-                Log.d(TAG, "User: " + String.valueOf(result));
-                String token = "noToken";
-                try {
-                    token = result.get("token").toString();
-                    Log.d("Token: ", token);
-                } catch (JSONException err) {
-                    Log.d("Error ", err.toString());
-                }
+            public void onSuccess(JSONObject result) throws JSONException {
+                String token = result.getString("token");
+                String username = result.getString("username");
+                int userId = result.getInt("userId");
+
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
                 SharedPreferences sharedPreferences = getSharedPreferences(
@@ -82,6 +82,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 SharedPreferences.Editor myEdit = sharedPreferences.edit();
                 myEdit.putString("Authorization", token);
+                myEdit.putString("username", username);
+                myEdit.putInt("userId", userId);
                 myEdit.commit();
 
                 startActivity(intent);

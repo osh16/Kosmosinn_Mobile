@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -32,6 +33,11 @@ public class UserActivity extends AppCompatActivity {
 
     private int mUserId;
     private String mUsername;
+
+    private String mCurrentUsername;
+    private int mCurrentUserId;
+    private String mToken;
+
     private List<Comment> mCommentList;
     private Comment[] mComments;
     private String mComment;
@@ -64,6 +70,14 @@ public class UserActivity extends AppCompatActivity {
         mUserText.setText(mUsername);
         mTopicsButton.setText("Topics by " + mUsername);
         mCommentsButton.setText("Comments by " + mUsername);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                "KosmosinnSharedPref",
+                MODE_PRIVATE);
+
+        mToken = sharedPreferences.getString("Authorization", "");
+        mCurrentUserId = sharedPreferences.getInt("userId", 0);
+        mCurrentUsername = sharedPreferences.getString("username", "");
 
         NetworkController networkController = NetworkController.getInstance(this);
 
@@ -114,7 +128,7 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void addComment(NetworkController networkController) {
-        networkController.getUser(1, new NetworkCallback<User>() {
+        networkController.getUser(mCurrentUserId, mToken, new NetworkCallback<User>() {
             @Override
             public void onSuccess(User result) {
                 mComment = mCommentForm.getText().toString();

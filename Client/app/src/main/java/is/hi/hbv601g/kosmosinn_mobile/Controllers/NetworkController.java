@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
@@ -64,7 +65,11 @@ public class NetworkController {
                     Gson gson = new Gson();
                     Type listType = new TypeToken<List<Board>>(){}.getType();
                     List<Board> boards = gson.fromJson(response, listType);
+                try {
                     callback.onSuccess(boards);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -93,7 +98,11 @@ public class NetworkController {
             public void onResponse(String response) {
                 Gson gson = new Gson();
                 Board board = gson.fromJson(response, Board.class);
-                callback.onSuccess(board);
+                try {
+                    callback.onSuccess(board);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -175,7 +184,11 @@ public class NetworkController {
             public void onResponse(String response) {
                 Gson gson = new Gson();
                 Board board = gson.fromJson(response, Board.class);
-                callback.onSuccess(board);
+                try {
+                    callback.onSuccess(board);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -200,7 +213,11 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Topic>>(){}.getType();
                 List<Topic> topics = gson.fromJson(response, listType);
-                callback.onSuccess(topics);
+                try {
+                    callback.onSuccess(topics);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -224,7 +241,11 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Topic>>(){}.getType();
                 List<Topic> topics = gson.fromJson(response, listType);
-                callback.onSuccess(topics);
+                try {
+                    callback.onSuccess(topics);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -248,7 +269,11 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Topic>>(){}.getType();
                 List<Topic> topics = gson.fromJson(response, listType);
-                callback.onSuccess(topics);
+                try {
+                    callback.onSuccess(topics);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -272,7 +297,11 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Topic>>(){}.getType();
                 List<Topic> topics = gson.fromJson(response, listType);
-                callback.onSuccess(topics);
+                try {
+                    callback.onSuccess(topics);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -302,7 +331,11 @@ public class NetworkController {
             public void onResponse(String response) {
                 Gson gson = new Gson();
                 Topic topic = gson.fromJson(response, Topic.class);
-                callback.onSuccess(topic);
+                try {
+                    callback.onSuccess(topic);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -317,7 +350,7 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
-    public void addTopic(int id, Topic newTopic, final NetworkCallback<Topic> callback) {
+    public void addTopic(int id, String token, Topic newTopic, final NetworkCallback<Topic> callback) {
         final JSONObject body = new JSONObject();
         final JSONObject userBody = new JSONObject();
         try {
@@ -431,7 +464,11 @@ public class NetworkController {
             public void onResponse(String response) {
                 Gson gson = new Gson();
                 Topic topic = gson.fromJson(response, Topic.class);
-                callback.onSuccess(topic);
+                try {
+                    callback.onSuccess(topic);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -456,7 +493,11 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Topic>>(){}.getType();
                 List<Comment> comments = gson.fromJson(response, listType);
-                callback.onSuccess(comments);
+                try {
+                    callback.onSuccess(comments);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -482,7 +523,11 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Comment>>(){}.getType();
                 List<Comment> comments = gson.fromJson(response, listType);
-                callback.onSuccess(comments);
+                try {
+                    callback.onSuccess(comments);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -506,7 +551,11 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Comment>>(){}.getType();
                 List<Comment> comments = gson.fromJson(response, listType);
-                callback.onSuccess(comments);
+                try {
+                    callback.onSuccess(comments);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -531,7 +580,11 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Comment>>(){}.getType();
                 List<Comment> comments = gson.fromJson(response, listType);
-                callback.onSuccess(comments);
+                try {
+                    callback.onSuccess(comments);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -561,7 +614,11 @@ public class NetworkController {
             public void onResponse(String response) {
                 Gson gson = new Gson();
                 Comment comment = gson.fromJson(response, Comment.class);
-                callback.onSuccess(comment);
+                try {
+                    callback.onSuccess(comment);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -696,7 +753,11 @@ public class NetworkController {
             public void onResponse(String response) {
                 Gson gson = new Gson();
                 Comment comment = gson.fromJson(response, Comment.class);
-                callback.onSuccess(comment);
+                try {
+                    callback.onSuccess(comment);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -721,7 +782,11 @@ public class NetworkController {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Topic>>(){}.getType();
                 List<User> users = gson.fromJson(response, listType);
-                callback.onSuccess(users);
+                try {
+                    callback.onSuccess(users);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -736,7 +801,7 @@ public class NetworkController {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
-    public void getUser(int id, final NetworkCallback<User> callback) {
+    public void getUser(int id, String token, final NetworkCallback<User> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("api")
@@ -751,14 +816,31 @@ public class NetworkController {
             public void onResponse(String response) {
                 Gson gson = new Gson();
                 User user = gson.fromJson(response, User.class);
-                callback.onSuccess(user);
+                try {
+                    callback.onSuccess(user);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 callback.onFailure(error.toString());
             }
-        });
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
+            }
+        };
 
         request.setRetryPolicy(new DefaultRetryPolicy(
                 100000,
@@ -786,15 +868,20 @@ public class NetworkController {
                 Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Gson gson = new Gson();
+                JSONObject res = new JSONObject();
+                try {
+                    res = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 try {
-                    JSONObject token = new JSONObject(response);
-                    callback.onSuccess(token);
-
-                } catch (JSONException err) {
-                    Log.d("login", err.toString());
+                    Log.d(TAG, res.toString());
+                    callback.onSuccess(res);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
             }
         }, new Response.ErrorListener() {
             @Override

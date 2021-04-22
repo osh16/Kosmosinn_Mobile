@@ -3,6 +3,7 @@ package is.hi.hbv601g.kosmosinn_mobile.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -25,6 +26,10 @@ public class AddCommentActivity extends AppCompatActivity {
     private Button mSubmitButton;
     private EditText mCommentText;
 
+    private String mToken;
+    private int mUserId;
+    private String mUsername;
+
     private User mUser;
     private int mTopicId;
 
@@ -40,10 +45,18 @@ public class AddCommentActivity extends AppCompatActivity {
 
         NetworkController networkController = NetworkController.getInstance(this);
 
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                "KosmosinnSharedPref",
+                MODE_PRIVATE);
+
+        mToken = sharedPreferences.getString("Authorization", "");
+        mUserId = sharedPreferences.getInt("userId", 0);
+        mUsername = sharedPreferences.getString("username", "");
+
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkController.getUser(1, new NetworkCallback<User>() {
+                networkController.getUser(mUserId, mToken, new NetworkCallback<User>() {
                     @Override
                     public void onSuccess(User result) {
                         mUser = result;

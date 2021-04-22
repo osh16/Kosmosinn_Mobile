@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -50,6 +51,10 @@ public class BoardActivity extends AppCompatActivity {
         mBoardId = getIntent().getIntExtra("boardid",0);
         mUserId = getIntent().getIntExtra("userid", 0);
         mUsername = getIntent().getStringExtra("username");
+
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                "KosmosinnSharedPref",
+                MODE_PRIVATE);
 
         NetworkController networkController = NetworkController.getInstance(this);
 
@@ -99,6 +104,7 @@ public class BoardActivity extends AppCompatActivity {
                 Log.d(TAG, "onClick -> Add Topic");
                 Intent intent = new Intent(BoardActivity.this, AddTopicActivity.class);
                 intent.putExtra("boardid", mBoardId);
+                Log.d("Status: ", "Er að fara í addtopic");
                 startActivity(intent);
             }
         });

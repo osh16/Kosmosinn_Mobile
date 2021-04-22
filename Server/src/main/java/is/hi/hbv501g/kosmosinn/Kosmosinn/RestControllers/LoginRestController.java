@@ -35,6 +35,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.json.simple.JSONObject;
+
 @RestController
 @RequestMapping("/api")
 public class LoginRestController {
@@ -65,28 +67,33 @@ public class LoginRestController {
      * Þetta er eiginlega klárað, gæti þurft að breyta einhverju returni fer eftir hvað við viljum senda úr þessu.
      */
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public User login(@RequestBody() User user, HttpServletResponse response, HttpServletRequest request) throws java.io.IOException {
+    public JSONObject login(@RequestBody() User user, HttpServletResponse response, HttpServletRequest request) throws java.io.IOException {
 		User exists = userService.findByUserame(user.getUsername());
+        JSONObject res = new JSONObject();
+
 		if (exists != null) {
             if (exists.getPassword().equals(user.getPassword())) {
                 System.out.println(exists.getRole());
                 String token = getJWTToken(exists.getUsername(), exists.getRole(), exists.getId());
-                user.setToken(token);
                 user.setLastOnline();
                 response.setCharacterEncoding("UTF-8");
                 response.addHeader("Authorization", token);
                 System.out.println("=============");
                 System.out.println("LoginRestController");
                 System.out.println("TOKENSECRET: " + tokenSecret);
-                System.out.println("USER GET TOKEN: " + user.getToken());
                 System.out.println("=============");
-                return user;
+                res.put("userId", exists.getId());
+                res.put("username", exists.getUsername());
+                res.put("token", token);
+                return res;
             } else {
-                return user;
+                res.put("error", "Password is incorrect");
             }
         } else {
-		    return user;
+            res.put("error", "Username is incorrect");
         }
+
+        return res;
 	}
 
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

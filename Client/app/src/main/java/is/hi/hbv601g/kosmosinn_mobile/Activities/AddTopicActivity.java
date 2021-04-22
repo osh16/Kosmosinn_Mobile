@@ -3,6 +3,7 @@ package is.hi.hbv601g.kosmosinn_mobile.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -27,6 +28,10 @@ public class AddTopicActivity extends AppCompatActivity {
     private EditText mTopicName;
     private EditText mTopicContent;
 
+    private String mToken;
+    private int mUserId;
+    private String mUsername;
+
     private User mUser;
     private Topic mTopic;
     private int mBoardId;
@@ -46,6 +51,15 @@ public class AddTopicActivity extends AppCompatActivity {
         mBoardId = getIntent().getIntExtra("boardid", 0);
         mTopicId = getIntent().getIntExtra("topicid", 0);
         mEdit = getIntent().getBooleanExtra("edittopic", false);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                "KosmosinnSharedPref",
+                MODE_PRIVATE);
+
+        mToken = sharedPreferences.getString("Authorization", "");
+        mUserId = sharedPreferences.getInt("userId", 0);
+        mUsername = sharedPreferences.getString("username", "");
+
         Log.d(TAG, "Board id: " + mBoardId);
         Log.d(TAG, "Topic id for edit: " + mTopicId);
         Log.d(TAG, "Edit Topic? " + mEdit);
@@ -81,17 +95,18 @@ public class AddTopicActivity extends AppCompatActivity {
     }
 
     private void addThisTopic(NetworkController networkController) {
+
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkController.getUser(1, new NetworkCallback<User>() {
+                networkController.getUser(mUserId, mToken, new NetworkCallback<User>() {
                     @Override
                     public void onSuccess(User result) {
                         mUser = result;
                         String name = mTopicName.getText().toString();
                         String content = mTopicContent.getText().toString();
                         mTopic = new Topic(mBoardId, mUser, name, content, 0, 0, "mars", "april");
-                        networkController.addTopic(mBoardId, mTopic, new NetworkCallback<Topic>() {
+                        networkController.addTopic(mBoardId, mToken, mTopic, new NetworkCallback<Topic>() {
                             @Override
                             public void onSuccess(Topic result) {
                             }
@@ -136,7 +151,7 @@ public class AddTopicActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkController.getUser(1, new NetworkCallback<User>() {
+                networkController.getUser(mUserId, mToken, new NetworkCallback<User>() {
                     @Override
                     public void onSuccess(User result) {
                         mUser = result;
