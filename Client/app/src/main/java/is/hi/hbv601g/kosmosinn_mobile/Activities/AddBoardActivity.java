@@ -27,6 +27,10 @@ public class AddBoardActivity extends AppCompatActivity {
     private EditText mBoardName;
     private EditText mBoardDescription;
 
+    private String mToken;
+    private String mUsername;
+    private String mUserId;
+
     private User mUser;
     private Board mBoard;
 

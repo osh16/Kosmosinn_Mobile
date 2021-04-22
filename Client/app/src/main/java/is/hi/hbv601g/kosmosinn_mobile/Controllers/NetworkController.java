@@ -195,8 +195,7 @@ public class NetworkController {
             public void onErrorResponse(VolleyError error) {
                 callback.onFailure(error.toString());
             }
-        }
-        );
+        });
         request.setRetryPolicy(new DefaultRetryPolicy(
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -395,6 +394,14 @@ public class NetworkController {
             @Override
             public byte[] getBody() throws AuthFailureError {
                 return body.toString().getBytes();
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
             }
         };
         mQueue.add(request);
