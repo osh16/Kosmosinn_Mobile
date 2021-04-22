@@ -18,4 +18,5 @@ public interface UserService {
 	User login(User user);
 	User currentUser(HttpServletRequest request);
 	boolean isAdmin(User user);
+	List<User> findByUsernameContainsIgnoreCase(String query);
 }

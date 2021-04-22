@@ -4,15 +4,10 @@ import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.Topic;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.User;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Repositories.TopicRepository;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.TopicService;
-import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Id;
-import javax.persistence.OrderBy;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -107,4 +102,7 @@ public class TopicServiceImplementation implements TopicService {
 
     @Override
     public List<Topic> findByOrderByTopicCreatedDesc() { return repository.findByOrderByTopicCreatedDesc(); }
+
+    @Override
+    public List<Topic> findByTopicNameContainsIgnoreCase(String query) { return repository.findByTopicNameContainsIgnoreCase(query); }
 }

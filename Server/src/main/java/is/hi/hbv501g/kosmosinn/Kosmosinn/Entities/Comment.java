@@ -1,6 +1,7 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.sun.istack.Nullable;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -28,6 +29,9 @@ public class Comment{
     @ManyToOne
     private Topic topic;
 
+    @ManyToOne
+    private User userprofile;
+
     private long commentCreated;
 
     private long commentEdited;
@@ -45,6 +49,20 @@ public class Comment{
     public Comment(User user, String commentText) {
         this.user = user;
         this.commentText = commentText;
+    }
+
+    public Comment(User user, User userprofile, String commentText) {
+        this.user = user;
+        this.userprofile = userprofile;
+        this.commentText = commentText;
+    }
+
+    public User getUserprofile() {
+        return userprofile;
+    }
+
+    public void setUserprofile(User userprofile) {
+        this.userprofile = userprofile;
     }
 
     public Comment(User user) {

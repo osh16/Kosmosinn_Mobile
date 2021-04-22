@@ -240,6 +240,30 @@ public class NetworkController {
         mQueue.add(request);
     }
 
+    public void getTopicsBySearch(String query, final NetworkCallback<List<Topic>> callback) {
+        StringRequest request = new StringRequest(
+                Method.GET, BASE_URL + "/api/topics/search/" + query, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Topic>>(){}.getType();
+                List<Topic> topics = gson.fromJson(response, listType);
+                callback.onSuccess(topics);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
     public void getTopicsByUserId(int id, final NetworkCallback<List<Topic>> callback) {
         StringRequest request = new StringRequest(
                 Method.GET, BASE_URL + "/api/users/" + id + "/topics", new Response.Listener<String>() {
@@ -498,6 +522,31 @@ public class NetworkController {
         mQueue.add(request);
     }
 
+    public void getCommentsByUserprofileId(int id, final NetworkCallback<List<Comment>> callback) {
+
+        StringRequest request = new StringRequest(
+                Method.GET, BASE_URL + "/api/users/profile/" + id + "/comments", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Comment>>(){}.getType();
+                List<Comment> comments = gson.fromJson(response, listType);
+                callback.onSuccess(comments);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
     public void getComment(int id, final NetworkCallback<Comment> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
@@ -545,6 +594,60 @@ public class NetworkController {
                 .buildUpon()
                 .appendPath("api")
                 .appendPath("topics")
+                .appendPath(String.valueOf(id))
+                .appendPath("addComment")
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("addComment:", response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, body.toString());
+            }
+        }
+        )  {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+        };
+        mQueue.add(request);
+    }
+
+    public void addCommentToProfile(int id, Comment newComment, final NetworkCallback<Comment> callback) {
+        final JSONObject body = new JSONObject();
+        final JSONObject userBody = new JSONObject();
+        final JSONObject userprofileBody = new JSONObject();
+        try {
+            User user = newComment.getUser();
+            User userprofile = newComment.getUserprofile();
+            userBody.put("id", user.getId());
+            userBody.put("username", user.getUsername());
+            userprofileBody.put("id", userprofile.getId());
+            userprofileBody.put("username", userprofile.getUsername());
+            body.put("user", userBody);
+            body.put("userprofile", userprofileBody);
+            body.put("commentText", newComment.getCommentText());
+        } catch (JSONException e) {
+            Log.d("addComment", e.getMessage());
+        }
+
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("users")
                 .appendPath(String.valueOf(id))
                 .appendPath("addComment")
                 .build().toString();

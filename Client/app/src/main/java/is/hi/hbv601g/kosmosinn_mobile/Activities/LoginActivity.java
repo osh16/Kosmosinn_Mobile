@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String errorString) {
-
+                Toast.makeText(LoginActivity.this, "Username or password incorrect", Toast.LENGTH_SHORT);
                 Log.e(TAG, "Failed to login: " + errorString);
             }
         });

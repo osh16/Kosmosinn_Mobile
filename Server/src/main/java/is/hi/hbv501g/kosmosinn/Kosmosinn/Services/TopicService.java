@@ -19,4 +19,5 @@ public interface TopicService {
     List<Topic> findAllByUserId(long id);
     List<Topic> findByOrderByTopicPointsDesc();
     List<Topic> findByOrderByTopicCreatedDesc();
+    List<Topic> findByTopicNameContainsIgnoreCase(String query);
 }
