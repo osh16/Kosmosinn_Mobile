@@ -96,7 +96,7 @@ public class LoginRestController {
         if (exists == null) {
             User newUser = new User(user.getUsername(), user.getPassword(), "USER", "");
             String token = getJWTToken(newUser.getUsername(), "USER", newUser.getId());
-            newUser.setToken(token);
+            //newUser.setToken(token);
             newUser.setUserCreated();
             newUser.setLastOnline();
             userService.save(newUser);

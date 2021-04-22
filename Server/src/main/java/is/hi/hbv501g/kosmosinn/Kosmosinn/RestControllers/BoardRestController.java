@@ -36,7 +36,6 @@ public class BoardRestController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Board> getAllBoards() {
-        
         return boardService.findAll();
     }
 

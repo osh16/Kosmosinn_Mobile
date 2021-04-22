@@ -37,7 +37,7 @@ public class User {
 	public String role;
 
 	@JsonIgnore
-	@Column(nullable = false)
+	@Column
 	public String token;
 
 	@JsonIgnore // nota /api/users/{id}/topics
@@ -49,13 +49,13 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
 
-	// oll chat sem notandi tilheyrir
-	@OneToMany
-	private List<Chat> chats = new ArrayList<Chat>();
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Message> messagesSent = new ArrayList<>();
 
-	// oll skilabod sem notandi hefur sent
-	@OneToMany
-    private List<Message> messages = new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+	private List<Message> messagesReceived = new ArrayList<>();
 
 	@JsonIgnore
 	public long userCreated;
@@ -81,17 +81,21 @@ public class User {
 	public long getId() {
 		return id;
 	}
+
 	public String getUsername() {
 		return username;
 	}
 
 	public String getPassword() { return password; }
+
 	public String getToken() { return token; }
+
 	public String getRole() { return role; }
 
 	public List<Topic> getTopics() {
 		return topics;
 	}
+
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -114,28 +118,32 @@ public class User {
 		return String.format("%d.%d.%d, %d:%d:%d", ldt.getDayOfMonth(), ldt.getDayOfMonth(), ldt.getYear(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
 	}
 
-	public List<Chat> getChats() {
-		return chats;
+	public List<Message> getMessagesSent() {
+		return messagesSent;
 	}
 
-	public List<Message> getMessages() {
-		return messages;
+	public List<Message> getMessagesReceived() {
+		return messagesReceived;
 	}
 
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public void setToken(String token) {
 		this.token = token;
 	}
 
 	public void setRole(String role) { this.role = role; }
+
 	public void setTopics(List<Topic> topics) {
 		this.topics = topics;
 	}
+
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
@@ -148,5 +156,11 @@ public class User {
 		this.lastOnline = Instant.now().getEpochSecond();
 	}
 
+	public void setMessagesSent(List<Message> messagesSent) {
+		this.messagesSent = messagesSent;
+	}
 
+	public void setMessagesReceived(List<Message> messagesReceived) {
+		this.messagesReceived = messagesReceived;
+	}
 }

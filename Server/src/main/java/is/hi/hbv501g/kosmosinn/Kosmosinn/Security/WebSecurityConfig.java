@@ -36,8 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
     
     @Override
@@ -45,9 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	http.csrf().disable()
 				.addFilterAfter(new JWTAuthorizationFilter(tokenSecret), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/login", "/signup", "/api/login", "/api/signup").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/boards/addBoard").hasRole("ADMIN")
-				.antMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN");
-        
+				.antMatchers(HttpMethod.POST, "/login/**", "/signup/**", "/api/login/**", "/api/signup/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/messages/{id:[\\d+]}/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/boards/addBoard/**").hasRole("ADMIN")
+				.antMatchers(HttpMethod.GET, "/api/users/**").hasRole("ADMIN");
     }
 }

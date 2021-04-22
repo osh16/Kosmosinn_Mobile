@@ -1,6 +1,9 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Entities;
 
 import javax.persistence.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 public class Message {
@@ -8,59 +11,69 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(nullable = false)
     private String header;
+
     @Column(nullable = false)
-    private String message;
+    private String content;
 
-    // hver sendi skilabod
     @ManyToOne
-    private User user;
+    private User from;
 
-    // skilabod getur tilheyrt einu spjalli
     @ManyToOne
-    private Chat chat;
+    private User to;
+
+    @Column
+    private long messageCreated;
 
     public Message() {
-
     }
 
-    public Message(String header, String message, User user, Chat chat) {
-        this.header = header;
-        this.message = message;
-        this.user = user;
-        this.chat = chat;
+    public long getId() {
+        return id;
     }
 
     public String getHeader() {
         return header;
     }
 
-    public String getMessage() {
-        return message;
+    public String getContent() {
+        return content;
     }
 
-    public Chat getChat() {
-        return chat;
+    public User getFrom() {
+        return from;
     }
 
-    public User getUser() {
-        return user;
+    public User getTo() {
+        return to;
     }
+
+    public String getMessageCreated() {
+        LocalDateTime ldt = LocalDateTime.ofInstant(Instant.ofEpochSecond(messageCreated), ZoneId.systemDefault());
+        return String.format("%d.%d.%d, %d:%d:%d", ldt.getDayOfMonth(), ldt.getDayOfMonth(), ldt.getYear(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
+    }
+
 
     public void setHeader(String header) {
         this.header = header;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public void setChat(Chat chat) {
-        this.chat = chat;
+    public void setFrom(User from) {
+        this.from = from;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setTo(User to) {
+        this.to = to;
     }
+
+    public void setMessageCreated() {
+        this.messageCreated = Instant.now().getEpochSecond();
+    }
+
 }
