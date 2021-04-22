@@ -240,6 +240,30 @@ public class NetworkController {
         mQueue.add(request);
     }
 
+    public void getTopicsBySearch(String query, final NetworkCallback<List<Topic>> callback) {
+        StringRequest request = new StringRequest(
+                Method.GET, BASE_URL + "/api/topics/search/" + query, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Topic>>(){}.getType();
+                List<Topic> topics = gson.fromJson(response, listType);
+                callback.onSuccess(topics);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        );
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
     public void getTopicsByUserId(int id, final NetworkCallback<List<Topic>> callback) {
         StringRequest request = new StringRequest(
                 Method.GET, BASE_URL + "/api/users/" + id + "/topics", new Response.Listener<String>() {

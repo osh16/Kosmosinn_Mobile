@@ -66,4 +66,7 @@ public class UserServiceImplementation implements UserService {
 	public User currentUser(HttpSession session) {
 		return (User) session.getAttribute("loggedinuser");
 	}
+
+	@Override
+	public List<User> findByUsernameContainsIgnoreCase(String query) { return repository.findByUsernameContainsIgnoreCase(query); }
 }

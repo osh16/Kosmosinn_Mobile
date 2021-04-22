@@ -50,6 +50,8 @@ public class TopicRestController {
         return commentService.findAllByTopicId(id);
     }
 
+    @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
+    public List<Topic> getTopicsBySearch(@PathVariable("query") String query) { return topicService.findByTopicNameContainsIgnoreCase(query); }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Topic editTopic(@Valid @PathVariable("id") long id, @RequestBody Topic editedTopic) {

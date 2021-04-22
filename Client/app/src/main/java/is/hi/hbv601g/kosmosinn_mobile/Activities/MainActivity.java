@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mLoginButton;
     private Button mSignupButton;
     private Button mAddBoardButton;
+    private Button mSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mBoardView = (RecyclerView) findViewById(R.id.boards_view);
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
         mSignupButton = (Button) findViewById(R.id.signup_activity_button);
+        mSearchButton = (Button) findViewById(R.id.search_page_button);
         mAddBoardButton = (Button) findViewById(R.id.add_board_button);
 
         NetworkController networkController = NetworkController.getInstance(this);
@@ -76,6 +78,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onClick -> Signup");
                 Intent intent = new Intent(MainActivity.this, SignupActivity.class);
 
+                startActivity(intent);
+            }
+        });
+
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick -> Search");
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
                 startActivity(intent);
             }
         });

@@ -73,6 +73,9 @@ public class UserRestController {
         return user;
     }
 
+    @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
+    public List<User> getUsersBySearch(@PathVariable("query") String query) { return userService.findByUsernameContainsIgnoreCase(query); }
+
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public User editUser(@Valid @PathVariable("id") long id, @RequestBody User editedUser) {
         //User currentUser = (User) session.getAttribute("loggedinuser");
