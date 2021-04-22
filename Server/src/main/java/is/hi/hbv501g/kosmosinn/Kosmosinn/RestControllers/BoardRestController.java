@@ -74,11 +74,8 @@ public class BoardRestController {
 
     @DeleteMapping("/{id}/delete")
     public void deleteBoard(@PathVariable("id") long id) {
-        User currentUser = (User) session.getAttribute("loggedinuser");
-        if (userService.isAdmin(currentUser)) {
-            Board board = boardService.findById(id).get();
-            boardService.delete(board);
-        }
+        Board board = boardService.findById(id).get();
+        boardService.delete(board);
     }
 
     @PostMapping(value = "/{id}/addTopic", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -88,4 +85,5 @@ public class BoardRestController {
         topicService.save(topic);
         return topic;
     }
+
 }
