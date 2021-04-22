@@ -7,14 +7,13 @@ import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.User;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.ChatService;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.MessageService;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.UserService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RequestMapping("/api/chats")
+@RestController
 public class ChatRestController {
 
     private MessageService messageService;
@@ -33,10 +32,15 @@ public class ChatRestController {
         return messageService.findAllByUser(user);
     }
 
+    @RequestMapping(value = "/cringe", method = RequestMethod.GET)
+    public User currentUser(HttpServletRequest request) {
+        User currentUser = userService.currentUser(request);
+        return currentUser;
+    }
+
     @PostMapping(value = "/{id}/message")
-    public void sendMessage(@PathVariable("id") long id) {
-        User currentUser;
-        Chat chat = chatService.findByUserIdAndUserId()
+    public void sendMessage(@PathVariable("id") long id, HttpServletRequest request) {
+        User currentUser = userService.currentUser(request);
     }
     // get chat which user participate in
     // get all chats

@@ -1,10 +1,15 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Services.Implementations;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.User;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Repositories.UserRepository;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +17,9 @@ import java.util.Optional;
 @Service
 public class UserServiceImplementation implements UserService {
 	UserRepository repository;
+
+	@Value("${jwt.token.secret}")
+	private String tokenSecret;
 
 	@Autowired
 	public UserServiceImplementation(UserRepository userRepository) {
@@ -65,5 +73,13 @@ public class UserServiceImplementation implements UserService {
 	@Override
 	public User currentUser(HttpSession session) {
 		return (User) session.getAttribute("loggedinuser");
+	}
+
+	@Override
+	public User currentUser(HttpServletRequest request) {
+		String token = request.getHeader("Authorization").replace("Bearer ", "");
+		Claims claims = Jwts.parser().setSigningKey(tokenSecret.getBytes()).parseClaimsJws(token).getBody();
+		int id = Integer.parseInt(claims.get("userId").toString());
+		return repository.findById(id).get();
 	}
 }

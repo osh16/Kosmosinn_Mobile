@@ -84,9 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Add Board");
-
                 Intent intent = new Intent(MainActivity.this, AddBoardActivity.class);
-
                 startActivity(intent);
             }
         });
@@ -115,11 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectBoard(int id) {
         Log.d(TAG, "Select Board");
-
         Intent intent = new Intent(MainActivity.this, BoardActivity.class);
-
         intent.putExtra("boardid", id);
-
         startActivity(intent);
     }
 }

@@ -8,13 +8,22 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(nullable = false)
     private String header;
+    @Column(nullable = false)
     private String message;
+
+    // hver sendi skilabod
+    @ManyToOne
     private User user;
 
     // skilabod getur tilheyrt einu spjalli
     @ManyToOne
     private Chat chat;
+
+    public Message() {
+
+    }
 
     public Message(String header, String message, User user, Chat chat) {
         this.header = header;
@@ -35,6 +44,10 @@ public class Message {
         return chat;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void setHeader(String header) {
         this.header = header;
     }
@@ -45,5 +58,9 @@ public class Message {
 
     public void setChat(Chat chat) {
         this.chat = chat;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

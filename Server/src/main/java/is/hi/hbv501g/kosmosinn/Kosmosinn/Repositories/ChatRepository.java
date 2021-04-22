@@ -12,8 +12,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
     Chat save(Chat chat);
     void delete(Chat chat);
     List<Chat> findAll();
-    List<Message> findAllByUser(User user);
     Optional<Chat> findById(long id);
-    Chat findByUserIdAndUserId(long id1, long id2);
-    List<Chat> findByUser(User user);
+    //Chat findByUserAndUser(User user1, User user2);
+    //List<Chat> findByUsers(List<User> users);
 }
