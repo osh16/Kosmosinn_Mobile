@@ -55,7 +55,6 @@ public class Message {
         return String.format("%d.%d.%d, %d:%d:%d", ldt.getDayOfMonth(), ldt.getDayOfMonth(), ldt.getYear(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
     }
 
-
     public void setHeader(String header) {
         this.header = header;
     }
