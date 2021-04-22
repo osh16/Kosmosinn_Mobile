@@ -407,7 +407,7 @@ public class NetworkController {
         mQueue.add(request);
     }
 
-    public void editTopic(int id, Topic newTopic, final NetworkCallback<Topic> callback) {
+    public void editTopic(int id, String token, Topic newTopic, final NetworkCallback<Topic> callback) {
         final JSONObject body = new JSONObject();
         final JSONObject userBody = new JSONObject();
         try {
@@ -452,11 +452,18 @@ public class NetworkController {
             public byte[] getBody() throws AuthFailureError {
                 return body.toString().getBytes();
             }
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
+            }
         };
         mQueue.add(request);
     }
 
-    public void deleteTopic(int id, final NetworkCallback<Topic> callback) {
+    public void deleteTopic(int id, String token, final NetworkCallback<Topic> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("api")
@@ -483,7 +490,20 @@ public class NetworkController {
                 callback.onFailure(error.toString());
             }
         }
-        );
+        ) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
+            }
+        };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -752,7 +772,7 @@ public class NetworkController {
         mQueue.add(request);
     }
 
-    public void deleteComment(int topicId, int id, final NetworkCallback<Comment> callback) {
+    public void deleteComment(int topicId, String token, int id, final NetworkCallback<Comment> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("api")
@@ -780,7 +800,20 @@ public class NetworkController {
                 callback.onFailure(error.toString());
             }
         }
-        );
+        ) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
+            }
+        };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

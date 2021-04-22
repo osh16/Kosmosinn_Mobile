@@ -159,7 +159,7 @@ public class AddTopicActivity extends AppCompatActivity {
                         String content = mTopicContent.getText().toString();
                         mTopic.setTopicName(name);
                         mTopic.setTopicContent(content);
-                        networkController.editTopic(mTopicId, mTopic, new NetworkCallback<Topic>() {
+                        networkController.editTopic(mTopicId, mToken, mTopic, new NetworkCallback<Topic>() {
                             @Override
                             public void onSuccess(Topic result) {
                             }

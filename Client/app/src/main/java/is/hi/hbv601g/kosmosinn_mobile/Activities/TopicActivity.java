@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Network;
 import android.os.Bundle;
 import android.os.Looper;
@@ -43,6 +44,10 @@ public class TopicActivity extends AppCompatActivity {
     private Button mAddCommentButton;
     private TextView mTopicHeader;
 
+    private String mToken;
+    private String mCurrentUsername;
+    private int mCurrentUserId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +66,14 @@ public class TopicActivity extends AppCompatActivity {
         mUserId = getIntent().getIntExtra("userid", 0);
         mUsername = getIntent().getStringExtra("username");
         mFromSearch = getIntent().getBooleanExtra("fromsearch", false);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(
+                "KosmosinnSharedPref",
+                MODE_PRIVATE);
+
+        mToken = sharedPreferences.getString("Authorization", "");
+        mCurrentUserId = sharedPreferences.getInt("userId", 0);
+        mCurrentUsername = sharedPreferences.getString("username", "");
 
         NetworkController networkController = NetworkController.getInstance(this);
 
@@ -85,7 +98,7 @@ public class TopicActivity extends AppCompatActivity {
                 /*Log.d(TAG, "onClick -> Til baka");
                 Intent intent = new Intent(TopicActivity.this, MainActivity.class);
                 startActivity(intent);*/
-                networkController.deleteComment(mTopicId,33, new NetworkCallback<Comment>() {
+                networkController.deleteComment(mTopicId, mToken, 33, new NetworkCallback<Comment>() {
                     @Override
                     public void onSuccess(Comment result) {
                         Log.d(TAG, "Comment deleted");
@@ -118,7 +131,7 @@ public class TopicActivity extends AppCompatActivity {
         mEditTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkController.editTopic(mTopicId, mTopic, new NetworkCallback<Topic>() {
+                networkController.editTopic(mTopicId, mToken,mTopic, new NetworkCallback<Topic>() {
                     @Override
                     public void onSuccess(Topic result) {
                         Log.d(TAG, "Topic edited");
@@ -140,7 +153,7 @@ public class TopicActivity extends AppCompatActivity {
         mDeleteTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkController.deleteTopic(mTopicId, new NetworkCallback<Topic>() {
+                networkController.deleteTopic(mTopicId, mToken, new NetworkCallback<Topic>() {
                     @Override
                     public void onSuccess(Topic result) {
                         Log.d(TAG, "Topic deleted");
