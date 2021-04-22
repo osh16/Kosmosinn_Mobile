@@ -1,5 +1,6 @@
 package is.hi.hbv601g.kosmosinn_mobile.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,10 +32,15 @@ public class MainActivity extends AppCompatActivity {
 
     private User mUser;
 
+    private String mToken;
+    private int mUserId;
+    private String mUsername;
+
     private Button mLoginButton;
     private Button mSignupButton;
     private Button mAddBoardButton;
     private Button mSearchButton;
+    private Button mLogoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +50,27 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(
                 "KosmosinnSharedPref",
                 MODE_PRIVATE);
+
+        mToken = sharedPreferences.getString("Authorization", "");
+        mUserId = sharedPreferences.getInt("userId", 0);
+        mUsername = sharedPreferences.getString("username", "");
         
         mBoardView = (RecyclerView) findViewById(R.id.boards_view);
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
+        mLogoutButton = (Button) findViewById(R.id.logout_button);
         mSignupButton = (Button) findViewById(R.id.signup_activity_button);
         mSearchButton = (Button) findViewById(R.id.search_page_button);
         mAddBoardButton = (Button) findViewById(R.id.add_board_button);
+
+        if (!mToken.equals("")) {
+            mLoginButton.setVisibility(View.GONE);
+            mSignupButton.setVisibility(View.GONE);
+            mLogoutButton.setVisibility(View.VISIBLE);
+        } else {
+            mLoginButton.setVisibility(View.VISIBLE);
+            mSignupButton.setVisibility(View.VISIBLE);
+            mLogoutButton.setVisibility(View.GONE);
+        }
 
         NetworkController networkController = NetworkController.getInstance(this);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +78,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Login");
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mLogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                myEdit.remove("Authorization");
+                myEdit.remove("username");
+                myEdit.remove("Authorization");
+                myEdit.commit();
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
