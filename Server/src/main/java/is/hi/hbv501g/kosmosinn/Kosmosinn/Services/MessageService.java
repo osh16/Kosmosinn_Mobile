@@ -11,6 +11,6 @@ public interface MessageService {
     void delete(Message message);
     List<Message> findAll();
     Optional<Message> findById(long id);
-    List<Message> findByUser();
-    List<Message> findAllByUser(User user);
+    List<Message> findByFrom(User from);
+    List<Message> findByTo(User to);
 }

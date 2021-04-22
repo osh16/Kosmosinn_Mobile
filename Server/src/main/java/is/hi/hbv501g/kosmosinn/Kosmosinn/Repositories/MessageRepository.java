@@ -11,6 +11,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     Message save(Message message);
     void delete(Message message);
     List<Message> findAll();
-    List<Message> findAllByUser(User user);
+    List<Message> findByFrom(User from);
+    List<Message> findByTo(User to);
     Optional<Message> findById(long id);
 }

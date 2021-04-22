@@ -113,11 +113,9 @@ public class Topic{
     public void setUser(User user) {
         this.user = user;
     }
-
     public void setTopicCreated() {
         this.topicCreated = Instant.now().getEpochSecond();
     }
-
     public void setTopicEdited() {
         this.topicEdited = Instant.now().getEpochSecond();
     }

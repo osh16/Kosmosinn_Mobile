@@ -73,15 +73,10 @@ public class LoginRestController {
 
 		if (exists != null) {
             if (exists.getPassword().equals(user.getPassword())) {
-                System.out.println(exists.getRole());
                 String token = getJWTToken(exists.getUsername(), exists.getRole(), exists.getId());
                 user.setLastOnline();
                 response.setCharacterEncoding("UTF-8");
                 response.addHeader("Authorization", token);
-                System.out.println("=============");
-                System.out.println("LoginRestController");
-                System.out.println("TOKENSECRET: " + tokenSecret);
-                System.out.println("=============");
                 res.put("userId", exists.getId());
                 res.put("username", exists.getUsername());
                 res.put("token", token);
