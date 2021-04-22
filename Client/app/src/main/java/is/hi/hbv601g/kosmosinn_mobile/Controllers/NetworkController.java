@@ -1003,4 +1003,64 @@ public class NetworkController {
 
         mQueue.add(request);
     }
+
+    public void signUp(String username, String password, final NetworkCallback<JSONObject> callback) {
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("signup")
+                .build().toString();
+
+        final JSONObject body = new JSONObject();
+        try {
+            body.put("username", username);
+            body.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        StringRequest request = new StringRequest(
+                Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject res = new JSONObject();
+                try {
+                    res = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    Log.d(TAG, res.toString());
+                    callback.onSuccess(res);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onFailure(error.toString());
+            }
+        }
+        ) {
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=UTF-8; ";
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                100000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        mQueue.add(request);
+    }
 }

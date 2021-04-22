@@ -39,6 +39,10 @@ public class BoardActivity extends AppCompatActivity {
     private Button mAddTopicButton;
     private TextView mBoardHeader;
 
+    private String mToken;
+    private int mCurrentUserId;
+    private String mCurrentUsername;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,10 @@ public class BoardActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(
                 "KosmosinnSharedPref",
                 MODE_PRIVATE);
+
+        mToken = sharedPreferences.getString("Authorization", "");
+        mCurrentUserId = sharedPreferences.getInt("userId", 0);
+        mCurrentUsername = sharedPreferences.getString("username", "");
 
         NetworkController networkController = NetworkController.getInstance(this);
 
@@ -104,7 +112,6 @@ public class BoardActivity extends AppCompatActivity {
                 Log.d(TAG, "onClick -> Add Topic");
                 Intent intent = new Intent(BoardActivity.this, AddTopicActivity.class);
                 intent.putExtra("boardid", mBoardId);
-                Log.d("Status: ", "Er að fara í addtopic");
                 startActivity(intent);
             }
         });

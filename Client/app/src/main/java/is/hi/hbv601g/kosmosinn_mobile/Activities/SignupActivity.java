@@ -3,17 +3,29 @@ package is.hi.hbv601g.kosmosinn_mobile.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.BreakIterator;
+
+import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
+import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
 import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     private Button mSignupButton;
     private Button mBackButton;
+    private EditText mUsernameField;
+    private EditText mPasswordField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +35,11 @@ public class SignupActivity extends AppCompatActivity {
         mSignupButton = (Button) findViewById(R.id.signup_button);
         mBackButton = (Button) findViewById(R.id.signup_back_button);
 
+        mUsernameField = (EditText) findViewById(R.id.username_field_signup);
+        mPasswordField = (EditText) findViewById(R.id.password_field_signup);
+
+        NetworkController networkController = NetworkController.getInstance(this);
+
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,6 +48,51 @@ public class SignupActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mSignupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick -> Sign up");
+                signUp(networkController);
+                Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public void signUp(NetworkController networkController) {
+        networkController.signUp(mUsernameField.getText().toString(),
+                mPasswordField.getText().toString(),
+                new NetworkCallback<JSONObject>() {
+                    @Override
+                    public void onSuccess(JSONObject result) throws JSONException {
+                        String token = result.getString("token");
+                        String username = result.getString("username");
+                        int userId = result.getInt("userId");
+
+                        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+
+                        SharedPreferences sharedPreferences = getSharedPreferences(
+                                "KosmosinnSharedPref",
+                                MODE_PRIVATE);
+
+                        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                        myEdit.putString("Authorization", token);
+                        myEdit.putString("username", username);
+                        myEdit.putInt("userId", userId);
+                        myEdit.commit();
+
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(String errorString) {
+                        Toast.makeText(SignupActivity.this, "Username or password incorrect", Toast.LENGTH_SHORT);
+                        Log.e(TAG, "Failed to sign up: " + errorString);
+                    }
+                });
+
     }
 
 }

@@ -92,17 +92,32 @@ public class LoginRestController {
 	}
 
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public User signUp(@RequestBody() User user) {
+	public JSONObject signUp(@RequestBody() User user, HttpServletResponse response) {
         User exists = userService.findByUserame(user.getUsername());
+        JSONObject res = new JSONObject();
+        
         if (exists == null) {
-            User newUser = new User(user.getUsername(), user.getPassword(), "USER");
-            String token = getJWTToken(newUser.getUsername(), "USER", newUser.getId());
-            newUser.setUserCreated();
-            newUser.setLastOnline();
-            userService.save(newUser);
-            return newUser;
+            User signUp = new User(user.getUsername(), user.getPassword(), "USER");
+            String token = getJWTToken(signUp.getUsername(), "USER", signUp.getId());
+            response.setCharacterEncoding("UTF-8");
+            response.addHeader("Authorization", token);
+            signUp.setUserCreated();
+            signUp.setLastOnline();
+            userService.save(signUp);
+
+            User newUser = userService.findByUserame(signUp.getUsername());
+            res.put("userId", newUser.getId());
+            res.put("username", newUser.getUsername());
+            res.put("token", token);
+            return res;
         }
-        return null;
+        if (user.getUsername().equals("")) {
+            res.put("error", "missing username");
+        }
+        if (user.getPassword().equals("")) {
+            res.put("error", "password missing");
+        }
+        return res;
 	}
 
     private String getJWTToken(String username, String role, long id) {

@@ -75,6 +75,11 @@ public class TopicActivity extends AppCompatActivity {
         mCurrentUserId = sharedPreferences.getInt("userId", 0);
         mCurrentUsername = sharedPreferences.getString("username", "");
 
+        if (mTopic.getUser().getId() != mUserId) {
+            mDeleteTopicButton.setVisibility(View.GONE);
+            mEditTopicButton.setVisibility((View.GONE));
+        }
+
         NetworkController networkController = NetworkController.getInstance(this);
 
         networkController.getTopic(mTopicId, new NetworkCallback<Topic>() {
