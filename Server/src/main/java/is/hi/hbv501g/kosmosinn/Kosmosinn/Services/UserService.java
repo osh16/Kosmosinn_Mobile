@@ -13,7 +13,7 @@ public interface UserService {
 	User findByUserame(String username);
 	Optional<User> findById(long id);
 	User login(User user);
-	User currentUser(HttpSession session);
+	//User currentUser(HttpSession session);
 	User currentUser(HttpServletRequest request);
 	boolean isAdmin(User user);
 	List<User> findByUsernameContainsIgnoreCase(String query);
