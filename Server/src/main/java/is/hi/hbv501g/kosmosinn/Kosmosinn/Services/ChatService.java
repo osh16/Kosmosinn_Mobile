@@ -11,5 +11,4 @@ public interface ChatService {
     void delete(Chat chat);
     List<Chat> findAll();
     Optional<Chat> findById(long id);
-    List<Chat> findByUser(User user);
 }

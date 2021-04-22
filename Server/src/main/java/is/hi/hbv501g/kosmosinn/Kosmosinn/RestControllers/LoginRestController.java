@@ -45,7 +45,7 @@ public class LoginRestController {
 
 
     @Value("${jwt.token.expiration}")
-    private int tokenExpirationDate;
+    private Integer tokenExpirationDate;
 
     @Value("${jwt.token.secret}")
     private String tokenSecret;

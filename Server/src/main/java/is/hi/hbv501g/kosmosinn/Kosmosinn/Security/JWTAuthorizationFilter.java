@@ -34,13 +34,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-		System.out.println("=============");
-		System.out.println("cringe");
-		System.out.println("TOKENSECRET: " + tokenSecret);
-		System.out.println("TOKENSECRET: " + tokenSecret);
-		System.out.println("TOKENSECRET: " + tokenSecret);
-		System.out.println("TOKENSECRET: " + tokenSecret);
-		System.out.println("=============");
 		try {
 			if (checkJWTToken(request, response)) {
 				Claims claims = validateToken(request);
@@ -62,11 +55,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	private Claims validateToken(HttpServletRequest request) {
 		String jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
-		System.out.println("=============");
-		System.out.println("validateToken");
-		System.out.println("TOKENSECRET: " + tokenSecret);
-		System.out.println("JWT TOKEN: " + jwtToken);
-		System.out.println("=============");
 		return Jwts.parser().setSigningKey(tokenSecret.getBytes()).parseClaimsJws(jwtToken).getBody();
 	}
 

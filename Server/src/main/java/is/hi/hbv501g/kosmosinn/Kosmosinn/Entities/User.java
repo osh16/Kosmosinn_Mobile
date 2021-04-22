@@ -36,6 +36,7 @@ public class User {
 	@Column(nullable = false)
 	public String role;
 
+	@JsonIgnore
 	@Column(nullable = false)
 	public String token;
 
@@ -48,8 +49,13 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
 
+	// oll chat sem notandi tilheyrir
 	@OneToMany
 	private List<Chat> chats = new ArrayList<Chat>();
+
+	// oll skilabod sem notandi hefur sent
+	@OneToMany
+    private List<Message> messages = new ArrayList<>();
 
 	@JsonIgnore
 	public long userCreated;
@@ -108,6 +114,14 @@ public class User {
 		return String.format("%d.%d.%d, %d:%d:%d", ldt.getDayOfMonth(), ldt.getDayOfMonth(), ldt.getYear(), ldt.getHour(), ldt.getMinute(), ldt.getSecond());
 	}
 
+	public List<Chat> getChats() {
+		return chats;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -133,4 +147,6 @@ public class User {
 	public void setLastOnline() {
 		this.lastOnline = Instant.now().getEpochSecond();
 	}
+
+
 }

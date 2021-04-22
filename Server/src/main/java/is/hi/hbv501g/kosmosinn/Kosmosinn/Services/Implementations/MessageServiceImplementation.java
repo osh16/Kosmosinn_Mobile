@@ -1,6 +1,7 @@
 package is.hi.hbv501g.kosmosinn.Kosmosinn.Services.Implementations;
 
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.Message;
+import is.hi.hbv501g.kosmosinn.Kosmosinn.Entities.User;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Repositories.MessageRepository;
 import is.hi.hbv501g.kosmosinn.Kosmosinn.Services.MessageService;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,10 @@ public class MessageServiceImplementation implements MessageService {
     @Override
     public List<Message> findByUser() {
         return null;
+    }
+
+    @Override
+    public List<Message> findAllByUser(User user) {
+        return repository.findAllByUser(user);
     }
 }
