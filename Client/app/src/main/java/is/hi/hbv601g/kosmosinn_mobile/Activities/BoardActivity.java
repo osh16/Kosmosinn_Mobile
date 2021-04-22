@@ -32,6 +32,7 @@ public class BoardActivity extends AppCompatActivity {
     private Topic[] mTopics;
     private int mBoardId;
     private int mUserId;
+    private String mUsername;
     private Board mBoard;
     private Button mBackButton;
     private Button mAddTopicButton;
@@ -48,6 +49,7 @@ public class BoardActivity extends AppCompatActivity {
         mAddTopicButton = (Button) findViewById(R.id.add_topic_button);
         mBoardId = getIntent().getIntExtra("boardid",0);
         mUserId = getIntent().getIntExtra("userid", 0);
+        mUsername = getIntent().getStringExtra("username");
 
         NetworkController networkController = NetworkController.getInstance(this);
 
@@ -63,14 +65,6 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
 
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    public void run() {
-                        mBoardHeader.setText(mBoard.getName());
-                    }
-                },
-                100);
-
         Log.d(TAG, "Board id = " + mBoardId);
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
@@ -84,11 +78,19 @@ public class BoardActivity extends AppCompatActivity {
 
         if (mBoardId != 0) {
             getTopicsByBoard(networkController);
+            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            mBoardHeader.setText(mBoard.getName());
+                        }
+                    },
+                    400);
         }
         else {
             getTopicsByUser(networkController);
             mAddTopicButton.setVisibility(View.GONE);
             mBackButton.setVisibility(View.GONE);
+            mBoardHeader.setText(mUsername);
         }
 
         mAddTopicButton.setOnClickListener(new View.OnClickListener() {

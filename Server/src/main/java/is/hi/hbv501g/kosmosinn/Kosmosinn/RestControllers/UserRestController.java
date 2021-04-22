@@ -64,6 +64,22 @@ public class UserRestController {
         return commentService.findAllByUserId(id);
     }
 
+    @RequestMapping(value = "/profile/{id}/comments", method = RequestMethod.GET)
+    public List<Comment> getCommentsByUserprofile(@PathVariable("id") long id) {
+        return commentService.findAllByUserprofileId(id);
+    }
+
+    @PostMapping(value = "/{id}/addComment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Comment addUserprofileComment(@PathVariable("id") long id, @RequestBody Comment comment) {
+        User user = userService.findById(id).get();
+        comment.setUserprofile(user);
+        comment.setCommentCreated();
+        comment.setCommentEdited();
+        commentService.save(comment);
+
+        return comment;
+    }
+
     @PostMapping(value = "/addUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public User createUser(@RequestBody User user) {
         user.setUserCreated();
@@ -72,6 +88,9 @@ public class UserRestController {
         userService.save(user);
         return user;
     }
+
+    @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
+    public List<User> getUsersBySearch(@PathVariable("query") String query) { return userService.findByUsernameContainsIgnoreCase(query); }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public User editUser(@Valid @PathVariable("id") long id, @RequestBody User editedUser) {

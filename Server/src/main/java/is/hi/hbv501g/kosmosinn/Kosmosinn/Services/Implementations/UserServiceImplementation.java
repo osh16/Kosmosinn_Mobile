@@ -71,15 +71,13 @@ public class UserServiceImplementation implements UserService {
 	}
 
 	@Override
-	public User currentUser(HttpSession session) {
-		return (User) session.getAttribute("loggedinuser");
-	}
-
-	@Override
 	public User currentUser(HttpServletRequest request) {
 		String token = request.getHeader("Authorization").replace("Bearer ", "");
 		Claims claims = Jwts.parser().setSigningKey(tokenSecret.getBytes()).parseClaimsJws(token).getBody();
 		int id = Integer.parseInt(claims.get("userId").toString());
 		return repository.findById(id).get();
 	}
+
+	@Override
+	public List<User> findByUsernameContainsIgnoreCase(String query) { return repository.findByUsernameContainsIgnoreCase(query); }
 }

@@ -15,4 +15,6 @@
     <string name="addcomment">Add Comment</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="searchuser">Search for User</string>
+    <string name="searchtopic">Search for Topic</string>
 </resources>
