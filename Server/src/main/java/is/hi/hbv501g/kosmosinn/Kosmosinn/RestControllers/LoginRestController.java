@@ -19,12 +19,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.Claims;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -60,20 +61,11 @@ public class LoginRestController {
     @Autowired
     HttpSession session;
 
-
-    @GetMapping(value = "/token")
-    public String getTokenInformation(HttpServletRequest request) throws java.io.IOException {
-        String token = request.getHeader("Authorization").replace("Bearer ", "");
-        Claims claims = Jwts.parser().setSigningKey(tokenSecret.getBytes()).parseClaimsJws(token).getBody();
-        
-        return "{\n" + "\t" + "\"user\": " + "\"" + claims.get("user") + "\"," + "\n\t" + "\"id\": " + "\"" + claims.get("userId") + "\"" + "\n" + "}";
-    }
-
     /**
      * Þetta er eiginlega klárað, gæti þurft að breyta einhverju returni fer eftir hvað við viljum senda úr þessu.
      */
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String login(@RequestBody() User user, HttpServletResponse response, HttpServletRequest request) throws java.io.IOException {
+    public User login(@RequestBody() User user, HttpServletResponse response, HttpServletRequest request) throws java.io.IOException {
 		User exists = userService.findByUserame(user.getUsername());
 		if (exists != null) {
             if (exists.getPassword().equals(user.getPassword())) {
@@ -88,12 +80,12 @@ public class LoginRestController {
                 System.out.println("TOKENSECRET: " + tokenSecret);
                 System.out.println("USER GET TOKEN: " + user.getToken());
                 System.out.println("=============");
-                return "{ \"Bearer\": " + "\"" + token.split(" ")[1] + "\" }";
+                return user;
             } else {
-                return "Password does not match";
+                return user;
             }
         } else {
-		    return "User not found";
+		    return user;
         }
 	}
 

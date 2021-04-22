@@ -5,6 +5,9 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 public interface UserService {
 	User save(User user);
 	void delete(User user);
@@ -12,6 +15,6 @@ public interface UserService {
 	User findByUserame(String username);
 	Optional<User> findById(long id);
 	User login(User user);
-	User currentUser(HttpSession session);
+	User currentUser(HttpServletRequest request);
 	boolean isAdmin(User user);
 }

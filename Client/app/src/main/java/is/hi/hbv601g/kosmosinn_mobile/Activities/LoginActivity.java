@@ -65,10 +65,11 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(JSONObject result) {
-                Log.d(TAG, "Token: " + String.valueOf(result));
+                Log.d(TAG, "User: " + String.valueOf(result));
                 String token = "noToken";
                 try {
-                    token = result.get("Bearer").toString();
+                    token = result.get("token").toString();
+                    Log.d("Token: ", token);
                 } catch (JSONException err) {
                     Log.d("Error ", err.toString());
                 }
@@ -79,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                         MODE_PRIVATE);
 
                 SharedPreferences.Editor myEdit = sharedPreferences.edit();
-                myEdit.putString("Authorization", "Bearer " + token);
+                myEdit.putString("Authorization", token);
                 myEdit.commit();
 
                 startActivity(intent);

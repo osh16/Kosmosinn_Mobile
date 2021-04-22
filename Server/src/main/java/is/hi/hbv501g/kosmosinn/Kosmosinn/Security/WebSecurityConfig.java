@@ -45,9 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	http.csrf().disable()
 				.addFilterAfter(new JWTAuthorizationFilter(tokenSecret), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/login", "/signup", "/api/login", "/api/signup").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/boards/addBoard").hasRole("ADMIN")
-				.antMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN");
+				.antMatchers(HttpMethod.POST, "/api/login/**", "/api/signup/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/boards/addBoard/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/topics/{topicId:[\\d+]}/addComment/**").hasRole("USER")
+				.antMatchers(HttpMethod.GET, "/api/users/**").hasRole("ADMIN")
+                ;
         
     }
 }

@@ -78,6 +78,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 				authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
 		SecurityContextHolder.getContext().setAuthentication(auth);
 
+		System.out.println(SecurityContextHolder.getContext().toString());
 	}
 
 	private boolean checkJWTToken(HttpServletRequest request, HttpServletResponse res) {

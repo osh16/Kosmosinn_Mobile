@@ -16,6 +16,11 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Value;
+
 @RequestMapping("/api/topics")
 @RestController
 public class TopicRestController {
@@ -41,7 +46,8 @@ public class TopicRestController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Topic getTopicById(@PathVariable("id") long id) {
+    public Topic getTopicById(@PathVariable("id") long id, HttpServletRequest request) {
+        
         return topicService.findById(id).get();
     }
 
@@ -52,11 +58,11 @@ public class TopicRestController {
 
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Topic editTopic(@Valid @PathVariable("id") long id, @RequestBody Topic editedTopic) {
+    public Topic editTopic(@Valid @PathVariable("id") long id, @RequestBody Topic editedTopic, HttpServletRequest request) {
         Topic topic = topicService.findById(id).get();
-        /*User currentUser = (User) session.getAttribute("loggedinuser");
-        User user = userService.findById(id).get();
-        if (userService.isAdmin(currentUser) || user.getId() == currentUser.getId()) {*/
+        
+        
+        if (isAllowed(topic, request)) {
             if (editedTopic.getTopicName() != null) {
                 topic.setTopicName(editedTopic.getTopicName());
             }
@@ -65,15 +71,28 @@ public class TopicRestController {
             }
             topicService.save(topic);
         //}
-        return topic;
+            return topic;
+        }
+
+        return null;
+
     }
 
     @DeleteMapping("/{id}/delete")
-    public void deleteTopic(@PathVariable("id") long id) {
-        //User currentUser = (User) session.getAttribute("loggedinuser");
-        //if (userService.isAdmin(currentUser)) {
-            Topic topic = topicService.findById(id).get();
+    public void deleteTopic(@PathVariable("id") long id, HttpServletRequest request) {
+        Topic topic = topicService.findById(id).get();
+        if (isAllowed(topic, request)) {
             topicService.delete(topic);
-        //}
+        }
+    }
+
+    private Boolean isAllowed(Topic topic, HttpServletRequest request) {
+        User currentUser = userService.currentUser(request);
+
+        if (userService.isAdmin(currentUser) || topicService.findAllByUserId(currentUser.getId()).contains(topic)) {
+            return true;
+        }
+
+        return false;
     }
 }
