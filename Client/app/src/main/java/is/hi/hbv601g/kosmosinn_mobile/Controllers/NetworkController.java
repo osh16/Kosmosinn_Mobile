@@ -641,7 +641,7 @@ public class NetworkController {
         mQueue.add(request);
     }
 
-    public void addComment(int id, Comment newComment, final NetworkCallback<Comment> callback) {
+    public void addComment(int id, String token, Comment newComment, final NetworkCallback<Comment> callback) {
         final JSONObject body = new JSONObject();
         final JSONObject userBody = new JSONObject();
         try {
@@ -685,6 +685,14 @@ public class NetworkController {
             @Override
             public byte[] getBody() throws AuthFailureError {
                 return body.toString().getBytes();
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
             }
         };
         mQueue.add(request);

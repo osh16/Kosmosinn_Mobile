@@ -54,7 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/topics/{topicId:[\\d+]}/**").hasRole("USER")
                 .antMatchers(HttpMethod.PATCH, "/api/topics/{topicId:[\\d+]}/addComment/**").hasRole("USER")
                 .antMatchers(HttpMethod.DELETE, "/api/topics/{topicId:[\\d+]}/delete/**").hasRole("USER")
-				.antMatchers(HttpMethod.GET, "/api/users/**").hasRole("ADMIN")
+				.antMatchers(HttpMethod.GET, "/api/users/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/users/{id:[\\d+]}/topics/**").permitAll()
                 ;
         
     }

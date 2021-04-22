@@ -36,10 +36,6 @@ public class User {
 	@Column(nullable = false)
 	public String role;
 
-	@JsonIgnore
-	@Column(nullable = false)
-	public String token;
-
 	@JsonIgnore // nota /api/users/{id}/topics
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Topic> topics = new ArrayList<>();
@@ -62,18 +58,16 @@ public class User {
 	@JsonIgnore
 	public long lastOnline;
 
-	public User(String username, String password, String token)  {
+	public User(String username, String password)  {
 		this.username = username;
 		this.password = password;
 		this.role = "USER";
-		this.token = token;
 	}
 
-	public User(String username, String password, String role, String token)  {
+	public User(String username, String password, String role)  {
 		this.username = username;
 		this.password = password;
 		this.role = role;
-		this.token = token;
 	}
 
 	public User() {}
@@ -86,7 +80,7 @@ public class User {
 	}
 
 	public String getPassword() { return password; }
-	public String getToken() { return token; }
+	
 	public String getRole() { return role; }
 
 	public List<Topic> getTopics() {
@@ -127,9 +121,6 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public void setToken(String token) {
-		this.token = token;
 	}
 
 	public void setRole(String role) { this.role = role; }
