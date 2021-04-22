@@ -7,6 +7,8 @@ public class Comment {
     private int mId;
     @SerializedName("user")
     private User mUser;
+    @SerializedName("userprofile")
+    private User mUserprofile;
     @SerializedName("commentText")
     private String mCommentText;
     @SerializedName("commentCreated")
@@ -22,12 +24,25 @@ public class Comment {
         mCommentEditedDate = commentEditedDate;
     }
 
+    public Comment(int id, User user, User userprofile, String commentText, String commentCreatedDate, String commentEditedDate) {
+        mId = id;
+        mUser = user;
+        mUserprofile = userprofile;
+        mCommentText = commentText;
+        mCommentCreatedDate = commentCreatedDate;
+        mCommentEditedDate = commentEditedDate;
+    }
+
     public int getId() {
         return mId;
     }
 
     public User getUser() {
         return mUser;
+    }
+
+    public User getUserprofile() {
+        return mUserprofile;
     }
 
     public String getCommentText() {
@@ -48,6 +63,10 @@ public class Comment {
 
     public void setUser(User user) {
         mUser = user;
+    }
+
+    public void setUserprofile(User userprofile) {
+        mUser = userprofile;
     }
 
     public void setCommentText(String commentText) {

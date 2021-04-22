@@ -18,7 +18,9 @@
         <activity android:name=".Activities.AddCommentActivity" />
         <activity android:name=".Activities.AddTopicActivity" />
         <activity android:name=".Activities.AddBoardActivity" />
-        <activity android:name=".Activities.UserActivity" />
+        <activity android:name=".Activities.UserActivity">
+            android:windowSoftInputMode="adjustNothing">
+        </activity>
         <activity android:name=".Activities.TopicActivity" />
         <activity android:name=".Activities.BoardActivity" />
         <activity android:name=".Activities.SignupActivity" />

@@ -84,7 +84,7 @@ public class BoardActivity extends AppCompatActivity {
                             mBoardHeader.setText(mBoard.getName());
                         }
                     },
-                    200);
+                    400);
         }
         else {
             getTopicsByUser(networkController);

@@ -64,6 +64,22 @@ public class UserRestController {
         return commentService.findAllByUserId(id);
     }
 
+    @RequestMapping(value = "/profile/{id}/comments", method = RequestMethod.GET)
+    public List<Comment> getCommentsByUserprofile(@PathVariable("id") long id) {
+        return commentService.findAllByUserprofileId(id);
+    }
+
+    @PostMapping(value = "/{id}/addComment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Comment addUserprofileComment(@PathVariable("id") long id, @RequestBody Comment comment) {
+        User user = userService.findById(id).get();
+        comment.setUserprofile(user);
+        comment.setCommentCreated();
+        comment.setCommentEdited();
+        commentService.save(comment);
+
+        return comment;
+    }
+
     @PostMapping(value = "/addUser", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public User createUser(@RequestBody User user) {
         user.setUserCreated();
