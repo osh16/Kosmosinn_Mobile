@@ -168,7 +168,7 @@ public class TopicActivity extends AppCompatActivity {
                             mTopicHeader.setText(mTopic.getTopicName());
                         }
                     },
-                    200);
+                    300);
         }
         else {
             getCommentsByUser(networkController);
