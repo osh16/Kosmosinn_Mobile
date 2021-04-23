@@ -63,6 +63,7 @@ public class TopicActivity extends AppCompatActivity {
 
         mTopicId = getIntent().getIntExtra("topicid",0);
         mBoardId = getIntent().getIntExtra("boardid",0);
+        mUserId = getIntent().getIntExtra("userid", 0);
 
         mUsername = getIntent().getStringExtra("username");
         mFromSearch = getIntent().getBooleanExtra("fromsearch", false);
@@ -215,10 +216,11 @@ public class TopicActivity extends AppCompatActivity {
     }
 
     public void getCommentsByUser(NetworkController networkController) {
-        networkController.getCommentsByUserId(mCurrentUserId, mToken, new NetworkCallback<List<Comment>>() {
+        Log.d(TAG, String.valueOf(mUserId));
+        networkController.getCommentsByUserId(mUserId, mToken, new NetworkCallback<List<Comment>>() {
             @Override
             public void onSuccess(List<Comment> result) {
-                Log.d(TAG, "Comments for UserId :" + String.valueOf(mCurrentUserId));
+                Log.d(TAG, "Comments for UserId :" + String.valueOf(mUserId));
                 mCommentList = result;
                 int size = mCommentList.size();
                 mComments = new Comment[size];
