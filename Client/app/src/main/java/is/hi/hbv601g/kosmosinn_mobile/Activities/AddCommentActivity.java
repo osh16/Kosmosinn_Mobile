@@ -45,6 +45,8 @@ public class AddCommentActivity extends AppCompatActivity {
         mBoardId = getIntent().getIntExtra("boardId", 0);
         mTopicId = getIntent().getIntExtra("topicid",0);
 
+        Log.d(TAG, "Topic id: " + mTopicId);
+
         NetworkController networkController = NetworkController.getInstance(this);
 
         SharedPreferences sharedPreferences = getSharedPreferences(
@@ -82,8 +84,8 @@ public class AddCommentActivity extends AppCompatActivity {
                 });
 
                 Intent intent = new Intent(AddCommentActivity.this, TopicActivity.class);
-                intent.putExtra("boardId", mBoardId);
-                intent.putExtra("topicId", mTopicId);
+                intent.putExtra("boardid", mBoardId);
+                intent.putExtra("topicid", mTopicId);
 
                 new android.os.Handler(Looper.getMainLooper()).postDelayed(
                         new Runnable() {
