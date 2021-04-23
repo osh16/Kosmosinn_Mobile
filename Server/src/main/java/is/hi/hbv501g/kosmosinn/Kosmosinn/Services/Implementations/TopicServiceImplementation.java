@@ -88,11 +88,20 @@ public class TopicServiceImplementation implements TopicService {
     @Override
     public List<Topic> findAllByUserId(long id) {
         List<Topic> topics = repository.findAll();
+        System.out.println("ID ER: " + id + " ERU TOPICS? " + topics.size());
         List<Topic> topicsByUserId = new ArrayList<Topic>();
         for(Topic t : topics) {
-            if (t.getUser().getId() == id) {
-                topicsByUserId.add(t);
+            User checkUser;
+            try {
+                checkUser = t.getUser();
+                if (t.getUser().getId() == id) {
+                    topicsByUserId.add(t);
+                    System.out.println("ID ER: " + id + " Á MÓTI ID " + t.getUser().getId() + " ERU TOPICS FJÖLDI " + topicsByUserId.size());
+                }
+            } catch(NullPointerException e) {
+                System.out.println(e.toString());
             }
+            
         }
         return topicsByUserId;
     }
