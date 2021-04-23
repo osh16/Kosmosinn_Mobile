@@ -541,7 +541,7 @@ public class NetworkController {
     }
 
     // TODO: getComments(topicId : long)
-    public void getCommentsByTopicId(int id, final NetworkCallback<List<Comment>> callback) {
+    public void getCommentsByTopicId(int id, String token, final NetworkCallback<List<Comment>> callback) {
 
         StringRequest request = new StringRequest(
                 Method.GET, BASE_URL + "/api/topics/" + id + "/comments", new Response.Listener<String>() {
@@ -562,14 +562,27 @@ public class NetworkController {
                 callback.onFailure(error.toString());
             }
         }
-        );
+        ) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
+            }
+        };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
-    public void getCommentsByUserId(int id, final NetworkCallback<List<Comment>> callback) {
+    public void getCommentsByUserId(int id, String token, final NetworkCallback<List<Comment>> callback) {
 
         StringRequest request = new StringRequest(
                 Method.GET, BASE_URL + "/api/users/" + id + "/comments", new Response.Listener<String>() {
@@ -590,7 +603,20 @@ public class NetworkController {
                 callback.onFailure(error.toString());
             }
         }
-        );
+        ) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
+            }
+        };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

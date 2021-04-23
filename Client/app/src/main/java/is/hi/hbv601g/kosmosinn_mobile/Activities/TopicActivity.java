@@ -63,7 +63,7 @@ public class TopicActivity extends AppCompatActivity {
 
         mTopicId = getIntent().getIntExtra("topicid",0);
         mBoardId = getIntent().getIntExtra("boardid",0);
-        mUserId = getIntent().getIntExtra("userid", 0);
+
         mUsername = getIntent().getStringExtra("username");
         mFromSearch = getIntent().getBooleanExtra("fromsearch", false);
 
@@ -81,7 +81,7 @@ public class TopicActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Topic result) {
                 mTopic = result;
-                if (mTopic.getUser().getId() != mUserId) {
+                if (mTopic.getUser().getId() != mCurrentUserId) {
                     mDeleteTopicButton.setVisibility(View.GONE);
                     mEditTopicButton.setVisibility((View.GONE));
                 }
@@ -99,20 +99,6 @@ public class TopicActivity extends AppCompatActivity {
         mHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Log.d(TAG, "onClick -> Til baka");
-                Intent intent = new Intent(TopicActivity.this, MainActivity.class);
-                startActivity(intent);*/
-                networkController.deleteComment(mTopicId, mToken, 33, new NetworkCallback<Comment>() {
-                    @Override
-                    public void onSuccess(Comment result) {
-                        Log.d(TAG, "Comment deleted");
-                    }
-
-                    @Override
-                    public void onFailure(String errorString) {
-                        Log.d(TAG, errorString);
-                    }
-                });
                 Intent intent = new Intent(TopicActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -127,6 +113,7 @@ public class TopicActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(TopicActivity.this, BoardActivity.class);
                     intent.putExtra("boardid", mBoardId);
+
                     startActivity(intent);
                 }
             }
@@ -135,7 +122,7 @@ public class TopicActivity extends AppCompatActivity {
         mEditTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkController.editTopic(mTopicId, mToken,mTopic, new NetworkCallback<Topic>() {
+                networkController.editTopic(mTopicId, mToken, mTopic, new NetworkCallback<Topic>() {
                     @Override
                     public void onSuccess(Topic result) {
                         Log.d(TAG, "Topic edited");
@@ -195,6 +182,7 @@ public class TopicActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Add Comment");
                 Intent intent = new Intent(TopicActivity.this, AddCommentActivity.class);
+                intent.putExtra("boardId", mBoardId);
                 intent.putExtra("topicid", mTopicId);
                 startActivity(intent);
             }
@@ -202,7 +190,7 @@ public class TopicActivity extends AppCompatActivity {
     }
 
     public void getCommentsByTopic(NetworkController networkController) {
-        networkController.getCommentsByTopicId(mTopicId, new NetworkCallback<List<Comment>>() {
+        networkController.getCommentsByTopicId(mTopicId, mToken, new NetworkCallback<List<Comment>>() {
             @Override
             public void onSuccess(List<Comment> result) {
                 Log.d(TAG, "Comments for TopicId :" + String.valueOf(mTopicId));
@@ -227,10 +215,10 @@ public class TopicActivity extends AppCompatActivity {
     }
 
     public void getCommentsByUser(NetworkController networkController) {
-        networkController.getCommentsByUserId(mUserId, new NetworkCallback<List<Comment>>() {
+        networkController.getCommentsByUserId(mCurrentUserId, mToken, new NetworkCallback<List<Comment>>() {
             @Override
             public void onSuccess(List<Comment> result) {
-                Log.d(TAG, "Comments for UserId :" + String.valueOf(mUserId));
+                Log.d(TAG, "Comments for UserId :" + String.valueOf(mCurrentUserId));
                 mCommentList = result;
                 int size = mCommentList.size();
                 mComments = new Comment[size];

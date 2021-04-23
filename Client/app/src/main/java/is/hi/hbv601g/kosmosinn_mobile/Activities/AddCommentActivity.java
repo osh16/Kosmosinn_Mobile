@@ -32,6 +32,7 @@ public class AddCommentActivity extends AppCompatActivity {
 
     private User mUser;
     private int mTopicId;
+    private int mBoardId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class AddCommentActivity extends AppCompatActivity {
         mSubmitButton = (Button) findViewById(R.id.add_comment_submit_button);
         mCommentText = (EditText) findViewById(R.id.comment_text_field);
 
+        mBoardId = getIntent().getIntExtra("boardId", 0);
         mTopicId = getIntent().getIntExtra("topicid",0);
 
         NetworkController networkController = NetworkController.getInstance(this);
@@ -80,7 +82,9 @@ public class AddCommentActivity extends AppCompatActivity {
                 });
 
                 Intent intent = new Intent(AddCommentActivity.this, TopicActivity.class);
-                intent.putExtra("topicid", mTopicId);
+                intent.putExtra("boardId", mBoardId);
+                intent.putExtra("topicId", mTopicId);
+
                 new android.os.Handler(Looper.getMainLooper()).postDelayed(
                         new Runnable() {
                             public void run() {
