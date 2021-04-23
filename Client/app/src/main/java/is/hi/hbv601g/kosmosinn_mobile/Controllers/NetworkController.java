@@ -288,7 +288,7 @@ public class NetworkController {
         mQueue.add(request);
     }
 
-    public void getTopicsByUserId(int id, final NetworkCallback<List<Topic>> callback) {
+    public void getTopicsByUserId(int id, String token, final NetworkCallback<List<Topic>> callback) {
         StringRequest request = new StringRequest(
                 Method.GET, BASE_URL + "/api/users/" + id + "/topics", new Response.Listener<String>() {
             @Override
@@ -308,7 +308,20 @@ public class NetworkController {
                 callback.onFailure(error.toString());
             }
         }
-        );
+        ) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
+            }
+        };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

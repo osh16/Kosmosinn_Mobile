@@ -143,7 +143,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void getTopicsByUser(NetworkController networkController) {
-        networkController.getTopicsByUserId(mUserId, new NetworkCallback<List<Topic>>() {
+        networkController.getTopicsByUserId(mUserId, mToken, new NetworkCallback<List<Topic>>() {
             @Override
             public void onSuccess(List<Topic> result) {
                 Log.d(TAG, "Board text for userid :" + String.valueOf(mUserId));
