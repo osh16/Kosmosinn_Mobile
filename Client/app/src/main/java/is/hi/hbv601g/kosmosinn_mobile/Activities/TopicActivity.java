@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+
 import java.util.List;
 
 import is.hi.hbv601g.kosmosinn_mobile.Adapters.CommentAdapter;
@@ -77,22 +79,6 @@ public class TopicActivity extends AppCompatActivity {
         mCurrentUsername = sharedPreferences.getString("username", "");
 
         NetworkController networkController = NetworkController.getInstance(this);
-
-        networkController.getTopic(mTopicId, new NetworkCallback<Topic>() {
-            @Override
-            public void onSuccess(Topic result) {
-                mTopic = result;
-                if (mTopic.getUser().getId() != mCurrentUserId) {
-                    mDeleteTopicButton.setVisibility(View.GONE);
-                    mEditTopicButton.setVisibility((View.GONE));
-                }
-            }
-
-            @Override
-            public void onFailure(String errorString) {
-                Log.d(TAG, errorString);
-            }
-        });
 
         Log.d(TAG, "Topic id = " + mTopicId);
         Log.d(TAG, "Button: " + mBackButton);
@@ -162,6 +148,7 @@ public class TopicActivity extends AppCompatActivity {
         });
 
         if (mTopicId != 0) {
+            getTopic(networkController);
             getCommentsByTopic(networkController);
             new android.os.Handler(Looper.getMainLooper()).postDelayed(
                     new Runnable() {
@@ -175,6 +162,8 @@ public class TopicActivity extends AppCompatActivity {
             getCommentsByUser(networkController);
             mAddCommentButton.setVisibility(View.GONE);
             mBackButton.setVisibility(View.GONE);
+            mEditTopicButton.setVisibility(View.GONE);
+            mDeleteTopicButton.setVisibility(View.GONE);
             mTopicHeader.setText(mUsername);
         }
 
@@ -186,6 +175,24 @@ public class TopicActivity extends AppCompatActivity {
                 intent.putExtra("boardId", mBoardId);
                 intent.putExtra("topicid", mTopicId);
                 startActivity(intent);
+            }
+        });
+    }
+
+    public void getTopic(NetworkController networkController) {
+        networkController.getTopic(mTopicId, new NetworkCallback<Topic>() {
+            @Override
+            public void onSuccess(Topic result) {
+                mTopic = result;
+                if (mTopic.getUser().getId() != mCurrentUserId) {
+                    mDeleteTopicButton.setVisibility(View.GONE);
+                    mEditTopicButton.setVisibility((View.GONE));
+                }
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.d(TAG, errorString);
             }
         });
     }
@@ -210,6 +217,7 @@ public class TopicActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String errorString) {
+
                 Log.e(TAG, "Failed to get single comment: " + errorString);
             }
         });

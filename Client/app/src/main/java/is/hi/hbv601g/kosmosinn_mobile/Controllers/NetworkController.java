@@ -10,6 +10,7 @@ import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpResponse;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -572,6 +573,7 @@ public class NetworkController {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
                 callback.onFailure(error.toString());
             }
         }
@@ -596,7 +598,6 @@ public class NetworkController {
         mQueue.add(request);
     }
     public void getCommentsByUserId(int id, String token, final NetworkCallback<List<Comment>> callback) {
-
         StringRequest request = new StringRequest(
                 Method.GET, BASE_URL + "/api/users/" + id + "/comments", new Response.Listener<String>() {
             @Override

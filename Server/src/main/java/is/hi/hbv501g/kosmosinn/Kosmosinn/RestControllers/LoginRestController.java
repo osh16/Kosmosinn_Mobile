@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 
 @RestController
 @RequestMapping("/api")
@@ -70,6 +71,7 @@ public class LoginRestController {
     public JSONObject login(@RequestBody() User user, HttpServletResponse response, HttpServletRequest request) throws java.io.IOException {
 		User exists = userService.findByUserame(user.getUsername());
         JSONObject res = new JSONObject();
+        JSONObject userObj = new JSONObject();
 
 		if (exists != null) {
             if (exists.getPassword().equals(user.getPassword())) {
@@ -77,16 +79,16 @@ public class LoginRestController {
                 user.setLastOnline();
                 response.setCharacterEncoding("UTF-8");
                 response.addHeader("Authorization", token);
-                res.put("userId", exists.getId());
-                res.put("username", exists.getUsername());
+                userObj.put("userId", exists.getId());
+                userObj.put("username", exists.getUsername());
+                userObj.put("userRole", exists.getRole());
+                res.put("user", userObj);
                 res.put("token", token);
                 return res;
-            } else {
-                res.put("error", "Password is incorrect");
-            }
-        } else {
-            res.put("error", "Username is incorrect");
+            } 
         }
+
+        res.put("error", "uername or password is incorrect");
 
         return res;
 	}
@@ -95,6 +97,7 @@ public class LoginRestController {
 	public JSONObject signUp(@RequestBody() User user, HttpServletResponse response) {
         User exists = userService.findByUserame(user.getUsername());
         JSONObject res = new JSONObject();
+        JSONObject userObj = new JSONObject();
         
         if (exists == null) {
             User signUp = new User(user.getUsername(), user.getPassword(), "USER");
@@ -106,17 +109,15 @@ public class LoginRestController {
             userService.save(signUp);
 
             User newUser = userService.findByUserame(signUp.getUsername());
-            res.put("userId", newUser.getId());
-            res.put("username", newUser.getUsername());
+            userObj.put("userId", newUser.getId());
+            userObj.put("username", newUser.getUsername());
+            userObj.put("userRole", newUser.getRole());
+            res.put("user", userObj);
             res.put("token", token);
             return res;
         }
-        if (user.getUsername().equals("")) {
-            res.put("error", "missing username");
-        }
-        if (user.getPassword().equals("")) {
-            res.put("error", "password missing");
-        }
+
+        res.put("error", "username is taken");
         return res;
 	}
 

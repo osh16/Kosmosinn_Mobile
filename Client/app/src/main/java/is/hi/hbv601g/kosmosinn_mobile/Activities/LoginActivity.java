@@ -70,9 +70,13 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(JSONObject result) throws JSONException {
+
+                JSONObject user = result.getJSONObject("user");
                 String token = result.getString("token");
-                String username = result.getString("username");
-                int userId = result.getInt("userId");
+
+                int userId = user.getInt("userId");
+                String username = user.getString("username");
+                String role = user.getString("userRole");
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
@@ -83,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences.Editor myEdit = sharedPreferences.edit();
                 myEdit.putString("Authorization", token);
                 myEdit.putString("username", username);
+                myEdit.putString("userRole", role);
                 myEdit.putInt("userId", userId);
                 myEdit.commit();
 

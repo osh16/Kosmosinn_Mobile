@@ -75,6 +75,16 @@ public class AddTopicActivity extends AppCompatActivity {
 
         NetworkController networkController = NetworkController.getInstance(this);
 
+        if (mEdit) {
+            getTopic(networkController);
+            editThisTopic(networkController);
+        } else {
+            getTopic(networkController);
+            addThisTopic(networkController);
+        }
+    }
+
+    public void getTopic(NetworkController networkController) {
         networkController.getTopic(mTopicId, new NetworkCallback<Topic>() {
             @Override
             public void onSuccess(Topic result) {
@@ -86,12 +96,6 @@ public class AddTopicActivity extends AppCompatActivity {
                 Log.d(TAG, errorString);
             }
         });
-
-        if (mEdit) {
-            editThisTopic(networkController);
-        } else {
-            addThisTopic(networkController);
-        }
     }
 
     private void addThisTopic(NetworkController networkController) {

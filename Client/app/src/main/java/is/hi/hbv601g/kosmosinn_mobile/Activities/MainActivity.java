@@ -33,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private User mUser;
 
     private String mToken;
-    private int mUserId;
-    private String mUsername;
+    private String mUserRole;
 
     private Button mLoginButton;
     private Button mSignupButton;
@@ -52,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 MODE_PRIVATE);
 
         mToken = sharedPreferences.getString("Authorization", "");
-        mUserId = sharedPreferences.getInt("userId", 0);
-        mUsername = sharedPreferences.getString("username", "");
+        mUserRole = sharedPreferences.getString("userRole", "");
         
         mBoardView = (RecyclerView) findViewById(R.id.boards_view);
         mLoginButton = (Button) findViewById(R.id.login_activity_button);
@@ -66,9 +64,15 @@ public class MainActivity extends AppCompatActivity {
             mLoginButton.setVisibility(View.GONE);
             mSignupButton.setVisibility(View.GONE);
             mLogoutButton.setVisibility(View.VISIBLE);
+            if (mUserRole.equals("ADMIN")) {
+                mAddBoardButton.setVisibility(View.VISIBLE);
+            } else {
+                mAddBoardButton.setVisibility(View.GONE);
+            }
         } else {
             mLoginButton.setVisibility(View.VISIBLE);
             mSignupButton.setVisibility(View.VISIBLE);
+            mAddBoardButton.setVisibility(View.GONE);
             mLogoutButton.setVisibility(View.GONE);
         }
 
@@ -86,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferences.Editor myEdit = sharedPreferences.edit();
-                myEdit.remove("Authorization");
+                myEdit.remove("userId");
                 myEdit.remove("username");
+                myEdit.remove("userRole");
                 myEdit.remove("Authorization");
                 myEdit.commit();
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
@@ -143,6 +148,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Failed to get board: " + errorString);
             }
         });
+    }
+
+    public void validateToken(String token, NetworkController networkController) {
+
     }
 
     public void selectBoard(int id) {

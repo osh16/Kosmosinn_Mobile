@@ -66,19 +66,11 @@ public class BoardActivity extends AppCompatActivity {
 
         NetworkController networkController = NetworkController.getInstance(this);
 
-        networkController.getBoard(mBoardId, new NetworkCallback<Board>() {
-            @Override
-            public void onSuccess(Board result) {
-                mBoard = result;
-            }
-
-            @Override
-            public void onFailure(String errorString) {
-                Log.d(TAG, errorString);
-            }
-        });
-
         Log.d(TAG, "Board id = " + mBoardId);
+
+        if (mBoardId != 0) {
+            getBoard(networkController);
+        }
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +105,20 @@ public class BoardActivity extends AppCompatActivity {
                 Intent intent = new Intent(BoardActivity.this, AddTopicActivity.class);
                 intent.putExtra("boardid", mBoardId);
                 startActivity(intent);
+            }
+        });
+    }
+
+    public void getBoard(NetworkController networkController) {
+        networkController.getBoard(mBoardId, new NetworkCallback<Board>() {
+            @Override
+            public void onSuccess(Board result) {
+                mBoard = result;
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                Log.d(TAG, errorString);
             }
         });
     }

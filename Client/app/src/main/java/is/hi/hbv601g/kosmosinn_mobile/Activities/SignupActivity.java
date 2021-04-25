@@ -68,8 +68,11 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(JSONObject result) throws JSONException {
                         String token = result.getString("token");
-                        String username = result.getString("username");
-                        int userId = result.getInt("userId");
+                        JSONObject user = result.getJSONObject("username");
+
+                        int userId = user.getInt("userId");
+                        String username = user.getString("username");
+                        String userRole = user.getString("userRole");
 
                         Intent intent = new Intent(SignupActivity.this, MainActivity.class);
 
@@ -80,6 +83,7 @@ public class SignupActivity extends AppCompatActivity {
                         SharedPreferences.Editor myEdit = sharedPreferences.edit();
                         myEdit.putString("Authorization", token);
                         myEdit.putString("username", username);
+                        myEdit.putString("userRole", userRole);
                         myEdit.putInt("userId", userId);
                         myEdit.commit();
 
@@ -88,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(String errorString) {
-                        Toast.makeText(SignupActivity.this, "Username or password incorrect", Toast.LENGTH_SHORT);
+                        Toast.makeText(SignupActivity.this, "Username taken", Toast.LENGTH_SHORT);
                         Log.e(TAG, "Failed to sign up: " + errorString);
                     }
                 });
