@@ -97,10 +97,26 @@ public class LoginRestController {
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public JSONObject signUp(@RequestBody() User user, HttpServletResponse response) {
         User exists = userService.findByUserame(user.getUsername());
+
+        String username = user.getUsername();
+        String password = user.getPassword();
+        String usernameTrim = username.trim();
+        String passwordTrim = password.trim();
         
         JSONObject res = new JSONObject();
         JSONObject userObj = new JSONObject();
         
+        if (usernameTrim.equals("") || passwordTrim.equals("")) {
+            res.put("error", "username and password can not be empty");
+            return res;
+        }
+
+        if (!usernameTrim.equals(username) || 
+        !passwordTrim.equals(password)) {
+            res.put("error", "username and password can not include spaces");
+            return res;
+        }
+
         if (exists == null) {
             User signUp = new User(user.getUsername(), user.getPassword(), "USER");
             String token = getJWTToken(signUp.getUsername(), "USER", signUp.getId());
