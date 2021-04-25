@@ -134,7 +134,7 @@ public class AddTopicActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         },
-                        100);
+                        300);
             }
         });
     }
@@ -148,7 +148,7 @@ public class AddTopicActivity extends AppCompatActivity {
                         Log.d(TAG, "Topic>>>>>>> " + mTopic);
                     }
                 },
-                100);
+                300);
 
         mSubmitButton.setText("Edit Topic");
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +187,7 @@ public class AddTopicActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         },
-                        100);
+                        300);
             }
         });
     }

@@ -25,7 +25,7 @@
                 android:id="@+id/search_topic_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 android:clickable="true"
                 android:text="user"
@@ -37,7 +37,7 @@
                 android:id="@+id/search_topic_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
+                android:layout_marginStart="4dp"
                 android:clickable="true"
                 android:text="topicName"
                 android:textSize="24sp"
@@ -45,17 +45,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/search_topic_user" />
 
-            <TextView
-                android:id="@+id/search_topic_points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="X"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/search_topic_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject result) throws JSONException {
 
-                JSONObject user = result.getJSONObject("user");
+                /*JSONObject user = result.getJSONObject("user");
                 String token = result.getString("token");
 
                 int userId = user.getInt("userId");
@@ -91,13 +91,45 @@ public class LoginActivity extends AppCompatActivity {
                 myEdit.putInt("userId", userId);
                 myEdit.commit();
 
-                startActivity(intent);
+                String s = "Velkominn " + username;
+                Toast.makeText(LoginActivity.this, s, Toast.LENGTH_SHORT).show();
+
+                startActivity(intent);*/
+
+                try {
+                    JSONObject user = result.getJSONObject("user");
+                    String token = result.getString("token");
+
+                    int userId = user.getInt("userId");
+                    String username = user.getString("username");
+                    String role = user.getString("userRole");
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
+                    SharedPreferences sharedPreferences = getSharedPreferences(
+                            "KosmosinnSharedPref",
+                            MODE_PRIVATE);
+
+                    SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                    myEdit.putString("Authorization", token);
+                    myEdit.putString("username", username);
+                    myEdit.putString("userRole", role);
+                    myEdit.putInt("userId", userId);
+                    myEdit.commit();
+
+                    String s = "Velkominn " + username;
+                    Toast.makeText(LoginActivity.this, s, Toast.LENGTH_SHORT).show();
+
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Toast.makeText(LoginActivity.this, "Username or password incorrect", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(String errorString) {
-                Toast.makeText(LoginActivity.this, "Username or password incorrect", Toast.LENGTH_SHORT);
                 Log.e(TAG, "Failed to login: " + errorString);
+                Toast.makeText(LoginActivity.this, "Username or password incorrect", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -93,7 +93,7 @@ public class AddCommentActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         },
-                        100);
+                        300);
             }
         });
     }

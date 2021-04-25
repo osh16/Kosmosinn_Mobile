@@ -43,8 +43,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                 ((SearchActivity)mContext).selectTopicFromSearch(mTopics[position].getId());
             }
         });
-        String s = String.valueOf(mTopics[position].getTopicPoints());
-        holder.topicPoints.setText(s);
     }
 
     @Override
@@ -53,13 +51,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
     }
 
     public class SearchHolder extends RecyclerView.ViewHolder {
-        TextView user, topicName, topicPoints;
+        TextView user, topicName;
 
         public SearchHolder (@NonNull View itemView) {
             super(itemView);
             user = itemView.findViewById(R.id.search_topic_user);
             topicName = itemView.findViewById(R.id.search_topic_name);
-            topicPoints = itemView.findViewById(R.id.search_topic_points);
         }
     }
 }

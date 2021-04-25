@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -67,27 +68,32 @@ public class SignupActivity extends AppCompatActivity {
                 new NetworkCallback<JSONObject>() {
                     @Override
                     public void onSuccess(JSONObject result) throws JSONException {
-                        String token = result.getString("token");
-                        JSONObject user = result.getJSONObject("user");
+                        try {
+                            String token = result.getString("token");
+                            JSONObject user = result.getJSONObject("user");
 
-                        int userId = user.getInt("userId");
-                        String username = user.getString("username");
-                        String userRole = user.getString("userRole");
+                            int userId = user.getInt("userId");
+                            String username = user.getString("username");
+                            String userRole = user.getString("userRole");
 
-                        Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                            Intent intent = new Intent(SignupActivity.this, MainActivity.class);
 
-                        SharedPreferences sharedPreferences = getSharedPreferences(
-                                "KosmosinnSharedPref",
-                                MODE_PRIVATE);
+                            SharedPreferences sharedPreferences = getSharedPreferences(
+                                    "KosmosinnSharedPref",
+                                    MODE_PRIVATE);
 
-                        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-                        myEdit.putString("Authorization", token);
-                        myEdit.putString("username", username);
-                        myEdit.putString("userRole", userRole);
-                        myEdit.putInt("userId", userId);
-                        myEdit.commit();
+                            SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                            myEdit.putString("Authorization", token);
+                            myEdit.putString("username", username);
+                            myEdit.putString("userRole", userRole);
+                            myEdit.putInt("userId", userId);
+                            myEdit.commit();
 
-                        startActivity(intent);
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            startActivity(getIntent());
+                            Toast.makeText(SignupActivity.this, "Username taken", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
