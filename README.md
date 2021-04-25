@@ -28,3 +28,8 @@ Add a jwt secret key with:
 Also add expiration (in miliseconds):
 
 	$ echo "jwt.token.expiration=180000" >> Server/src/main/resources/application.properties
+	
+Log in as an administrator that can add, edit and delete boards as well as edit and delete topics created by other users
+	
+	$ username: oskar
+	$ password: oskar
