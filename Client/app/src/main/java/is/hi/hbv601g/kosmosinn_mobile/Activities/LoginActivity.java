@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton = (Button) findViewById(R.id.login_button);
         mBackButton = (Button) findViewById(R.id.login_back_button);
         mUsernameField = (EditText) findViewById(R.id.username_field_login);
-        mPasswordField = (EditText) findViewById(R.id.username_field_login);
+        mPasswordField = (EditText) findViewById(R.id.password_field_login);
 
         NetworkController networkController = NetworkController.getInstance(this);
 
