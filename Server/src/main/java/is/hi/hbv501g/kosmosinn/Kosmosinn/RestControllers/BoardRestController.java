@@ -34,17 +34,17 @@ public class BoardRestController {
     @Autowired
     HttpSession session;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public List<Board> getAllBoards() {
         return boardService.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public Board getBoardById(@PathVariable("id") long id) {
         return boardService.findById(id).get();
     }
 
-    @RequestMapping(value = "/{id}/topics", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/topics", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public List<Topic> getTopicsById(@PathVariable("id") long id) {
         return topicService.findAllByBoardId(id);
     }

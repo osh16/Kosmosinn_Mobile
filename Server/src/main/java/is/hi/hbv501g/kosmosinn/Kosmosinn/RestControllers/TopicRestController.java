@@ -40,23 +40,23 @@ public class TopicRestController {
     @Autowired
     HttpSession session;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public List<Topic> getAllTopics() {
         return topicService.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public Topic getTopicById(@PathVariable("id") long id, HttpServletRequest request) {
         
         return topicService.findById(id).get();
     }
 
-    @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public List<Comment> getCommentsById(@PathVariable("id") long id) {
         return commentService.findAllByTopicId(id);
     }
 
-    @RequestMapping(value = "/search/{query}", method = RequestMethod.GET)
+    @RequestMapping(value = "/search/{query}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public List<Topic> getTopicsBySearch(@PathVariable("query") String query) { return topicService.findByTopicNameContainsIgnoreCase(query); }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

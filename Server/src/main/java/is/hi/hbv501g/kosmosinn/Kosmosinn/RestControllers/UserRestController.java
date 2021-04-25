@@ -44,27 +44,27 @@ public class UserRestController {
     @Autowired
     HttpSession session;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public List<User> getAllUsers() {
         return userService.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public User getUserById(@PathVariable("id") long id) {
         return userService.findById(id).get();
     }
 
-    @RequestMapping(value = "/{id}/topics", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/topics", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public List<Topic> getTopicsByUser(@PathVariable("id") long id) {
         return topicService.findAllByUserId(id);
     }
 
-    @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/comments", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public List<Comment> getCommentsByUser(@PathVariable("id") long id) {
         return commentService.findAllByUserId(id);
     }
 
-    @RequestMapping(value = "/profile/{id}/comments", method = RequestMethod.GET)
+    @RequestMapping(value = "/profile/{id}/comments", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public List<Comment> getCommentsByUserprofile(@PathVariable("id") long id) {
         return commentService.findAllByUserprofileId(id);
     }

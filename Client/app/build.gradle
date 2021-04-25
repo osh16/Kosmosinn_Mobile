@@ -5,6 +5,7 @@ plugins {
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
+    compileOptions.encoding = 'ISO-8859-1'
 
     defaultConfig {
         applicationId "is.hi.hbv601g.kosmosinn_mobile"
