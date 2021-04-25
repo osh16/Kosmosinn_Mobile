@@ -79,7 +79,6 @@ public class AddTopicActivity extends AppCompatActivity {
             getTopic(networkController);
             editThisTopic(networkController);
         } else {
-            getTopic(networkController);
             addThisTopic(networkController);
         }
     }

@@ -68,7 +68,7 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(JSONObject result) throws JSONException {
                         String token = result.getString("token");
-                        JSONObject user = result.getJSONObject("username");
+                        JSONObject user = result.getJSONObject("user");
 
                         int userId = user.getInt("userId");
                         String username = user.getString("username");
