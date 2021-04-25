@@ -45,7 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.addFilterAfter(new JWTAuthorizationFilter(tokenSecret), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
 				    .antMatchers(HttpMethod.POST, "/api/login/**", "/api/signup/*").permitAll()
-
                     .antMatchers(HttpMethod.POST, "/api/boards/addBoard/**").hasRole("ADMIN")
                     .antMatchers(HttpMethod.POST, "/api/boards/{boardId:[\\d+]}/addTopic/**").hasRole("USER")
                     .antMatchers(HttpMethod.DELETE, "/api/boards/{boardId:[\\d+]}/delete/**").hasRole("ADMIN")
