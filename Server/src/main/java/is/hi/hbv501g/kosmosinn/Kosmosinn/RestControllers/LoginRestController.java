@@ -70,6 +70,7 @@ public class LoginRestController {
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public JSONObject login(@RequestBody() User user, HttpServletResponse response, HttpServletRequest request) throws java.io.IOException {
 		User exists = userService.findByUserame(user.getUsername());
+
         JSONObject res = new JSONObject();
         JSONObject userObj = new JSONObject();
 
@@ -96,6 +97,7 @@ public class LoginRestController {
     @PostMapping(value = "/signup", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public JSONObject signUp(@RequestBody() User user, HttpServletResponse response) {
         User exists = userService.findByUserame(user.getUsername());
+        
         JSONObject res = new JSONObject();
         JSONObject userObj = new JSONObject();
         
@@ -106,9 +108,11 @@ public class LoginRestController {
             response.addHeader("Authorization", token);
             signUp.setUserCreated();
             signUp.setLastOnline();
+            
             userService.save(signUp);
 
             User newUser = userService.findByUserame(signUp.getUsername());
+            
             userObj.put("userId", newUser.getId());
             userObj.put("username", newUser.getUsername());
             userObj.put("userRole", newUser.getRole());

@@ -62,6 +62,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void signUp(NetworkController networkController) {
+        Log.d("USERNAME:::::", mUsernameField.getText().toString());
+        Log.d("PASSWORD:::::", mPasswordField.getText().toString());
         networkController.signUp(mUsernameField.getText().toString(),
                 mPasswordField.getText().toString(),
                 new NetworkCallback<JSONObject>() {
