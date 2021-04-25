@@ -47,7 +47,6 @@ public class TopicActivity extends AppCompatActivity {
     private TextView mTopicHeader;
 
     private String mToken;
-    private String mCurrentUsername;
     private int mCurrentUserId;
 
     @Override
@@ -76,7 +75,10 @@ public class TopicActivity extends AppCompatActivity {
 
         mToken = sharedPreferences.getString("Authorization", "");
         mCurrentUserId = sharedPreferences.getInt("userId", 0);
-        mCurrentUsername = sharedPreferences.getString("username", "");
+
+        if (mToken.equals("")) {
+            mAddCommentButton.setVisibility(View.GONE);
+        }
 
         NetworkController networkController = NetworkController.getInstance(this);
 
@@ -157,6 +159,7 @@ public class TopicActivity extends AppCompatActivity {
                         }
                     },
                     300);
+
         }
         else {
             getCommentsByUser(networkController);
