@@ -17,6 +17,8 @@ To run the server for the app
 	$ cd Server
 	$ ./mvnw spring-boot:run
 
+Then go to http://localhost:8080/ and the server will create a DB with boards and ADMIN user that can add, edit and delete boards as well as edit and delete topics created by other users.
+
 In development process, to compile:
 	
 	$ mvn compile
@@ -28,8 +30,6 @@ Add a jwt secret key with:
 Also add expiration (in miliseconds):
 
 	$ echo "jwt.token.expiration=180000" >> Server/src/main/resources/application.properties
-	
-Log in as an administrator that can add, edit and delete boards as well as edit and delete topics created by other users
 	
 	username: oskar
 	password: oskar
