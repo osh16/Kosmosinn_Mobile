@@ -31,5 +31,5 @@ Also add expiration (in miliseconds):
 	
 Log in as an administrator that can add, edit and delete boards as well as edit and delete topics created by other users
 	
-	$ username: oskar
-	$ password: oskar
+	username: oskar
+	password: oskar
