@@ -60,11 +60,14 @@ public class AddCommentActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String text = mCommentText.getText().toString();
+                if (text.trim().equals("")) {
+                    return;
+                }
                 networkController.getUser(mUserId, mToken, new NetworkCallback<User>() {
                     @Override
                     public void onSuccess(User result) {
                         mUser = result;
-                        String text = mCommentText.getText().toString();
                         Comment comment = new Comment(mTopicId, mUser, text, "mars", "april");
                         networkController.addComment(mTopicId, mToken, comment, new NetworkCallback<Comment>() {
                             @Override

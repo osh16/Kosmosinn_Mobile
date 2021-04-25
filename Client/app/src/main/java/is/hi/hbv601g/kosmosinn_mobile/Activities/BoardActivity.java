@@ -40,8 +40,6 @@ public class BoardActivity extends AppCompatActivity {
     private TextView mBoardHeader;
 
     private String mToken;
-    private int mCurrentUserId;
-    private String mCurrentUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +59,10 @@ public class BoardActivity extends AppCompatActivity {
                 MODE_PRIVATE);
 
         mToken = sharedPreferences.getString("Authorization", "");
-        mCurrentUserId = sharedPreferences.getInt("userId", 0);
-        mCurrentUsername = sharedPreferences.getString("username", "");
+
+        if (mToken.equals("")) {
+            mAddTopicButton.setVisibility(View.GONE);
+        }
 
         NetworkController networkController = NetworkController.getInstance(this);
 

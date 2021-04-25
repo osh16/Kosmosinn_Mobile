@@ -10,11 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
-import is.hi.hbv601g.kosmosinn_mobile.Entities.Board;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.Topic;
 import is.hi.hbv601g.kosmosinn_mobile.Entities.User;
 import is.hi.hbv601g.kosmosinn_mobile.R;
@@ -29,8 +27,7 @@ public class AddTopicActivity extends AppCompatActivity {
     private EditText mTopicContent;
 
     private String mToken;
-    private int mUserId;
-    private String mUsername;
+    private int mCurrentUserId;
 
     private User mUser;
     private Topic mTopic;
@@ -57,8 +54,7 @@ public class AddTopicActivity extends AppCompatActivity {
                 MODE_PRIVATE);
 
         mToken = sharedPreferences.getString("Authorization", "");
-        mUserId = sharedPreferences.getInt("userId", 0);
-        mUsername = sharedPreferences.getString("username", "");
+        mCurrentUserId = sharedPreferences.getInt("userId", 0);
 
         Log.d(TAG, "Board id: " + mBoardId);
         Log.d(TAG, "Topic id for edit: " + mTopicId);
@@ -102,7 +98,7 @@ public class AddTopicActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkController.getUser(mUserId, mToken, new NetworkCallback<User>() {
+                networkController.getUser(mCurrentUserId, mToken, new NetworkCallback<User>() {
                     @Override
                     public void onSuccess(User result) {
                         mUser = result;
@@ -154,7 +150,7 @@ public class AddTopicActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                networkController.getUser(mUserId, mToken, new NetworkCallback<User>() {
+                networkController.getUser(mCurrentUserId, mToken, new NetworkCallback<User>() {
                     @Override
                     public void onSuccess(User result) {
                         mUser = result;
