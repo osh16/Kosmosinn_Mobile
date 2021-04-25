@@ -170,7 +170,7 @@ public class NetworkController {
         mQueue.add(request);
     }
 
-    public void deleteBoard(int id, final NetworkCallback<Board> callback) {
+    public void deleteBoard(int id, String token, final NetworkCallback<Board> callback) {
         String url = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("api")
@@ -196,11 +196,75 @@ public class NetworkController {
             public void onErrorResponse(VolleyError error) {
                 callback.onFailure(error.toString());
             }
-        });
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
+            }
+        };
         request.setRetryPolicy(new DefaultRetryPolicy(
                 100000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
+    public void editBoard(int id, String token, Board newBoard, final NetworkCallback<Board> callback) {
+        final JSONObject body = new JSONObject();
+        try {
+            body.put("name", newBoard.getName());
+            body.put("description", newBoard.getDescription());
+        } catch (JSONException e) {
+            Log.d("editBoard", e.getMessage());
+        }
+
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendPath("api")
+                .appendPath("boards")
+                .appendPath(String.valueOf(id))
+                .build().toString();
+
+        StringRequest request = new StringRequest(
+                Method.PATCH,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("editBoard:", response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, body.toString());
+            }
+        }
+        )  {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
+            }
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("Authorization", token); //authentication
+                return headers;
+            }
+        };
         mQueue.add(request);
     }
 

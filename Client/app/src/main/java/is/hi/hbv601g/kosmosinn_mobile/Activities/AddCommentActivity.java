@@ -67,6 +67,7 @@ public class AddCommentActivity extends AppCompatActivity {
                 networkController.getUser(mUserId, mToken, new NetworkCallback<User>() {
                     @Override
                     public void onSuccess(User result) {
+
                         mUser = result;
                         Comment comment = new Comment(mTopicId, mUser, text, "mars", "april");
                         networkController.addComment(mTopicId, mToken, comment, new NetworkCallback<Comment>() {

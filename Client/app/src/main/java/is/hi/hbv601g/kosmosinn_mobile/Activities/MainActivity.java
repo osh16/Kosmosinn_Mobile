@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Board[] mBoards;
 
-    private User mUser;
-
     private String mToken;
     private String mUserRole;
 

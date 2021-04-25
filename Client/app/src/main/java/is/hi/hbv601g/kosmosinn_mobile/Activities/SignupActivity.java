@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,15 +14,13 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.BreakIterator;
-
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkCallback;
 import is.hi.hbv601g.kosmosinn_mobile.Controllers.NetworkController;
 import is.hi.hbv601g.kosmosinn_mobile.R;
 
 public class SignupActivity extends AppCompatActivity {
-    private static final String TAG = "SignupActivity";
-    private Button mSignupButton;
+    private static final String TAG = "SignUpActivity";
+    private Button mSignUpButton;
     private Button mBackButton;
     private EditText mUsernameField;
     private EditText mPasswordField;
@@ -33,7 +30,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        mSignupButton = (Button) findViewById(R.id.signup_button);
+        mSignUpButton = (Button) findViewById(R.id.signup_button);
         mBackButton = (Button) findViewById(R.id.signup_back_button);
 
         mUsernameField = (EditText) findViewById(R.id.username_field_signup);
@@ -50,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        mSignupButton.setOnClickListener(new View.OnClickListener() {
+        mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Sign up");

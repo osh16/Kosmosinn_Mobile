@@ -37,9 +37,12 @@ public class BoardActivity extends AppCompatActivity {
     private Board mBoard;
     private Button mBackButton;
     private Button mAddTopicButton;
+    private Button mEditBoardButton;
+    private Button mDeleteBoardButton;
     private TextView mBoardHeader;
 
     private String mToken;
+    private String mUserRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,8 @@ public class BoardActivity extends AppCompatActivity {
         mBoardHeader = (TextView) findViewById(R.id.board_header);
         mBackButton = (Button) findViewById(R.id.board_back_button);
         mAddTopicButton = (Button) findViewById(R.id.add_topic_button);
+        mEditBoardButton = (Button) findViewById(R.id.board_edit_board_button);
+        mDeleteBoardButton = (Button) findViewById(R.id.board_delete_board_button);
         mBoardId = getIntent().getIntExtra("boardid",0);
         mUserId = getIntent().getIntExtra("userid", 0);
         mUsername = getIntent().getStringExtra("username");
@@ -59,9 +64,16 @@ public class BoardActivity extends AppCompatActivity {
                 MODE_PRIVATE);
 
         mToken = sharedPreferences.getString("Authorization", "");
+        mUserRole = sharedPreferences.getString("userRole", "");
 
         if (mToken.equals("")) {
             mAddTopicButton.setVisibility(View.GONE);
+
+        }
+
+        if (!mUserRole.equals("ADMIN")) {
+            mEditBoardButton.setVisibility(View.GONE);
+            mDeleteBoardButton.setVisibility(View.GONE);
         }
 
         NetworkController networkController = NetworkController.getInstance(this);
@@ -103,6 +115,44 @@ public class BoardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick -> Add Topic");
                 Intent intent = new Intent(BoardActivity.this, AddTopicActivity.class);
+                intent.putExtra("boardid", mBoardId);
+                startActivity(intent);
+            }
+        });
+
+        mDeleteBoardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick -> Delete Board");
+                networkController.deleteBoard(mBoardId, mToken, new NetworkCallback<Board>() {
+                    @Override
+                    public void onSuccess(Board result) {
+                        Log.d(TAG, "Board deleted");
+                    }
+
+                    @Override
+                    public void onFailure(String errorString) {
+                        Log.d(TAG, errorString);
+                    }
+                });
+                Intent intent = new Intent(BoardActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mEditBoardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick -> Edit Board");
+                networkController.editBoard(mBoardId, mToken, mBoard,new NetworkCallback<Board>() {
+                    @Override
+                    public void onSuccess(Board result) { Log.d(TAG, "Edited Board"); }
+
+                    @Override
+                    public void onFailure(String errorString) { Log.d(TAG, errorString); }
+                });
+                Intent intent = new Intent(BoardActivity.this, AddBoardActivity.class);
+                intent.putExtra("editboard", true);
                 intent.putExtra("boardid", mBoardId);
                 startActivity(intent);
             }

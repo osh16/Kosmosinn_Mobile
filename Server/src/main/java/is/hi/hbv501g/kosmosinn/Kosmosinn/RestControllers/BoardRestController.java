@@ -57,17 +57,17 @@ public class BoardRestController {
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Board editBoard(@Valid @PathVariable("id") long id, @RequestBody Board editedBoard) {
-        User currentUser = (User) session.getAttribute("loggedinuser");
         Board board = boardService.findById(id).get();
-        if (userService.isAdmin(currentUser)) {
-            if (editedBoard.getName() != null) {
-                board.setName(editedBoard.getName());
-            }
-            if (editedBoard.getDescription() != null) {
-                board.setDescription(editedBoard.getDescription());
-            }
-            boardService.save(board);
+        
+        if (!editedBoard.getName().isBlank()) {
+            board.setName(editedBoard.getName());
         }
+        if (!editedBoard.getDescription().isBlank()) {
+            board.setDescription(editedBoard.getDescription());
+        }
+        
+        boardService.save(board);
+        
         return board;
     }
 
