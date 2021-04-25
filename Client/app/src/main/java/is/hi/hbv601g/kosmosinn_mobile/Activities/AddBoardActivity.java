@@ -90,7 +90,7 @@ public class AddBoardActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         },
-                        50);
+                        300);
             }
         });
     }

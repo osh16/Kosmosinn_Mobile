@@ -17,7 +17,6 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout4"
-            android:clickable="true"
             android:layout_width="412dp"
             android:layout_height="63dp">
 
@@ -25,7 +24,6 @@
                 android:id="@+id/profile_comment_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
                 android:text="user"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"

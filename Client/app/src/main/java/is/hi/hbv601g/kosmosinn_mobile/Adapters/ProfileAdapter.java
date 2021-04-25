@@ -33,14 +33,6 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileH
     @Override
     public void onBindViewHolder(@NonNull ProfileHolder holder, int position) {
         holder.user.setText(mComments[position].getUser().getUsername());
-        holder.user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int id = mComments[position].getUser().getId();
-                String name = mComments[position].getUser().getUsername();
-                ((TopicActivity)mContext).selectUserpageFromTopic(id, name);
-            }
-        });
         holder.commentText.setText(mComments[position].getCommentText());
     }
 
