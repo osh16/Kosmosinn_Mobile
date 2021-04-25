@@ -45,6 +45,7 @@ public class TopicActivity extends AppCompatActivity {
     private Button mDeleteTopicButton;
     private Button mAddCommentButton;
     private TextView mTopicHeader;
+    private TextView mTopicContent;
 
     private String mToken;
     private int mCurrentUserId;
@@ -56,6 +57,7 @@ public class TopicActivity extends AppCompatActivity {
 
         mCommentView = (RecyclerView) findViewById(R.id.comment_view);
         mTopicHeader = (TextView) findViewById(R.id.topic_header);
+        mTopicContent = (TextView) findViewById(R.id.topic_content);
         mHomeButton = (Button) findViewById(R.id.topic_home_button);
         mBackButton = (Button) findViewById(R.id.topic_back_button);
         mEditTopicButton = (Button) findViewById(R.id.topic_edit_button);
@@ -156,6 +158,7 @@ public class TopicActivity extends AppCompatActivity {
                     new Runnable() {
                         public void run() {
                             mTopicHeader.setText(mTopic.getTopicName());
+                            mTopicContent.setText(mTopic.getTopicContent());
                         }
                     },
                     300);

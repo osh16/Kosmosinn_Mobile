@@ -24,7 +24,7 @@
         android:layout_height="83dp"
         android:gravity="center"
         android:text="title"
-        android:textSize="34sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/topic_view"
         app:layout_constraintEnd_toEndOf="parent"
