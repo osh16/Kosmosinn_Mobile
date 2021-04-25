@@ -20,3 +20,11 @@ To run the server for the app
 In development process, to compile:
 	
 	$ mvn compile
+
+Add a jwt secret key with:
+	
+	$ echo "jwt.token.secret=\"$(openssl rand -base64 512 | tr -d "\n\r")\"" >> Server/src/main/resources/application.properties
+
+Also add expiration (in miliseconds):
+
+	$ echo "jwt.token.expiration=18000" >> Server/src/main/resources/application.properties
