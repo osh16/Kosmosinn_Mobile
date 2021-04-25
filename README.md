@@ -27,4 +27,4 @@ Add a jwt secret key with:
 
 Also add expiration (in miliseconds):
 
-	$ echo "jwt.token.expiration=18000" >> Server/src/main/resources/application.properties
+	$ echo "jwt.token.expiration=180000" >> Server/src/main/resources/application.properties
